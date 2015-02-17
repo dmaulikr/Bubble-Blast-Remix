@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController storyboardIdentifier="Central View Controller" id="BYZ-38-t0r" customClass="ViewController" customModule="Bubble_Blast_Saga" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC" userLabel="Main View">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Dmh-wd-5gD" userLabel="Background">
+                                <rect key="frame" x="0.0" y="0.0" width="790" height="1024"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EJD-3Z-sdw" userLabel="Menu Options">
+                                <rect key="frame" x="0.0" y="976" width="774" height="48"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fL9-Qh-hW1">
+                                        <rect key="frame" x="361" y="8" width="46" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                        <state key="normal" title="Start">
+                                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="buttonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="TRa-LG-rk0"/>
+                                            <segue destination="xj8-G3-qqb" kind="show" identifier="designToGame" id="rC6-C1-Il9"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CTt-ih-Cfc">
+                                        <rect key="frame" x="716" y="8" width="46" height="30"/>
+                                        <state key="normal" title="Load">
+                                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="buttonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="2oy-ZY-6qU"/>
+                                            <action selector="loadButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vCS-62-zre"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b6n-aT-OX1">
+                                        <rect key="frame" x="642" y="8" width="46" height="30"/>
+                                        <state key="normal" title="Reset">
+                                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="buttonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HxQ-2N-qRd"/>
+                                            <action selector="resetButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="yqg-Qu-aK5"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JXU-2O-mx9">
+                                        <rect key="frame" x="20" y="8" width="46" height="30"/>
+                                        <state key="normal" title="Save">
+                                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="buttonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tsz-aE-B5F"/>
+                                            <action selector="saveButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rNs-Us-OuN"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.70000000000000007" colorSpace="calibratedWhite"/>
+                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="I5J-4u-Kr8" userLabel="Palette">
+                                <rect key="frame" x="0.0" y="893" width="774" height="83"/>
+                                <subviews>
+                                    <button opaque="NO" alpha="0.5" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gJ7-D5-xMi" userLabel="Green">
+                                        <rect key="frame" x="100" y="10" width="63" height="63"/>
+                                        <state key="normal" image="bubble-green.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="greenBubblePressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="KRn-9u-LYF"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" alpha="0.5" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tf1-o0-auT" userLabel="Red">
+                                        <rect key="frame" x="180" y="10" width="63" height="63"/>
+                                        <state key="normal" image="bubble-red.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="redBubblePressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="3lT-jP-iOc"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" alpha="0.5" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JqK-Ag-n41" userLabel="Blue">
+                                        <rect key="frame" x="20" y="10" width="63" height="63"/>
+                                        <state key="normal" image="bubble-blue.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="blueBubblePressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Afq-2j-G2w"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" alpha="0.5" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="piH-Wp-iSI" userLabel="Orange">
+                                        <rect key="frame" x="260" y="10" width="63" height="63"/>
+                                        <state key="normal" image="bubble-orange.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="blueBubbleTouchCancel:" destination="BYZ-38-t0r" eventType="touchCancel" id="7dd-st-8Sl"/>
+                                            <action selector="orangeBubblePressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="D7G-Z8-7M8"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" alpha="0.5" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PLK-MI-qoK" userLabel="Eraser">
+                                        <rect key="frame" x="646" y="22" width="82" height="51"/>
+                                        <state key="normal" title="Bubb" image="eraser-1.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="eraserPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9TU-mI-oHV"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.28000000000000003" colorSpace="calibratedWhite"/>
+                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
+                    <connections>
+                        <outlet property="blueImage" destination="JqK-Ag-n41" id="z5D-jR-KEw"/>
+                        <outlet property="eraserImage" destination="PLK-MI-qoK" id="0xX-nC-AIf"/>
+                        <outlet property="gameArea" destination="Dmh-wd-5gD" id="NOg-yY-byF"/>
+                        <outlet property="greenImage" destination="gJ7-D5-xMi" id="wbL-gB-e26"/>
+                        <outlet property="orangeImage" destination="piH-Wp-iSI" id="z9F-Cy-gae"/>
+                        <outlet property="redImage" destination="tf1-o0-auT" id="Dsc-eu-GVw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="JL0-Eu-tz3">
+                    <connections>
+                        <action selector="didPan:" destination="BYZ-38-t0r" id="gKF-kd-LbR"/>
+                    </connections>
+                </panGestureRecognizer>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="T3P-ng-5t7">
+                    <connections>
+                        <action selector="didLongPress:" destination="BYZ-38-t0r" id="WUA-zM-GJX"/>
+                    </connections>
+                </pongPressGestureRecognizer>
+                <tapGestureRecognizer id="mxM-Km-zQU">
+                    <connections>
+                        <action selector="didTap:" destination="BYZ-38-t0r" id="mMX-be-7Wp"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="309" y="372"/>
+        </scene>
+        <!--Game View Controller-->
+        <scene sceneID="qoA-zA-E5Q">
+            <objects>
+                <viewController id="xj8-G3-qqb" customClass="GameViewController" customModule="Bubble_Blast_Saga" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="4K9-44-nnz"/>
+                        <viewControllerLayoutGuide type="bottom" id="jGy-uz-x1i"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="FFd-8F-ig5">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1TX-dT-pBe" userLabel="Background">
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="cYq-2q-Ned">
+                                <rect key="frame" x="583" y="940" width="83" height="80"/>
+                                <fontDescription key="fontDescription" name="Avenir-Black" family="Avenir" pointSize="17"/>
+                                <state key="normal" title="Design another level">
+                                    <color key="titleColor" red="1" green="0.79526424358362946" blue="0.18139015060346309" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <segue destination="BYZ-38-t0r" kind="show" id="grb-sM-t92"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="3uH-A4-gMQ">
+                                <rect key="frame" x="693" y="940" width="68" height="80"/>
+                                <fontDescription key="fontDescription" name="Avenir-Black" family="Avenir" pointSize="17"/>
+                                <inset key="contentEdgeInsets" minX="3" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" title="Reset Game Level">
+                                    <color key="titleColor" red="1" green="0.79526424360000003" blue="0.18139015059999999" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="resetGameLevel:" destination="xj8-G3-qqb" eventType="touchUpInside" id="z3N-eU-hyL"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="30X-o4-jxe" userLabel="Launch" customClass="GameCircularCell" customModule="Bubble_Blast_Saga" customModuleProvider="target">
+                                <rect key="frame" x="334" y="951" width="65" height="65"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1xr-Yy-Mff" userLabel="Preview" customClass="GameCircularCell" customModule="Bubble_Blast_Saga" customModuleProvider="target">
+                                <rect key="frame" x="150" y="951" width="65" height="65"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="nSN-21-j0L" appends="YES" id="wVb-Q4-5Lm"/>
+                        </connections>
+                    </view>
+                    <connections>
+                        <outlet property="gameArea" destination="1TX-dT-pBe" id="2c0-Ht-xAI"/>
+                        <outlet property="launchBubbleView" destination="30X-o4-jxe" id="Ana-BM-LZL"/>
+                        <outlet property="previewBubbleView" destination="1xr-Yy-Mff" id="dWT-3W-hS9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Sbo-WD-v4F" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="nSN-21-j0L">
+                    <connections>
+                        <action selector="panGesture:" destination="xj8-G3-qqb" id="sur-Yy-HdH"/>
+                    </connections>
+                </panGestureRecognizer>
+                <tapGestureRecognizer id="Cln-HZ-WaD"/>
+            </objects>
+            <point key="canvasLocation" x="470" y="1492"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="bubble-blue.png" width="160" height="160"/>
+        <image name="bubble-green.png" width="160" height="160"/>
+        <image name="bubble-orange.png" width="160" height="160"/>
+        <image name="bubble-red.png" width="160" height="160"/>
+        <image name="eraser-1.png" width="254" height="152"/>
+    </resources>
+</document>
