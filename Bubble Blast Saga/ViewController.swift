@@ -168,9 +168,12 @@ class ViewController: UIViewController {
                 
                 self.currentSavedPath = saveFileName
                 self.resetGrid()
+                self.delay(0) {
+                    self.loadGrid(saveFileName)
+                }
                 
                 // Prompts to user that save is successful
-                var alert = UIAlertController(title: "Newly created grid: " + self.currentSavedPath +  "\n" + "has been saved", message: "Create a new layout or load from previously saved grids", preferredStyle: UIAlertControllerStyle.Alert)
+                var alert = UIAlertController(title: "Newly created grid: " + self.currentSavedPath +  "\n" + "has been saved", message: "Create a new layout or continue from previously saved grids", preferredStyle: UIAlertControllerStyle.Alert)
                 alert.addAction(UIAlertAction(title: "Got it", style: UIAlertActionStyle.Default, handler: nil))
                 self.presentViewController(alert, animated: true, completion: nil)
             }
@@ -264,6 +267,15 @@ class ViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    private func delay(delay:Double, closure:()->()) {
+        dispatch_after(
+            dispatch_time(
+                DISPATCH_TIME_NOW,
+                Int64(delay * Double(NSEC_PER_SEC))
+            ),
+            dispatch_get_main_queue(), closure)
     }
     
 }

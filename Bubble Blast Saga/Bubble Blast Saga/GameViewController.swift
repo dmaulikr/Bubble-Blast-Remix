@@ -104,6 +104,7 @@ class GameViewController: UIViewController {
     @IBAction func resetGameLevel(sender: AnyObject) {
         self.bubbleGrid.reset()
         self.bubbleGrid.loadIntoGame(self.sectionArr)
+        self.bubbleGrid.bubblesToDrop()
     }
     
     /***************************** Pallette (PS4) **********************************/
@@ -136,6 +137,11 @@ class GameViewController: UIViewController {
         let constantVelocity = CGFloat(15.0)
         velocity.x = constantVelocity * cos(angle) * (displacement.x / abs(displacement.x))
         velocity.y = -1.0 *  abs(constantVelocity * sin(angle))
+        
+        // Threshold value to prevent very 'slow' progression up
+        if velocity.y > -1.5 {
+            velocity.y = -1.5
+        }
         
         if (allowGesture == true){
             gameEngine.launchBubble(launchBubbleView, direction: velocity)
