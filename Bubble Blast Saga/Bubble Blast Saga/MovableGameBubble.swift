@@ -11,10 +11,9 @@ import UIKit
 class MovableGameBubble {
     
     private var currentSelection: String = ""
-    private var velocity: CGPoint!
+    var velocity: CGPoint!
     
     init() {
-        currentSelection = ""
         velocity = CGPoint(x: CGFloat(0.0), y: CGFloat(0.0))
     }
     
@@ -33,7 +32,7 @@ class MovableGameBubble {
         return self.currentSelection
     }
     
-    // Generate random bubble
+    // Generate random bubble 
     func getRandom() -> GameBubble {
         switch Int(arc4random_uniform(4)) {
             // Generate random shape subclass.
@@ -46,14 +45,6 @@ class MovableGameBubble {
         default:
             return GameBubble(color: "orangeBubble")
         }
-    }
-    
-    func setVelocity(newVelocity: CGPoint) {
-        self.velocity = newVelocity
-    }
-    
-    func getVelocity() -> CGPoint {
-        return self.velocity
     }
     
     func reset() {

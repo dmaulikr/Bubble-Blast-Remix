@@ -19,7 +19,7 @@ class GameViewController: UIViewController {
     
     // Game Bubble Model
     private var gameBubble: MovableGameBubble!
-    var bubbleGrid: GameGridViewController!
+    var bubbleGridViewController: GameGridViewController!
     private var gameEngine: GameEngine!
     
     private var allowGesture: Bool!
@@ -47,10 +47,6 @@ class GameViewController: UIViewController {
         currentSavedPath = "Level_XXX"
         allowGesture = true
         
-        var urls = NSFileManager.defaultManager().URLsForDirectory(NSSearchPathDirectory.DocumentDirectory, inDomains: NSSearchPathDomainMask.UserDomainMask)
-        directoryPath = (urls[0] as NSURL).path! + "/"
-        fileList = NSFileManager.defaultManager().contentsOfDirectoryAtPath(directoryPath, error: nil) as [String]
-        
         loadRandomBubbleIntoPreview()
         loadRandomBubbleToLaunch()
 
@@ -71,8 +67,8 @@ class GameViewController: UIViewController {
         // Load design
         // Requires mini buffer for NSIndexPaths in collection view to be updated appropriately.
         delay(1.0/60){
-            self.bubbleGrid.loadIntoGame(self.sectionArr)
-            self.bubbleGrid.bubblesToDrop()
+            self.bubbleGridViewController.loadIntoGame(self.sectionArr)
+            self.bubbleGridViewController.bubblesToDrop()
         }
 
     }
@@ -93,18 +89,18 @@ class GameViewController: UIViewController {
         let gridWidth = gameArea.frame.size.width
         let gridHeight = gameArea.frame.size.height
         let frame = CGRect(origin: CGPoint(x:0, y:0), size: CGSize(width: gridWidth, height: gridHeight))
-        bubbleGrid = GameGridViewController(viewFrame: frame, collectionViewLayout: UICollectionViewFlowLayout())
-        self.addChildViewController(bubbleGrid)
-        self.gameArea.addSubview(bubbleGrid.collectionView!)
-        self.gameArea.bringSubviewToFront(bubbleGrid.collectionView!)
+        bubbleGridViewController = GameGridViewController(viewFrame: frame, collectionViewLayout: UICollectionViewFlowLayout())
+        self.addChildViewController(bubbleGridViewController)
+        self.gameArea.addSubview(bubbleGridViewController.collectionView!)
+        self.gameArea.bringSubviewToFront(bubbleGridViewController.collectionView!)
         
     }
     
     // Replay game level
     @IBAction func resetGameLevel(sender: AnyObject) {
-        self.bubbleGrid.reset()
-        self.bubbleGrid.loadIntoGame(self.sectionArr)
-        self.bubbleGrid.bubblesToDrop()
+        self.bubbleGridViewController.reset()
+        self.bubbleGridViewController.loadIntoGame(self.sectionArr)
+        self.bubbleGridViewController.bubblesToDrop()
     }
     
     /***************************** Pallette (PS4) **********************************/
@@ -117,16 +113,19 @@ class GameViewController: UIViewController {
     private func loadRandomBubbleToLaunch() {
         var nextBubble = gameBubble.getRandom()
         launchBubbleView.setImage(nextBubble.getSelection())
-        gameEngine.setGridContents(bubbleGrid.getGridContents())
+        gameEngine.setGridContents(bubbleGridViewController.getGridContents())
     }
     /************************** Game Engine (PS4) *************************************/
     
+    // Panning disabled temporarily
+    /*
     func launchBubblePan(sender: UIPanGestureRecognizer) {
         var velocity = CGPoint()
         velocity = sender.translationInView(self.view)
-        // Panning disabled temporarily
+        
         //gameEngine.launchBubble(launchBubbleView, direction: velocity)
     }
+    */
     
     func launchBubbleTap(sender: UITapGestureRecognizer) {
         var tapPoint = sender.locationInView(self.view)
@@ -138,7 +137,7 @@ class GameViewController: UIViewController {
         velocity.x = constantVelocity * cos(angle) * (displacement.x / abs(displacement.x))
         velocity.y = -1.0 *  abs(constantVelocity * sin(angle))
         
-        // Threshold value to prevent very 'slow' progression up
+        // Threshold value to prevent very 'slow' progression upwards
         if velocity.y > -1.5 {
             velocity.y = -1.5
         }
@@ -151,7 +150,7 @@ class GameViewController: UIViewController {
     
     func update() {
         if (gameEngine.gameState == true) {
-            self.bubbleGrid.addBubble(gameEngine.updateBubbleAtCollectionView(), color: launchBubbleView.getImage())
+            self.bubbleGridViewController.addBubble(gameEngine.updateBubbleAtCollectionView(), color: launchBubbleView.getImage())
             movePreviewIntoLaunch()
             allowGesture = true     
         }
@@ -165,7 +164,7 @@ class GameViewController: UIViewController {
         loadRandomBubbleIntoPreview()
         
         // Update the contents as well
-        gameEngine.setGridContents(bubbleGrid.getGridContents())
+        gameEngine.setGridContents(bubbleGridViewController.getGridContents())
     }
     
     private func delay(delay:Double, closure:()->()) {

@@ -30,7 +30,7 @@
 		41243E8F1A8A5C29005D1D88 /* GameGridViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41243E8E1A8A5C29005D1D88 /* GameGridViewLayout.swift */; };
 		41243E911A8BBFB1005D1D88 /* MovableGameBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41243E901A8BBFB1005D1D88 /* MovableGameBubble.swift */; };
 		41243E931A8DCAFE005D1D88 /* GameEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41243E921A8DCAFE005D1D88 /* GameEngine.swift */; };
-		41243E991A8F9D80005D1D88 /* BubbleGridBubbleContents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41243E981A8F9D80005D1D88 /* BubbleGridBubbleContents.swift */; };
+		41243E991A8F9D80005D1D88 /* GameGridBubbleContents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41243E981A8F9D80005D1D88 /* GameGridBubbleContents.swift */; };
 		41243E9B1A8FBBA6005D1D88 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41243E9A1A8FBBA6005D1D88 /* Queue.swift */; };
 /* End PBXBuildFile section */
 
@@ -72,7 +72,7 @@
 		41243E8E1A8A5C29005D1D88 /* GameGridViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameGridViewLayout.swift; sourceTree = "<group>"; };
 		41243E901A8BBFB1005D1D88 /* MovableGameBubble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovableGameBubble.swift; sourceTree = "<group>"; };
 		41243E921A8DCAFE005D1D88 /* GameEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameEngine.swift; sourceTree = "<group>"; };
-		41243E981A8F9D80005D1D88 /* BubbleGridBubbleContents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleGridBubbleContents.swift; sourceTree = "<group>"; };
+		41243E981A8F9D80005D1D88 /* GameGridBubbleContents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameGridBubbleContents.swift; sourceTree = "<group>"; };
 		41243E9A1A8FBBA6005D1D88 /* Queue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -129,7 +129,7 @@
 				41243E8C1A8A5B22005D1D88 /* GameGridViewController.swift */,
 				41243E8A1A8A5AA5005D1D88 /* GameCircularCell.swift */,
 				41243E921A8DCAFE005D1D88 /* GameEngine.swift */,
-				41243E981A8F9D80005D1D88 /* BubbleGridBubbleContents.swift */,
+				41243E981A8F9D80005D1D88 /* GameGridBubbleContents.swift */,
 				41243E901A8BBFB1005D1D88 /* MovableGameBubble.swift */,
 				41243E8E1A8A5C29005D1D88 /* GameGridViewLayout.swift */,
 			);
@@ -284,7 +284,7 @@
 				41243E8F1A8A5C29005D1D88 /* GameGridViewLayout.swift in Sources */,
 				41243E721A8A4F99005D1D88 /* BubbleGridViewController.swift in Sources */,
 				41243E871A8A4FCA005D1D88 /* CircularCell.swift in Sources */,
-				41243E991A8F9D80005D1D88 /* BubbleGridBubbleContents.swift in Sources */,
+				41243E991A8F9D80005D1D88 /* GameGridBubbleContents.swift in Sources */,
 				41243E931A8DCAFE005D1D88 /* GameEngine.swift in Sources */,
 				41243E751A8A4F99005D1D88 /* GameBubble.swift in Sources */,
 				41243E731A8A4F99005D1D88 /* BubbleGridViewLayout.swift in Sources */,

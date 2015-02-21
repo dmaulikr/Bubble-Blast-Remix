@@ -11,13 +11,14 @@ import UIKit
 class GameGridViewController: UICollectionViewController {
     // Cell data representation for save/load
     private var indexingBubbles = [NSIndexPath : String]()
-    private var bubbleGridBubbleContents: BubbleGridBubbleContents!
+    private var gameGridBubbleContents: GameGridBubbleContents!
     
     // Custom init
     init(viewFrame: CGRect, collectionViewLayout: UICollectionViewLayout){
         super.init(collectionViewLayout: UICollectionViewLayout())
         indexingBubbles = [NSIndexPath : String] ()
-        bubbleGridBubbleContents = BubbleGridBubbleContents()
+        gameGridBubbleContents = GameGridBubbleContents()
+        
         // Max 12 items per section.
         let cellSize = viewFrame.width/CGFloat(12)
         
@@ -32,7 +33,7 @@ class GameGridViewController: UICollectionViewController {
         self.collectionView?.frame = viewFrame
         
         for column in 0...17 {
-            bubbleGridBubbleContents.arrayOfBubbles.append(Array(count:12-(column%2), repeatedValue:GameCircularCell(frame: CGRect())))
+            gameGridBubbleContents.arrayOfBubbles.append(Array(count:12-(column%2), repeatedValue:GameCircularCell(frame: CGRect())))
         }
     }
     
@@ -60,7 +61,7 @@ class GameGridViewController: UICollectionViewController {
     
     /*********************************** Gameplay (PS4) ************************************/
     
-    // Load from design
+    // Load from design view
     func loadIntoGame(toLoad: [[String]]) {
         for eachCol in 0...8 {
             for eachRow in 0...(11-(eachCol%2)) {
@@ -69,7 +70,7 @@ class GameGridViewController: UICollectionViewController {
                     var indexPath = NSIndexPath(forRow: eachRow, inSection: eachCol)
                     if let selectedCell = self.collectionView?.cellForItemAtIndexPath(indexPath) as GameCircularCell?{
                         selectedCell.setImage(currentColor)
-                        bubbleGridBubbleContents.appendIntoGrid(selectedCell, x: eachRow, y: eachCol)
+                        gameGridBubbleContents.appendIntoGrid(selectedCell, x: eachRow, y: eachCol)
                     }
                     
                 }
@@ -78,62 +79,79 @@ class GameGridViewController: UICollectionViewController {
     }
     
     
-    func getGridContents() -> BubbleGridBubbleContents {
-        return self.bubbleGridBubbleContents
+    func getGridContents() -> GameGridBubbleContents {
+        return self.gameGridBubbleContents
     }
     
     // Adding bubble to the grid
     func addBubble(centerPoint: CGPoint, color: String) {
-        // Check if it got appended to the last grid
-        let lastGridCoordinateY = CGFloat(930.0) // Approximate coordinate value for last section
-        if (centerPoint.y >= lastGridCoordinateY){
-            // Game over
-            let loadPrompt = UIAlertController(title: "Game over!", message: "Try again on new grid?", preferredStyle: UIAlertControllerStyle.Alert)
-            loadPrompt.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-                // Reset the grid
-                var allCells = self.collectionView?.visibleCells() as [GameCircularCell]
-                for cell in allCells {
-                    cell.removeImage()
-                    cell.backgroundView = UIView()
-                }
-            }))
-            presentViewController(loadPrompt, animated: true, completion: nil)
-            self.bubbleGridBubbleContents = BubbleGridBubbleContents()
-            
-        } else {
-            // General case
-            if let indexPathOfSelected = self.collectionView?.indexPathForItemAtPoint(centerPoint){
+        let maxSection = 17
+        
+        // General case
+        if let indexPathOfSelected = self.collectionView?.indexPathForItemAtPoint(centerPoint){
+            // Check if it got appended to the last grid
+            if (indexPathOfSelected.section >= maxSection) {
+                endGame()
+            } else {
                 var selectedCell = self.collectionView?.cellForItemAtIndexPath(indexPathOfSelected) as GameCircularCell
                 selectedCell.setImage(color)
-                bubbleGridBubbleContents.appendIntoGrid(selectedCell, x: indexPathOfSelected.row, y: indexPathOfSelected.section)
+                gameGridBubbleContents.appendIntoGrid(selectedCell, x: indexPathOfSelected.row, y: indexPathOfSelected.section)
                 bubblesToPop(indexPathOfSelected.row, currentY: indexPathOfSelected.section, currentColor: selectedCell.getImage())
-            } else {
-                // Offsets for bubbles right in between 2 cells at end grids
-                var newPoint = CGPoint(x: centerPoint.x + 3.0, y: centerPoint.y + 3.0)
-                if let indexPathOfSelected = self.collectionView?.indexPathForItemAtPoint(newPoint){
+            }
+            
+        } else {
+            // Slight offsets for handling bubbles right in between 2 cells at end grids
+            var newPoint = CGPoint(x: centerPoint.x + 3.0, y: centerPoint.y + 3.0)
+            if let indexPathOfSelected = self.collectionView?.indexPathForItemAtPoint(newPoint){
+                // Check if it got appended to the last grid
+                if (indexPathOfSelected.section >= maxSection) {
+                    endGame()
+                } else {
                     var selectedCell = self.collectionView?.cellForItemAtIndexPath(indexPathOfSelected) as GameCircularCell
                     selectedCell.setImage(color)
-                    bubbleGridBubbleContents.appendIntoGrid(selectedCell, x: indexPathOfSelected.row, y: indexPathOfSelected.section)
+                    gameGridBubbleContents.appendIntoGrid(selectedCell, x: indexPathOfSelected.row, y: indexPathOfSelected.section)
                     bubblesToPop(indexPathOfSelected.row, currentY: indexPathOfSelected.section, currentColor: selectedCell.getImage())
-                } else {
-                    // Alternative offset. Ideally should not ever reach here.
-                    var newPoint2 = CGPoint(x: centerPoint.x - 10.0, y: centerPoint.y)
-                    if let indexPathOfSelected = self.collectionView?.indexPathForItemAtPoint(newPoint2){
+                }
+                
+            } else {
+                // Alternative offset.
+                var newPoint2 = CGPoint(x: centerPoint.x - 10.0, y: centerPoint.y)
+                if let indexPathOfSelected = self.collectionView?.indexPathForItemAtPoint(newPoint2){
+                    // Check if it got appended to the last grid
+                    if (indexPathOfSelected.section >= maxSection) {
+                        endGame()
+                    } else {
                         var selectedCell = self.collectionView?.cellForItemAtIndexPath(indexPathOfSelected) as GameCircularCell
                         selectedCell.setImage(color)
-                        bubbleGridBubbleContents.appendIntoGrid(selectedCell, x: indexPathOfSelected.row, y: indexPathOfSelected.section)
+                        gameGridBubbleContents.appendIntoGrid(selectedCell, x: indexPathOfSelected.row, y: indexPathOfSelected.section)
                         bubblesToPop(indexPathOfSelected.row, currentY: indexPathOfSelected.section, currentColor: selectedCell.getImage())
                     }
                 }
             }
-            // Check for bubbles not connected to top row
-            bubblesToDrop()
         }
+        // Check for bubbles not connected to top row after poppings
+        bubblesToDrop()
+        
     }
+    
+    private func endGame() {
+        let loadPrompt = UIAlertController(title: "Game over!", message: "Try again on new grid?", preferredStyle: UIAlertControllerStyle.Alert)
+        loadPrompt.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+            // Reset the grid
+            var allCells = self.collectionView?.visibleCells() as [GameCircularCell]
+            for cell in allCells {
+                cell.removeImage()
+                cell.backgroundView = UIView()
+            }
+        }))
+        presentViewController(loadPrompt, animated: true, completion: nil)
+        self.gameGridBubbleContents = GameGridBubbleContents()
+    }
+    
     
     // Check if newly snapped on bubble pops anything
     func bubblesToPop(currentX: Int, currentY: Int, currentColor: String) {
-        // Uses CGPoint as a convenience to store x / y for graph
+        // Uses CGPoint as a convenience to store x / y
         var bubblesToPop = [GameCircularCell]()
         bubblesToPop.append(convertXYintoCell(currentX, y: currentY))
         var visited = [CGPoint]()
@@ -151,7 +169,6 @@ class GameGridViewController: UICollectionViewController {
             var currentNode = queue.dequeue()
             // Appending neighbors for this node
             neighbors = getNeighbours(currentNode!)
-            
             
             // Iterate through all neighbors
             for neighborNodes in neighbors {
@@ -176,7 +193,7 @@ class GameGridViewController: UICollectionViewController {
                 var cellPoint = convertCellintoXY(eachCell)
                 var bubbleToMove = GameCircularCell(frame: eachCell.frame)
                 bubbleToMove.setImage(eachCell.getImage())
-                // Layer on top
+                // Layer animation view on top
                 self.collectionView?.insertSubview(bubbleToMove as UIView, aboveSubview: self.collectionView!)
                 UIView.animateWithDuration(NSTimeInterval(1.0), animations: {
                     // Pseudo-Zoom for dramatic effect
@@ -191,7 +208,7 @@ class GameGridViewController: UICollectionViewController {
                 // remove the bubbleToMove view?
                 eachCell.removeImage()
                 eachCell.backgroundView!.alpha = 0
-                bubbleGridBubbleContents.arrayOfBubbles[Int(cellPoint.x)][Int(cellPoint.y)] = GameCircularCell(frame: CGRect())
+                gameGridBubbleContents.arrayOfBubbles[Int(cellPoint.x)][Int(cellPoint.y)] = GameCircularCell(frame: CGRect())
             }
         } else {
             visited = [CGPoint]()
@@ -234,13 +251,13 @@ class GameGridViewController: UICollectionViewController {
         }
         
         // Remove all 'unvisited cells', which are not connected to top row
-        for i in 0...(bubbleGridBubbleContents.arrayOfBubbles.count - 1){
-            for j in 0...(bubbleGridBubbleContents.arrayOfBubbles[i].count - 1) {
+        for i in 0...(gameGridBubbleContents.arrayOfBubbles.count - 1){
+            for j in 0...(gameGridBubbleContents.arrayOfBubbles[i].count - 1) {
                 var checkPoint = CGPoint(x: i, y: j)
                 if !(contains(visited, checkPoint)){
-                    if bubbleGridBubbleContents.arrayOfBubbles[i][j].getImage() != "" {
+                    if gameGridBubbleContents.arrayOfBubbles[i][j].getImage() != "" {
                         
-                        var cell = self.bubbleGridBubbleContents.arrayOfBubbles[i][j]
+                        var cell = self.gameGridBubbleContents.arrayOfBubbles[i][j]
                         
                         // Active drop bubble
                         var bubbleToMove = GameCircularCell(frame: cell.frame)
@@ -258,9 +275,9 @@ class GameGridViewController: UICollectionViewController {
                         })
                         
                         // Remove the grid's view & update data structure
-                        bubbleGridBubbleContents.arrayOfBubbles[i][j].backgroundView!.alpha = 0
-                        bubbleGridBubbleContents.arrayOfBubbles[i][j].removeImage()
-                        bubbleGridBubbleContents.arrayOfBubbles[i][j] = GameCircularCell(frame: CGRect())
+                        gameGridBubbleContents.arrayOfBubbles[i][j].backgroundView!.alpha = 0
+                        gameGridBubbleContents.arrayOfBubbles[i][j].removeImage()
+                        gameGridBubbleContents.arrayOfBubbles[i][j] = GameCircularCell(frame: CGRect())
                     }
                 }
             }
@@ -269,13 +286,13 @@ class GameGridViewController: UICollectionViewController {
     }
     
     func reset() {
-        for i in 0...(bubbleGridBubbleContents.arrayOfBubbles.count - 1){
-            for j in 0...(bubbleGridBubbleContents.arrayOfBubbles[i].count - 1) {
+        for i in 0...(gameGridBubbleContents.arrayOfBubbles.count - 1){
+            for j in 0...(gameGridBubbleContents.arrayOfBubbles[i].count - 1) {
                 // Remove the grid's view & update data structure
-                if bubbleGridBubbleContents.arrayOfBubbles[i][j].getImage() != "" {
-                    bubbleGridBubbleContents.arrayOfBubbles[i][j].backgroundView!.alpha = 0
-                    bubbleGridBubbleContents.arrayOfBubbles[i][j].removeImage()
-                    bubbleGridBubbleContents.arrayOfBubbles[i][j] = GameCircularCell(frame: CGRect())
+                if gameGridBubbleContents.arrayOfBubbles[i][j].getImage() != "" {
+                    gameGridBubbleContents.arrayOfBubbles[i][j].backgroundView!.alpha = 0
+                    gameGridBubbleContents.arrayOfBubbles[i][j].removeImage()
+                    gameGridBubbleContents.arrayOfBubbles[i][j] = GameCircularCell(frame: CGRect())
                 }
                 
             }
@@ -298,7 +315,7 @@ class GameGridViewController: UICollectionViewController {
         return GameCircularCell(frame: CGRect())
     }
     
-    // Returns array of CGPoint neighbors of a node
+    // Returns array of CGPoint for neighbors of a node
     private func getNeighbours(currentNode: CGPoint) -> [CGPoint] {
         var arr = [CGPoint]()
         let maxSectionNumber = CGFloat(18)

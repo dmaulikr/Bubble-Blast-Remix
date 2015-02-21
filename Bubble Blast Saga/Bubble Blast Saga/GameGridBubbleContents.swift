@@ -9,15 +9,18 @@
 import Foundation
 import UIKit
 
-class BubbleGridBubbleContents {
+class GameGridBubbleContents {
     private var gameCell: GameCircularCell!
     var arrayOfBubbles = [[GameCircularCell]]()
     
     init() {
         gameCell = GameCircularCell(frame: CGRect())
         // Iterate through the sections and rows
-        for row in 0...12 {
-            arrayOfBubbles.append(Array(count:18, repeatedValue:gameCell))
+        let maxRow = 12
+        let maxCol = 18
+        
+        for row in 0...maxRow {
+            arrayOfBubbles.append(Array(count:maxCol, repeatedValue:gameCell))
         }
     }
     
