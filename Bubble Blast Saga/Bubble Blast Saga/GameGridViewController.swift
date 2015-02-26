@@ -152,7 +152,6 @@ class GameGridViewController: UICollectionViewController {
         self.gameGridBubbleContents = GameGridBubbleContents()
     }
     
-    
     // Check if newly snapped on bubble pops anything
     func bubblesToPop(currentX: Int, currentY: Int, currentColor: String) {
         // Uses CGPoint as a convenience to store x / y
@@ -231,7 +230,6 @@ class GameGridViewController: UICollectionViewController {
         
         // Only contains chained special bubbles
         while (!queue.isEmpty){
-            
             var currentPoint = queue.dequeue()
             var currentCell = convertXYintoCell(Int(currentPoint!.x), y: Int(currentPoint!.y))
             if (currentCell.getImage() == "lightningBubble"){
@@ -240,52 +238,19 @@ class GameGridViewController: UICollectionViewController {
             } else if (currentCell.getImage() == "bombBubble"){
                 // Get all neighbors of this cell and pop them
                 bombAdjacentCells(currentCell)
-                
+            } else if (currentCell.getImage() == "starBubble"){
+                for row in 0...gameGridBubbleContents.arrayOfBubbles.count-1 {
+                    for col in 0...gameGridBubbleContents.arrayOfBubbles[row].count-1{
+                        if gameGridBubbleContents.arrayOfBubbles[row][col].getImage() == currentColor{
+                            popThisBubble(gameGridBubbleContents.arrayOfBubbles[row][col])
+                        }
+                    }
+                }
+                popThisBubble(currentCell)
             }
         }
         queue.removeAll()
         
-    }
-    
-    // Bombing
-    private func bombThisBubble(toPop: GameCircularCell) {
-        var cellPoint = convertCellintoXY(toPop)
-        var bubbleToMove = GameCircularCell(frame: toPop.frame)
-        bubbleToMove.setImage(toPop.getImage())
-        // Layer animation view on top
-        self.collectionView?.insertSubview(bubbleToMove as UIView, aboveSubview: self.collectionView!)
-        UIView.animateWithDuration(NSTimeInterval(1.0), animations: {
-            // Pseudo-Zoom for dramatic effect
-            bubbleToMove.frame = CGRect(x: toPop.center.x - 64*1.5, y: toPop.center.y - 64*1.5, width: 64.0*3, height: 64.0*3)
-            // Fade
-            bubbleToMove.alpha = 0.15
-            }, completion: { finished in
-                bubbleToMove.removeFromSuperview()
-        })
-        
-        toPop.removeImage()
-        toPop.backgroundView!.alpha = 0
-        gameGridBubbleContents.arrayOfBubbles[Int(cellPoint.x)][Int(cellPoint.y)] = GameCircularCell(frame: CGRect())
-    }
-    
-    
-    // Popping animation
-    private func popThisBubble(toPop: GameCircularCell) {
-        var cellPoint = convertCellintoXY(toPop)
-        var bubbleToMove = GameCircularCell(frame: toPop.frame)
-        bubbleToMove.setImage(toPop.getImage())
-        // Layer animation view on top
-        self.collectionView?.insertSubview(bubbleToMove as UIView, aboveSubview: self.collectionView!)
-        UIView.animateWithDuration(NSTimeInterval(1.0), animations: {
-            // Fade
-            bubbleToMove.alpha = 0.15
-            }, completion: { finished in
-                bubbleToMove.removeFromSuperview()
-        })
-        
-        toPop.removeImage()
-        toPop.backgroundView!.alpha = 0
-        gameGridBubbleContents.arrayOfBubbles[Int(cellPoint.x)][Int(cellPoint.y)] = GameCircularCell(frame: CGRect())
     }
     
     // Function to handle bombs
@@ -297,6 +262,8 @@ class GameGridViewController: UICollectionViewController {
             if cellToBomb.getImage() == "lightningBubble" {
                 queue.enqueue(eachPoint)
             } else if cellToBomb.getImage() == "bombBubble" {
+                queue.enqueue(eachPoint)
+            } else if cellToBomb.getImage() == "starBubble" {
                 queue.enqueue(eachPoint)
             } else if cellToBomb.getImage() != "" {
                 popThisBubble(cellToBomb)
@@ -313,12 +280,14 @@ class GameGridViewController: UICollectionViewController {
         for row in 0...(gameGridBubbleContents.arrayOfBubbles.count-1) {
             if gameGridBubbleContents.arrayOfBubbles[row][col].getImage() == "bombBubble" {
                 queue.enqueue(convertCellintoXY(gameGridBubbleContents.arrayOfBubbles[row][col]))
+            } else if gameGridBubbleContents.arrayOfBubbles[row][col].getImage() == "starBubble" {
+                queue.enqueue(convertCellintoXY(gameGridBubbleContents.arrayOfBubbles[row][col]))
             } else if (gameGridBubbleContents.arrayOfBubbles[row][col].getImage() != "") {
                 popThisBubble(gameGridBubbleContents.arrayOfBubbles[row][col])
             }
         }
     }
-    
+
     // Check if there's any bubbles which needs to be dropped as it's no longer connected
     func bubblesToDrop() {
         var bubblesToDrop = [GameCircularCell]()
@@ -480,6 +449,51 @@ class GameGridViewController: UICollectionViewController {
         }
         
         return arr
+    }
+    
+    /*************************************** Animations **************************************/
+    
+    // Bombing
+    private func bombThisBubble(toPop: GameCircularCell) {
+        var cellPoint = convertCellintoXY(toPop)
+        var bubbleToMove = GameCircularCell(frame: toPop.frame)
+        bubbleToMove.setImage(toPop.getImage())
+        // Layer animation view on top
+        self.collectionView?.insertSubview(bubbleToMove as UIView, aboveSubview: self.collectionView!)
+        UIView.animateWithDuration(NSTimeInterval(1.0), animations: {
+            // Pseudo-Zoom for dramatic effect
+            bubbleToMove.frame = CGRect(x: toPop.center.x - 64*1.5, y: toPop.center.y - 64*1.5, width: 64.0*3, height: 64.0*3)
+            // Fade
+            bubbleToMove.alpha = 0.15
+            }, completion: { finished in
+                bubbleToMove.removeFromSuperview()
+        })
+        
+        toPop.removeImage()
+        toPop.backgroundView!.alpha = 0
+        gameGridBubbleContents.arrayOfBubbles[Int(cellPoint.x)][Int(cellPoint.y)] = GameCircularCell(frame: CGRect())
+    }
+    
+    // Popping animation
+    private func popThisBubble(toPop: GameCircularCell) {
+        if (toPop.getImage() != "indestructibleBubble"){
+            var cellPoint = convertCellintoXY(toPop)
+            var bubbleToMove = GameCircularCell(frame: toPop.frame)
+            bubbleToMove.setImage(toPop.getImage())
+            // Layer animation view on top
+            self.collectionView?.insertSubview(bubbleToMove as UIView, aboveSubview: self.collectionView!)
+            UIView.animateWithDuration(NSTimeInterval(1.0), animations: {
+                // Fade
+                bubbleToMove.alpha = 0.15
+                }, completion: { finished in
+                    bubbleToMove.removeFromSuperview()
+            })
+            
+            toPop.removeImage()
+            toPop.backgroundView!.alpha = 0
+            gameGridBubbleContents.arrayOfBubbles[Int(cellPoint.x)][Int(cellPoint.y)] = GameCircularCell(frame: CGRect())
+
+        }
     }
     
     private func delay(delay:Double, closure:()->()) {

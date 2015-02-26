@@ -34,7 +34,9 @@ class GameViewController: UIViewController {
     @IBOutlet weak var launchBubbleView: GameCircularCell!
     @IBOutlet weak var previewBubbleView: GameCircularCell!
     
-    // default launch position
+    @IBOutlet weak var cannonBase: UIView!
+    
+    // Default launch position from view controller
     private let launchPad = CGPoint(x: 334.0, y: 951.0)
     
     override func viewDidLoad() {
@@ -49,6 +51,7 @@ class GameViewController: UIViewController {
         
         loadRandomBubbleIntoPreview()
         loadRandomBubbleToLaunch()
+        loadCannonBase()
 
         // Gesture recognizers
         let panGesture = UIPanGestureRecognizer()
@@ -72,7 +75,16 @@ class GameViewController: UIViewController {
         }
 
     }
-    
+    private func loadCannonBase() {
+        let cannonBaseImage = UIImage(named: "cannon-base.png")
+        let cannonBaseImageView = UIImageView(image: cannonBaseImage)
+        let cannonViewHeight = cannonBase.frame.size.height
+        let cannonViewWidth = cannonBase.frame.size.width
+        cannonBaseImageView.frame = CGRectMake(launchPad.x, launchPad.y - 10.0, cannonViewWidth, cannonViewHeight)
+        cannonBaseImageView.alpha = 0.8
+        self.view.addSubview(cannonBaseImageView)
+        
+    }
     // Function to load background view
     private func loadBackground() {
         let backgroundImage = UIImage(named: "background.png")
@@ -167,16 +179,28 @@ class GameViewController: UIViewController {
     }
     
     private func movePreviewIntoLaunch() {
-        // TODO in ps5 : Animate the shifting
-        launchBubbleView.setImage(previewBubbleView.getImage())
-        launchBubbleView.center = launchPad
-        loadRandomBubbleIntoPreview()
+        launchBubbleView.alpha = 0
+        // Preview bubble to move
+        var bubbleToMove = GameCircularCell(frame: previewBubbleView.frame)
+        bubbleToMove.setImage(previewBubbleView.getImage())
         
-        // Update the contents as well
-        gameEngine.setGridContents(bubbleGridViewController.getGridContents())
+        // Layer it on top
+        self.gameArea.insertSubview(bubbleToMove as UIView, aboveSubview: self.view)
+        previewBubbleView.alpha = 0
         
-        
-        allowGesture = true
+        UIView.animateWithDuration(NSTimeInterval(1.0), animations: {
+            // Dropping animation
+            bubbleToMove.frame = CGRectMake( self.launchPad.x , self.launchPad.y , bubbleToMove.frame.width, bubbleToMove.frame.height)
+            }, completion: { finished in
+                bubbleToMove.removeFromSuperview()
+                self.launchBubbleView.setImage(self.previewBubbleView.getImage())
+                self.loadRandomBubbleIntoPreview()
+                // Update the contents as well
+                self.gameEngine.setGridContents(self.bubbleGridViewController.getGridContents())
+                self.allowGesture = true
+                self.launchBubbleView.alpha = 1
+                self.previewBubbleView.alpha = 1
+        })
     }
     
     private func delay(delay:Double, closure:()->()) {
