@@ -26,6 +26,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var blueImage: UIButton!
     @IBOutlet weak var redImage: UIButton!
     @IBOutlet weak var greenImage: UIButton!
+    @IBOutlet weak var indestructibleImage: UIButton!
+    @IBOutlet weak var starImage: UIButton!
+    @IBOutlet weak var bombImage: UIButton!
+    @IBOutlet weak var lightningImage: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,69 +73,89 @@ class ViewController: UIViewController {
     
     @IBAction func eraserPressed(sender: AnyObject) {
         
-        if (eraserImage.alpha == 0.5) {
-            eraserImage.alpha = 1
-            blueImage.alpha = 0.5
-            greenImage.alpha = 0.5
-            redImage.alpha = 0.5
-            orangeImage.alpha = 0.5
-        }
-        gameBubble.setSelection("eraser")
+        setAllToFade()
+        eraserImage.alpha = 1
+        gameBubble.setSelection("")
         bubbleGrid.setGameBubble(gameBubble)
     }
     
     @IBAction func blueBubblePressed(sender: AnyObject) {
         
-        if (blueImage.alpha == 0.5) {
-            eraserImage.alpha = 0.5
-            blueImage.alpha = 1
-            greenImage.alpha = 0.5
-            redImage.alpha = 0.5
-            orangeImage.alpha = 0.5
-        }
+        setAllToFade()
+        blueImage.alpha = 1
+        
         gameBubble.setSelection("blueBubble")
         bubbleGrid.setGameBubble(gameBubble)
     }
     
     @IBAction func greenBubblePressed(sender: AnyObject) {
         
-        if (greenImage.alpha == 0.5) {
-            eraserImage.alpha = 0.5
-            blueImage.alpha = 0.5
-            greenImage.alpha = 1
-            redImage.alpha = 0.5
-            orangeImage.alpha = 0.5
-        }
+        setAllToFade()
+        greenImage.alpha = 1
         gameBubble.setSelection("greenBubble")
         bubbleGrid.setGameBubble(gameBubble)
     }
     
     @IBAction func redBubblePressed(sender: AnyObject) {
         
-        if (redImage.alpha == 0.5) {
-            eraserImage.alpha = 0.5
-            blueImage.alpha = 0.5
-            greenImage.alpha = 0.5
-            redImage.alpha = 1
-            orangeImage.alpha = 0.5
-        }
+        setAllToFade()
+        redImage.alpha = 1
         gameBubble.setSelection("redBubble")
         bubbleGrid.setGameBubble(gameBubble)
     }
     
     @IBAction func orangeBubblePressed(sender: AnyObject) {
+        setAllToFade()
+        orangeImage.alpha = 1.0
         
-        if (orangeImage.alpha == 0.5) {
-            eraserImage.alpha = 0.5
-            blueImage.alpha = 0.5
-            greenImage.alpha = 0.5
-            redImage.alpha = 0.5
-            orangeImage.alpha = 1.0
-        }
         gameBubble.setSelection("orangeBubble")
         bubbleGrid.setGameBubble(gameBubble)
     }
     
+    @IBAction func indestructibleBubblePressed(sender: AnyObject) {
+        setAllToFade()
+        indestructibleImage.alpha = 1.0
+        
+        gameBubble.setSelection("indestructibleBubble")
+        bubbleGrid.setGameBubble(gameBubble)
+    }
+    
+    @IBAction func starBubblePressed(sender: AnyObject) {
+        setAllToFade()
+        starImage.alpha = 1.0
+        
+        gameBubble.setSelection(("starBubble"))
+        bubbleGrid.setGameBubble(gameBubble)
+    }
+    
+    @IBAction func bombBubblePressed(sender: AnyObject) {
+        setAllToFade()
+        bombImage.alpha = 1.0
+        
+        gameBubble.setSelection(("bombBubble"))
+        bubbleGrid.setGameBubble(gameBubble)
+    }
+    
+    @IBAction func lightningBubblePressed(sender: AnyObject) {
+        setAllToFade()
+        lightningImage.alpha = 1.0
+        
+        gameBubble.setSelection(("lightningBubble"))
+        bubbleGrid.setGameBubble(gameBubble)
+    }
+    
+    
+    private func setAllToFade() {
+        eraserImage.alpha = 0.5
+        blueImage.alpha = 0.5
+        greenImage.alpha = 0.5
+        redImage.alpha = 0.5
+        orangeImage.alpha = 0.5
+        indestructibleImage.alpha = 0.5
+        starImage.alpha = 0.5
+        bombImage.alpha = 0.5
+        lightningImage.alpha = 0.5
+    }
 
     /*********************** Menu button pressing *****************************/
     

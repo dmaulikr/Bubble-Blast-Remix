@@ -98,9 +98,19 @@ class GameViewController: UIViewController {
     
     // Replay game level
     @IBAction func resetGameLevel(sender: AnyObject) {
-        self.bubbleGridViewController.reset()
-        self.bubbleGridViewController.loadIntoGame(self.sectionArr)
-        self.bubbleGridViewController.bubblesToDrop()
+        if (allowGesture == true) {
+            allowGesture = false
+            let resetPrompt = UIAlertController(title: "Reset level", message: "Are you sure?", preferredStyle: UIAlertControllerStyle.Alert)
+            resetPrompt.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
+            resetPrompt.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+                self.bubbleGridViewController.reset()
+                self.bubbleGridViewController.loadIntoGame(self.sectionArr)
+                self.bubbleGridViewController.bubblesToDrop()
+                self.allowGesture = true
+            }))
+            presentViewController(resetPrompt, animated: true, completion: nil)
+        }
+        
     }
     
     /***************************** Pallette (PS4) **********************************/

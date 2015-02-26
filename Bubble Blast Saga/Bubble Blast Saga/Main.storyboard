@@ -76,7 +76,7 @@
                                 <rect key="frame" x="0.0" y="893" width="774" height="83"/>
                                 <subviews>
                                     <button opaque="NO" alpha="0.5" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gJ7-D5-xMi" userLabel="Green">
-                                        <rect key="frame" x="100" y="10" width="63" height="63"/>
+                                        <rect key="frame" x="95" y="10" width="63" height="63"/>
                                         <state key="normal" image="bubble-green.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -85,7 +85,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" alpha="0.5" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tf1-o0-auT" userLabel="Red">
-                                        <rect key="frame" x="180" y="10" width="63" height="63"/>
+                                        <rect key="frame" x="175" y="10" width="63" height="63"/>
                                         <state key="normal" image="bubble-red.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -94,7 +94,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" alpha="0.5" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JqK-Ag-n41" userLabel="Blue">
-                                        <rect key="frame" x="20" y="10" width="63" height="63"/>
+                                        <rect key="frame" x="15" y="10" width="63" height="63"/>
                                         <state key="normal" image="bubble-blue.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -103,7 +103,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" alpha="0.5" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="piH-Wp-iSI" userLabel="Orange">
-                                        <rect key="frame" x="260" y="10" width="63" height="63"/>
+                                        <rect key="frame" x="255" y="10" width="63" height="63"/>
                                         <state key="normal" image="bubble-orange.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -112,13 +112,49 @@
                                             <action selector="orangeBubblePressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="D7G-Z8-7M8"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" alpha="0.5" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="caC-E2-dV6" userLabel="Indestructible">
+                                        <rect key="frame" x="335" y="10" width="63" height="63"/>
+                                        <state key="normal" image="bubble-indestructible.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="indestructibleBubblePressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="y0H-IP-yOb"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" alpha="0.5" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Stn-eG-O9n" userLabel="Star">
+                                        <rect key="frame" x="415" y="10" width="63" height="63"/>
+                                        <state key="normal" image="bubble-star.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="starBubblePressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="n59-gC-x9k"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" alpha="0.5" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TYq-GZ-aUm" userLabel="Lightning">
+                                        <rect key="frame" x="575" y="10" width="63" height="63"/>
+                                        <state key="normal" image="bubble-lightning.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="lightningBubblePressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="VuO-S4-bWl"/>
+                                        </connections>
+                                    </button>
                                     <button opaque="NO" alpha="0.5" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PLK-MI-qoK" userLabel="Eraser">
-                                        <rect key="frame" x="646" y="22" width="82" height="51"/>
+                                        <rect key="frame" x="680" y="22" width="82" height="51"/>
                                         <state key="normal" title="Bubb" image="eraser-1.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
                                             <action selector="eraserPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9TU-mI-oHV"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" alpha="0.5" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I6p-F4-h9s" userLabel="Bomb">
+                                        <rect key="frame" x="495" y="10" width="63" height="63"/>
+                                        <state key="normal" image="bubble-bomb.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="bombBubblePressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aHz-OI-B7J"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -133,11 +169,15 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
                     <connections>
                         <outlet property="blueImage" destination="JqK-Ag-n41" id="z5D-jR-KEw"/>
+                        <outlet property="bombImage" destination="I6p-F4-h9s" id="VhB-iT-24y"/>
                         <outlet property="eraserImage" destination="PLK-MI-qoK" id="0xX-nC-AIf"/>
                         <outlet property="gameArea" destination="Dmh-wd-5gD" id="NOg-yY-byF"/>
                         <outlet property="greenImage" destination="gJ7-D5-xMi" id="wbL-gB-e26"/>
+                        <outlet property="indestructibleImage" destination="caC-E2-dV6" id="YXY-we-d92"/>
+                        <outlet property="lightningImage" destination="TYq-GZ-aUm" id="6Jg-Hr-HtR"/>
                         <outlet property="orangeImage" destination="piH-Wp-iSI" id="z9F-Cy-gae"/>
                         <outlet property="redImage" destination="tf1-o0-auT" id="Dsc-eu-GVw"/>
+                        <outlet property="starImage" destination="Stn-eG-O9n" id="151-m8-WLO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -230,9 +270,13 @@
     </scenes>
     <resources>
         <image name="bubble-blue.png" width="160" height="160"/>
+        <image name="bubble-bomb.png" width="160" height="160"/>
         <image name="bubble-green.png" width="160" height="160"/>
+        <image name="bubble-indestructible.png" width="160" height="160"/>
+        <image name="bubble-lightning.png" width="160" height="160"/>
         <image name="bubble-orange.png" width="160" height="160"/>
         <image name="bubble-red.png" width="160" height="160"/>
+        <image name="bubble-star.png" width="160" height="160"/>
         <image name="eraser-1.png" width="254" height="152"/>
     </resources>
 </document>

@@ -41,6 +41,18 @@ class GameCircularCell: UICollectionViewCell {
         } else if color == "eraser" {
             self.removeImage()
             self.currentColor = ""
+        } else if color == "indestructibleBubble"{
+            bubbleImage = UIImage(named: "bubble-indestructible.png")!
+            self.currentColor = color
+        } else if color == "starBubble"{
+            bubbleImage = UIImage(named: "bubble-star.png")!
+            self.currentColor = color
+        } else if color == "bombBubble"{
+            bubbleImage = UIImage(named: "bubble-bomb.png")!
+            self.currentColor = color
+        } else if color == "lightningBubble"{
+            bubbleImage = UIImage(named: "bubble-lightning.png")!
+            self.currentColor = color
         } else {
             self.removeImage()
         }

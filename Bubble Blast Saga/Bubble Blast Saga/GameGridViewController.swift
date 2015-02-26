@@ -158,6 +158,8 @@ class GameGridViewController: UICollectionViewController {
         // array to count number of elements
         var startPoint = CGPoint(x: currentX, y: currentY)
         var neighbors = [CGPoint]()
+        var checkForSpecialBubblesNeighbours = [CGPoint]()
+        checkForSpecialBubblesNeighbours = getNeighbours(startPoint)
         
         // Use BFS
         var queue = Queue<CGPoint>()
@@ -190,28 +192,86 @@ class GameGridViewController: UICollectionViewController {
         // Check if there are bubbles to pop
         if bubblesToPop.count > 2 {
             for eachCell in bubblesToPop {
-                var cellPoint = convertCellintoXY(eachCell)
-                var bubbleToMove = GameCircularCell(frame: eachCell.frame)
-                bubbleToMove.setImage(eachCell.getImage())
-                // Layer animation view on top
-                self.collectionView?.insertSubview(bubbleToMove as UIView, aboveSubview: self.collectionView!)
-                UIView.animateWithDuration(NSTimeInterval(1.0), animations: {
-                    // Pseudo-Zoom for dramatic effect
-                    bubbleToMove.frame = CGRect(x: eachCell.center.x, y: eachCell.center.y, width: 150, height: 150)
-                    // Fade
-                    bubbleToMove.alpha = 0.15
-                    }, completion: { finished in
-                        bubbleToMove.removeFromSuperview()
-                })
-                
-                
-                // remove the bubbleToMove view?
-                eachCell.removeImage()
-                eachCell.backgroundView!.alpha = 0
-                gameGridBubbleContents.arrayOfBubbles[Int(cellPoint.x)][Int(cellPoint.y)] = GameCircularCell(frame: CGRect())
+                popThisBubble(eachCell)
             }
         } else {
             visited = [CGPoint]()
+        }
+        
+        // Check if hit special bubbles
+        for neighborNodes in checkForSpecialBubblesNeighbours {
+            var sectionNum = Int(neighborNodes.y)
+            var rowNum = Int(neighborNodes.x)
+            var cell = convertXYintoCell(rowNum, y: sectionNum)
+            
+            // Check the cell color
+            if (cell.getImage() == "lightningBubble"){
+                zapWholeSection(cell)
+            } else if (cell.getImage() == "bombBubble"){
+                // Get all neighbors of this cell and pop them
+                bombAdjacentCells(cell)
+                
+            } else if (cell.getImage() == "starBubble"){
+                // Pop everything which is the same color.
+                for row in 0...gameGridBubbleContents.arrayOfBubbles.count-1 {
+                    for col in 0...gameGridBubbleContents.arrayOfBubbles[row].count-1{
+                        if gameGridBubbleContents.arrayOfBubbles[row][col].getImage() == currentColor{
+                            popThisBubble(gameGridBubbleContents.arrayOfBubbles[row][col])
+                        }
+                    }
+                }
+                popThisBubble(cell)
+            }
+        }   
+    }
+    
+    // Popping animation
+    private func popThisBubble(toPop: GameCircularCell) {
+        var cellPoint = convertCellintoXY(toPop)
+        var bubbleToMove = GameCircularCell(frame: toPop.frame)
+        bubbleToMove.setImage(toPop.getImage())
+        // Layer animation view on top
+        self.collectionView?.insertSubview(bubbleToMove as UIView, aboveSubview: self.collectionView!)
+        UIView.animateWithDuration(NSTimeInterval(1.0), animations: {
+            // Pseudo-Zoom for dramatic effect
+            bubbleToMove.frame = CGRect(x: toPop.center.x, y: toPop.center.y, width: 150, height: 150)
+            // Fade
+            bubbleToMove.alpha = 0.15
+            }, completion: { finished in
+                bubbleToMove.removeFromSuperview()
+        })
+        
+        toPop.removeImage()
+        toPop.backgroundView!.alpha = 0
+        gameGridBubbleContents.arrayOfBubbles[Int(cellPoint.x)][Int(cellPoint.y)] = GameCircularCell(frame: CGRect())
+    }
+    
+    // Function to handle bombs
+    private func bombAdjacentCells(bombCell: GameCircularCell) {
+        let bombPoint = convertCellintoXY(bombCell)
+        let adjacentPoint = getNeighbours(bombPoint)
+        for eachPoint in adjacentPoint {
+            var cellToBomb = convertXYintoCell(Int(eachPoint.x), y: Int(eachPoint.y))
+            if cellToBomb.getImage() == "lightningBubble" {
+                zapWholeSection(cellToBomb)
+            } else if cellToBomb.getImage() != "" {
+                popThisBubble(cellToBomb)
+            }
+        }
+        popThisBubble(bombCell)
+    }
+    
+    // Function to handle lightning
+    private func zapWholeSection(lightningCell: GameCircularCell) {
+        let lightningPoint = convertCellintoXY(lightningCell)
+        let col = Int(lightningPoint.y)
+        // Remove everything on this row
+        for row in 0...(gameGridBubbleContents.arrayOfBubbles.count-1) {
+            if gameGridBubbleContents.arrayOfBubbles[row][col].getImage() == "bombBubble" {
+                self.bombAdjacentCells(gameGridBubbleContents.arrayOfBubbles[row][col])
+            } else if (gameGridBubbleContents.arrayOfBubbles[row][col].getImage() != "") {
+                popThisBubble(gameGridBubbleContents.arrayOfBubbles[row][col])
+            }
         }
     }
     
