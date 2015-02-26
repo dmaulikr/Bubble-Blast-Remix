@@ -251,6 +251,13 @@
                                     <accessibilityTraits key="traits" none="YES" image="YES"/>
                                 </accessibility>
                             </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6zo-Ts-dZ6" userLabel="Cannon">
+                                <rect key="frame" x="334" y="800" width="97" height="173"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" none="YES" image="YES"/>
+                                </accessibility>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
@@ -260,6 +267,7 @@
                     </view>
                     <connections>
                         <outlet property="cannonBase" destination="ksm-6s-CF9" id="2OK-7G-ZGX"/>
+                        <outlet property="cannonShaft" destination="6zo-Ts-dZ6" id="NfF-yY-ntN"/>
                         <outlet property="gameArea" destination="1TX-dT-pBe" id="2c0-Ht-xAI"/>
                         <outlet property="launchBubbleView" destination="30X-o4-jxe" id="Ana-BM-LZL"/>
                         <outlet property="previewBubbleView" destination="1xr-Yy-Mff" id="dWT-3W-hS9"/>

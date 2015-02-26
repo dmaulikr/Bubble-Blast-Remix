@@ -35,7 +35,7 @@ class GameViewController: UIViewController {
     @IBOutlet weak var previewBubbleView: GameCircularCell!
     
     @IBOutlet weak var cannonBase: UIView!
-    
+    @IBOutlet weak var cannonShaft: UIView!
     // Default launch position from view controller
     private let launchPad = CGPoint(x: 334.0, y: 951.0)
     
@@ -75,16 +75,29 @@ class GameViewController: UIViewController {
         }
 
     }
+    // Function to load Cannon
     private func loadCannonBase() {
+        
+        let cannonShaftImage = UIImage(named: "cannon-single.png")
+        let cannonShaftImageView = UIImageView(image: cannonShaftImage)
+        let cannonShaftViewHeight = cannonShaft.frame.size.height
+        let cannonShaftViewWidth = cannonShaft.frame.size.width
         let cannonBaseImage = UIImage(named: "cannon-base.png")
         let cannonBaseImageView = UIImageView(image: cannonBaseImage)
         let cannonViewHeight = cannonBase.frame.size.height
         let cannonViewWidth = cannonBase.frame.size.width
+        
+        cannonShaftImageView.frame = CGRectMake(launchPad.x - 15.0, launchPad.y - 115.0 - cannonViewHeight, cannonShaftViewWidth, cannonShaftViewHeight)
+        cannonShaftImageView.alpha = 0.8
+        //self.view.addSubview(cannonShaftImageView)
+        
+        
         cannonBaseImageView.frame = CGRectMake(launchPad.x, launchPad.y - 10.0, cannonViewWidth, cannonViewHeight)
         cannonBaseImageView.alpha = 0.8
         self.view.addSubview(cannonBaseImageView)
-        
+
     }
+    
     // Function to load background view
     private func loadBackground() {
         let backgroundImage = UIImage(named: "background.png")
