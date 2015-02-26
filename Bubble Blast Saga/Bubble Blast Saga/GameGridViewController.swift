@@ -229,8 +229,9 @@ class GameGridViewController: UICollectionViewController {
             }
         }
         
+        // Only contains chained special bubbles
         while (!queue.isEmpty){
-            // Only contains chain-ed special bubbles
+            
             var currentPoint = queue.dequeue()
             var currentCell = convertXYintoCell(Int(currentPoint!.x), y: Int(currentPoint!.y))
             if (currentCell.getImage() == "lightningBubble"){
@@ -246,6 +247,28 @@ class GameGridViewController: UICollectionViewController {
         
     }
     
+    // Bombing
+    private func bombThisBubble(toPop: GameCircularCell) {
+        var cellPoint = convertCellintoXY(toPop)
+        var bubbleToMove = GameCircularCell(frame: toPop.frame)
+        bubbleToMove.setImage(toPop.getImage())
+        // Layer animation view on top
+        self.collectionView?.insertSubview(bubbleToMove as UIView, aboveSubview: self.collectionView!)
+        UIView.animateWithDuration(NSTimeInterval(1.0), animations: {
+            // Pseudo-Zoom for dramatic effect
+            bubbleToMove.frame = CGRect(x: toPop.center.x - 64*1.5, y: toPop.center.y - 64*1.5, width: 64.0*3, height: 64.0*3)
+            // Fade
+            bubbleToMove.alpha = 0.15
+            }, completion: { finished in
+                bubbleToMove.removeFromSuperview()
+        })
+        
+        toPop.removeImage()
+        toPop.backgroundView!.alpha = 0
+        gameGridBubbleContents.arrayOfBubbles[Int(cellPoint.x)][Int(cellPoint.y)] = GameCircularCell(frame: CGRect())
+    }
+    
+    
     // Popping animation
     private func popThisBubble(toPop: GameCircularCell) {
         var cellPoint = convertCellintoXY(toPop)
@@ -254,8 +277,6 @@ class GameGridViewController: UICollectionViewController {
         // Layer animation view on top
         self.collectionView?.insertSubview(bubbleToMove as UIView, aboveSubview: self.collectionView!)
         UIView.animateWithDuration(NSTimeInterval(1.0), animations: {
-            // Pseudo-Zoom for dramatic effect
-            bubbleToMove.frame = CGRect(x: toPop.center.x, y: toPop.center.y, width: 150, height: 150)
             // Fade
             bubbleToMove.alpha = 0.15
             }, completion: { finished in
@@ -281,7 +302,7 @@ class GameGridViewController: UICollectionViewController {
                 popThisBubble(cellToBomb)
             }
         }
-        popThisBubble(bombCell)
+        bombThisBubble(bombCell)
     }
     
     // Function to handle lightning

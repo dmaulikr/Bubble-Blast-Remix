@@ -161,8 +161,7 @@ class GameViewController: UIViewController {
     func update() {
         if (gameEngine.gameState == true && self.bubbleGridViewController.isAnimating == false) {
             self.bubbleGridViewController.addBubble(gameEngine.updateBubbleAtCollectionView(), color: launchBubbleView.getImage())
-            movePreviewIntoLaunch()
-            allowGesture = true     
+            movePreviewIntoLaunch()   
         }
         gameEngine.update()
     }
@@ -175,6 +174,9 @@ class GameViewController: UIViewController {
         
         // Update the contents as well
         gameEngine.setGridContents(bubbleGridViewController.getGridContents())
+        
+        
+        allowGesture = true
     }
     
     private func delay(delay:Double, closure:()->()) {
