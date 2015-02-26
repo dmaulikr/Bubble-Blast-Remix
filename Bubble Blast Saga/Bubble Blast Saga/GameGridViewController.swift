@@ -96,7 +96,7 @@ class GameGridViewController: UICollectionViewController {
         return self.gameGridBubbleContents
     }
     
-    // Adding bubble to the grid
+    // Adding launched bubble to the grid
     func addBubble(centerPoint: CGPoint, color: String) {
         let maxSection = 17
         isAnimating = true
@@ -104,7 +104,7 @@ class GameGridViewController: UICollectionViewController {
         // General case
         if let indexPathOfSelected = self.collectionView?.indexPathForItemAtPoint(centerPoint){
             // Check if it got appended to the last grid
-            if (indexPathOfSelected.section >= maxSection) {
+            if (indexPathOfSelected.section >= maxSection-1) {
                 endGame()
             } else {
                 var selectedCell = self.collectionView?.cellForItemAtIndexPath(indexPathOfSelected) as GameCircularCell
@@ -150,19 +150,6 @@ class GameGridViewController: UICollectionViewController {
     }
     
     private func endGame() {
-        /*
-        let loadPrompt = UIAlertController(title: "Game over!", message: "Try again on new grid?", preferredStyle: UIAlertControllerStyle.Alert)
-        loadPrompt.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-            // Reset the grid
-            var allCells = self.collectionView?.visibleCells() as [GameCircularCell]
-            for cell in allCells {
-                cell.removeImage()
-                cell.backgroundView = UIView()
-            }
-        }))
-        presentViewController(loadPrompt, animated: true, completion: nil)
-        self.gameGridBubbleContents = GameGridBubbleContents()
-        */
         gameDidEnd = true
         self.reset()
         
@@ -213,8 +200,6 @@ class GameGridViewController: UICollectionViewController {
             for eachCell in bubblesToPop {
                 popThisBubble(eachCell)
             }
-            // Bonus
-            score += (bubblesToPop.count-2) * 10
         } else {
             visited = [CGPoint]()
         }

@@ -279,6 +279,24 @@
                                     <accessibilityTraits key="traits" none="YES" image="YES"/>
                                 </accessibility>
                             </view>
+                            <view alpha="0.74999999999999978" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sJc-v4-R8O">
+                                <rect key="frame" x="612" y="863" width="138" height="80"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="SCORE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BdF-qw-fiO">
+                                        <rect key="frame" x="31" y="5" width="70" height="21"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Black" family="Avenir" pointSize="15"/>
+                                        <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uf4-11-gJW">
+                                        <rect key="frame" x="0.0" y="30" width="138" height="50"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="36"/>
+                                        <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.59999999999999998" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
@@ -292,6 +310,7 @@
                         <outlet property="gameArea" destination="1TX-dT-pBe" id="2c0-Ht-xAI"/>
                         <outlet property="launchBubbleView" destination="30X-o4-jxe" id="Ana-BM-LZL"/>
                         <outlet property="previewBubbleView" destination="1xr-Yy-Mff" id="dWT-3W-hS9"/>
+                        <outlet property="scoreLabel" destination="Uf4-11-gJW" id="mXh-E2-gRD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sbo-WD-v4F" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -313,7 +332,7 @@
                         <viewControllerLayoutGuide type="bottom" id="6Ff-l5-SWj"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="vDZ-4T-Fug">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Hw2-Nj-YAJ" customClass="I">
@@ -589,7 +608,7 @@
         <image name="eraser-1.png" width="254" height="152"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="IUK-eq-bdT"/>
-        <segue reference="xje-Kw-VfQ"/>
+        <segue reference="grb-sM-t92"/>
+        <segue reference="Bh3-vv-AWk"/>
     </inferredMetricsTieBreakers>
 </document>

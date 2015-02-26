@@ -34,6 +34,8 @@ class GameViewController: UIViewController {
     @IBOutlet weak var launchBubbleView: GameCircularCell!
     @IBOutlet weak var previewBubbleView: GameCircularCell!
     
+    @IBOutlet weak var scoreLabel: UILabel!
+    
     @IBOutlet weak var cannonBase: UIView!
     @IBOutlet weak var cannonShaft: UIView!
     // Default launch position from view controller
@@ -54,11 +56,13 @@ class GameViewController: UIViewController {
         loadCannonBase()
 
         // Gesture recognizers
+        /*
         let panGesture = UIPanGestureRecognizer()
         panGesture.addTarget(self, action: "launchBubblePan:")
         panGesture.minimumNumberOfTouches = 1
         panGesture.maximumNumberOfTouches = 1
         self.view.addGestureRecognizer(panGesture)
+        */
         
         let tapGesture = UITapGestureRecognizer()
         tapGesture.addTarget(self, action: "launchBubbleTap:")
@@ -193,6 +197,7 @@ class GameViewController: UIViewController {
             self.endGame()
             self.bubbleGridViewController.gameDidEnd = false
         }
+        scoreLabel.text = String(self.bubbleGridViewController.score)
     }
     
     private func movePreviewIntoLaunch() {
@@ -233,7 +238,7 @@ class GameViewController: UIViewController {
     private func endGame() {
         let loadPrompt = UIAlertController(title: "Game over!", message: "Your score is: " + String(self.bubbleGridViewController.score) + "\n" + "Try again?", preferredStyle: UIAlertControllerStyle.Alert)
         loadPrompt.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-            //SEGUE SHIT HERE
+            //SEGUE STUFF IF I WANNA APPLY IT LATER
             self.bubbleGridViewController.score = 0
             self.bubbleGridViewController.reset()
             self.bubbleGridViewController.loadIntoGame(self.sectionArr)
@@ -243,7 +248,6 @@ class GameViewController: UIViewController {
         presentViewController(loadPrompt, animated: true, completion: nil)
         
     }
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
