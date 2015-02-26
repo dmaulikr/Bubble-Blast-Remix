@@ -12,7 +12,7 @@ class ViewController: UIViewController {
     
     // Game Bubble Model
     private var gameBubble: GameBubble!
-    private var bubbleGrid: BubbleGridViewController!
+    private var bubbleGridViewController: BubbleGridViewController!
     
     private var fileList = [String]()
     private var directoryPath = String()
@@ -63,10 +63,10 @@ class ViewController: UIViewController {
         // To compact the 9 columns
         let gridHeight = CGFloat(595)
         let frame = CGRect(origin: CGPoint(x:0, y:0), size: CGSize(width: gridWidth, height: gridHeight))
-        bubbleGrid = BubbleGridViewController(viewFrame: frame, collectionViewLayout: UICollectionViewFlowLayout())
-        self.addChildViewController(bubbleGrid)
-        self.gameArea.addSubview(bubbleGrid.collectionView!)
-        self.gameArea.bringSubviewToFront(bubbleGrid.collectionView!)
+        bubbleGridViewController = BubbleGridViewController(viewFrame: frame, collectionViewLayout: UICollectionViewFlowLayout())
+        self.addChildViewController(bubbleGridViewController)
+        self.gameArea.addSubview(bubbleGridViewController.collectionView!)
+        self.gameArea.bringSubviewToFront(bubbleGridViewController.collectionView!)
     }
     
     /*********************** Palette button pressing *****************************/
@@ -76,7 +76,7 @@ class ViewController: UIViewController {
         setAllToFade()
         eraserImage.alpha = 1
         gameBubble.setSelection("")
-        bubbleGrid.setGameBubble(gameBubble)
+        bubbleGridViewController.setGameBubble(gameBubble)
     }
     
     @IBAction func blueBubblePressed(sender: AnyObject) {
@@ -85,7 +85,7 @@ class ViewController: UIViewController {
         blueImage.alpha = 1
         
         gameBubble.setSelection("blueBubble")
-        bubbleGrid.setGameBubble(gameBubble)
+        bubbleGridViewController.setGameBubble(gameBubble)
     }
     
     @IBAction func greenBubblePressed(sender: AnyObject) {
@@ -93,7 +93,7 @@ class ViewController: UIViewController {
         setAllToFade()
         greenImage.alpha = 1
         gameBubble.setSelection("greenBubble")
-        bubbleGrid.setGameBubble(gameBubble)
+        bubbleGridViewController.setGameBubble(gameBubble)
     }
     
     @IBAction func redBubblePressed(sender: AnyObject) {
@@ -101,7 +101,7 @@ class ViewController: UIViewController {
         setAllToFade()
         redImage.alpha = 1
         gameBubble.setSelection("redBubble")
-        bubbleGrid.setGameBubble(gameBubble)
+        bubbleGridViewController.setGameBubble(gameBubble)
     }
     
     @IBAction func orangeBubblePressed(sender: AnyObject) {
@@ -109,7 +109,7 @@ class ViewController: UIViewController {
         orangeImage.alpha = 1.0
         
         gameBubble.setSelection("orangeBubble")
-        bubbleGrid.setGameBubble(gameBubble)
+        bubbleGridViewController.setGameBubble(gameBubble)
     }
     
     @IBAction func indestructibleBubblePressed(sender: AnyObject) {
@@ -117,7 +117,7 @@ class ViewController: UIViewController {
         indestructibleImage.alpha = 1.0
         
         gameBubble.setSelection("indestructibleBubble")
-        bubbleGrid.setGameBubble(gameBubble)
+        bubbleGridViewController.setGameBubble(gameBubble)
     }
     
     @IBAction func starBubblePressed(sender: AnyObject) {
@@ -125,7 +125,7 @@ class ViewController: UIViewController {
         starImage.alpha = 1.0
         
         gameBubble.setSelection(("starBubble"))
-        bubbleGrid.setGameBubble(gameBubble)
+        bubbleGridViewController.setGameBubble(gameBubble)
     }
     
     @IBAction func bombBubblePressed(sender: AnyObject) {
@@ -133,7 +133,7 @@ class ViewController: UIViewController {
         bombImage.alpha = 1.0
         
         gameBubble.setSelection(("bombBubble"))
-        bubbleGrid.setGameBubble(gameBubble)
+        bubbleGridViewController.setGameBubble(gameBubble)
     }
     
     @IBAction func lightningBubblePressed(sender: AnyObject) {
@@ -141,7 +141,7 @@ class ViewController: UIViewController {
         lightningImage.alpha = 1.0
         
         gameBubble.setSelection(("lightningBubble"))
-        bubbleGrid.setGameBubble(gameBubble)
+        bubbleGridViewController.setGameBubble(gameBubble)
     }
     
     
@@ -163,7 +163,7 @@ class ViewController: UIViewController {
         if (segue.identifier == "designToGame") {
             // Pass current bubble grid information to game screen
             var gameController = segue.destinationViewController as GameViewController;
-            gameController.sectionArr = self.bubbleGrid.getSectionArr()
+            gameController.sectionArr = self.bubbleGridViewController.getSectionArr()
             
         }
     }
@@ -184,7 +184,7 @@ class ViewController: UIViewController {
         savePrompt.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
             saveFileName = inputTextField?.text as String!
             NSFileManager.defaultManager().removeItemAtPath((self.directoryPath + saveFileName), error: nil)
-            var dataToSave = self.bubbleGrid.getSectionArr() as NSArray
+            var dataToSave = self.bubbleGridViewController.getSectionArr() as NSArray
             if dataToSave.writeToFile((self.directoryPath + saveFileName), atomically: true) == true {
                 if (!contains(self.fileList,saveFileName)) {
                     self.fileList.append(saveFileName)
@@ -201,7 +201,7 @@ class ViewController: UIViewController {
                 alert.addAction(UIAlertAction(title: "Got it", style: UIAlertActionStyle.Default, handler: nil))
                 self.presentViewController(alert, animated: true, completion: nil)
             }
-            self.bubbleGrid.collectionView?.reloadData()
+            self.bubbleGridViewController.collectionView?.reloadData()
         }))
         savePrompt.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
             textField.placeholder = self.currentSavedPath
@@ -257,8 +257,8 @@ class ViewController: UIViewController {
                     }
                 }
             }
-            bubbleGrid.loadBubbleGrid(bubbleGridIndexes)
-            bubbleGrid.updateDictionary(bubbleGridIndexes)
+            bubbleGridViewController.loadBubbleGrid(bubbleGridIndexes)
+            bubbleGridViewController.updateDictionary(bubbleGridIndexes)
         }
     }
     
@@ -270,11 +270,11 @@ class ViewController: UIViewController {
     }
     
     private func resetGrid() {
-        var allCells = bubbleGrid.collectionView?.visibleCells() as [CircularCell]
+        var allCells = bubbleGridViewController.collectionView?.visibleCells() as [CircularCell]
         for cell in allCells{
             cell.removeImage()
         }
-        bubbleGrid.wipeColorIndexing()
+        bubbleGridViewController.wipeColorIndexing()
     }
     
     @IBAction func buttonPressed(sender: AnyObject) {

@@ -189,6 +189,10 @@ class GameViewController: UIViewController {
             movePreviewIntoLaunch()   
         }
         gameEngine.update()
+        if (self.bubbleGridViewController.gameDidEnd == true){
+            self.endGame()
+            self.bubbleGridViewController.gameDidEnd = false
+        }
     }
     
     private func movePreviewIntoLaunch() {
@@ -225,10 +229,27 @@ class GameViewController: UIViewController {
             dispatch_get_main_queue(), closure)
     }
     
+    // End game
+    private func endGame() {
+        let loadPrompt = UIAlertController(title: "Game over!", message: "Your score is: " + String(self.bubbleGridViewController.score) + "\n" + "Try again?", preferredStyle: UIAlertControllerStyle.Alert)
+        loadPrompt.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+            //SEGUE SHIT HERE
+            self.bubbleGridViewController.score = 0
+            self.bubbleGridViewController.reset()
+            self.bubbleGridViewController.loadIntoGame(self.sectionArr)
+            self.bubbleGridViewController.bubblesToDrop()
+            self.allowGesture = true
+        }))
+        presentViewController(loadPrompt, animated: true, completion: nil)
+        
+    }
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
 }
+
 

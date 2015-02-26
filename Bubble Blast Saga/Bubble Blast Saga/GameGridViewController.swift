@@ -14,12 +14,23 @@ class GameGridViewController: UICollectionViewController {
     private var gameGridBubbleContents: GameGridBubbleContents!
     var isAnimating = Bool()
     private var queue = Queue<CGPoint>()
+    var gameDidEnd = Bool()
+    
+    /*
+    Score is implemented: 
+    Drop: 1 + 1*2 + 1*4.... increase
+    Bomb: 50
+    Pop: 10 / bubble
+    */
+    var score = Int();
     
     // Custom init
     init(viewFrame: CGRect, collectionViewLayout: UICollectionViewLayout){
         super.init(collectionViewLayout: UICollectionViewLayout())
         indexingBubbles = [NSIndexPath : String] ()
         gameGridBubbleContents = GameGridBubbleContents()
+        score = 0;
+        gameDidEnd = false
         
         // Max 12 items per section.
         let cellSize = viewFrame.width/CGFloat(12)
@@ -139,6 +150,7 @@ class GameGridViewController: UICollectionViewController {
     }
     
     private func endGame() {
+        /*
         let loadPrompt = UIAlertController(title: "Game over!", message: "Try again on new grid?", preferredStyle: UIAlertControllerStyle.Alert)
         loadPrompt.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
             // Reset the grid
@@ -150,6 +162,10 @@ class GameGridViewController: UICollectionViewController {
         }))
         presentViewController(loadPrompt, animated: true, completion: nil)
         self.gameGridBubbleContents = GameGridBubbleContents()
+        */
+        gameDidEnd = true
+        self.reset()
+        
     }
     
     // Check if newly snapped on bubble pops anything
@@ -197,6 +213,8 @@ class GameGridViewController: UICollectionViewController {
             for eachCell in bubblesToPop {
                 popThisBubble(eachCell)
             }
+            // Bonus
+            score += (bubblesToPop.count-2) * 10
         } else {
             visited = [CGPoint]()
         }
@@ -297,6 +315,8 @@ class GameGridViewController: UICollectionViewController {
         var neighbors = [CGPoint]()
         var startNode = CGPoint()
         
+        var pointToAdd = 1
+        
         // 12 grids at the top
         for i in 0...11 {
             startNode.x = CGFloat(i)
@@ -351,6 +371,11 @@ class GameGridViewController: UICollectionViewController {
                         gameGridBubbleContents.arrayOfBubbles[i][j].backgroundView!.alpha = 0
                         gameGridBubbleContents.arrayOfBubbles[i][j].removeImage()
                         gameGridBubbleContents.arrayOfBubbles[i][j] = GameCircularCell(frame: CGRect())
+                        
+                        // Update score
+                        score = score + pointToAdd
+                        // Exponential bonus for each drop
+                        pointToAdd = pointToAdd * 2
                     }
                 }
             }
@@ -472,6 +497,7 @@ class GameGridViewController: UICollectionViewController {
         toPop.removeImage()
         toPop.backgroundView!.alpha = 0
         gameGridBubbleContents.arrayOfBubbles[Int(cellPoint.x)][Int(cellPoint.y)] = GameCircularCell(frame: CGRect())
+        score += 50
     }
     
     // Popping animation
@@ -492,7 +518,7 @@ class GameGridViewController: UICollectionViewController {
             toPop.removeImage()
             toPop.backgroundView!.alpha = 0
             gameGridBubbleContents.arrayOfBubbles[Int(cellPoint.x)][Int(cellPoint.y)] = GameCircularCell(frame: CGRect())
-
+            score += 10
         }
     }
     
