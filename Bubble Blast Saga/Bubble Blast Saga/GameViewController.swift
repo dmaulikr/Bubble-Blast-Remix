@@ -159,7 +159,7 @@ class GameViewController: UIViewController {
     }
     
     func update() {
-        if (gameEngine.gameState == true) {
+        if (gameEngine.gameState == true && self.bubbleGridViewController.isAnimating == false) {
             self.bubbleGridViewController.addBubble(gameEngine.updateBubbleAtCollectionView(), color: launchBubbleView.getImage())
             movePreviewIntoLaunch()
             allowGesture = true     

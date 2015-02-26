@@ -12,6 +12,8 @@ class GameGridViewController: UICollectionViewController {
     // Cell data representation for save/load
     private var indexingBubbles = [NSIndexPath : String]()
     private var gameGridBubbleContents: GameGridBubbleContents!
+    var isAnimating = Bool()
+    private var queue = Queue<CGPoint>()
     
     // Custom init
     init(viewFrame: CGRect, collectionViewLayout: UICollectionViewLayout){
@@ -86,6 +88,7 @@ class GameGridViewController: UICollectionViewController {
     // Adding bubble to the grid
     func addBubble(centerPoint: CGPoint, color: String) {
         let maxSection = 17
+        isAnimating = true
         
         // General case
         if let indexPathOfSelected = self.collectionView?.indexPathForItemAtPoint(centerPoint){
@@ -130,7 +133,8 @@ class GameGridViewController: UICollectionViewController {
             }
         }
         // Check for bubbles not connected to top row after poppings
-        bubblesToDrop()
+        self.bubblesToDrop()
+        isAnimating = false
         
     }
     
@@ -162,7 +166,6 @@ class GameGridViewController: UICollectionViewController {
         checkForSpecialBubblesNeighbours = getNeighbours(startPoint)
         
         // Use BFS
-        var queue = Queue<CGPoint>()
         queue.enqueue(startPoint)
         visited.append(startPoint)
         
@@ -189,6 +192,7 @@ class GameGridViewController: UICollectionViewController {
             }
             neighbors = [CGPoint]()
         }
+        queue.removeAll()
         // Check if there are bubbles to pop
         if bubblesToPop.count > 2 {
             for eachCell in bubblesToPop {
@@ -207,6 +211,7 @@ class GameGridViewController: UICollectionViewController {
             // Check the cell color
             if (cell.getImage() == "lightningBubble"){
                 zapWholeSection(cell)
+                popThisBubble(cell)
             } else if (cell.getImage() == "bombBubble"){
                 // Get all neighbors of this cell and pop them
                 bombAdjacentCells(cell)
@@ -222,7 +227,23 @@ class GameGridViewController: UICollectionViewController {
                 }
                 popThisBubble(cell)
             }
-        }   
+        }
+        
+        while (!queue.isEmpty){
+            // Only contains chain-ed special bubbles
+            var currentPoint = queue.dequeue()
+            var currentCell = convertXYintoCell(Int(currentPoint!.x), y: Int(currentPoint!.y))
+            if (currentCell.getImage() == "lightningBubble"){
+                zapWholeSection(currentCell)
+                popThisBubble(currentCell)
+            } else if (currentCell.getImage() == "bombBubble"){
+                // Get all neighbors of this cell and pop them
+                bombAdjacentCells(currentCell)
+                
+            }
+        }
+        queue.removeAll()
+        
     }
     
     // Popping animation
@@ -253,7 +274,9 @@ class GameGridViewController: UICollectionViewController {
         for eachPoint in adjacentPoint {
             var cellToBomb = convertXYintoCell(Int(eachPoint.x), y: Int(eachPoint.y))
             if cellToBomb.getImage() == "lightningBubble" {
-                zapWholeSection(cellToBomb)
+                queue.enqueue(eachPoint)
+            } else if cellToBomb.getImage() == "bombBubble" {
+                queue.enqueue(eachPoint)
             } else if cellToBomb.getImage() != "" {
                 popThisBubble(cellToBomb)
             }
@@ -268,7 +291,7 @@ class GameGridViewController: UICollectionViewController {
         // Remove everything on this row
         for row in 0...(gameGridBubbleContents.arrayOfBubbles.count-1) {
             if gameGridBubbleContents.arrayOfBubbles[row][col].getImage() == "bombBubble" {
-                self.bombAdjacentCells(gameGridBubbleContents.arrayOfBubbles[row][col])
+                queue.enqueue(convertCellintoXY(gameGridBubbleContents.arrayOfBubbles[row][col]))
             } else if (gameGridBubbleContents.arrayOfBubbles[row][col].getImage() != "") {
                 popThisBubble(gameGridBubbleContents.arrayOfBubbles[row][col])
             }
@@ -436,6 +459,15 @@ class GameGridViewController: UICollectionViewController {
         }
         
         return arr
+    }
+    
+    private func delay(delay:Double, closure:()->()) {
+        dispatch_after(
+            dispatch_time(
+                DISPATCH_TIME_NOW,
+                Int64(delay * Double(NSEC_PER_SEC))
+            ),
+            dispatch_get_main_queue(), closure)
     }
     
 }
