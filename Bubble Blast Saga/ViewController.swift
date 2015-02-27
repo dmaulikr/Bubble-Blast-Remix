@@ -41,8 +41,9 @@ class ViewController: UIViewController {
         loadBubbleGrid()
         gameBubble = GameBubble()
         currentSavedPath = "Level_XXX"
-        // Placeholder value
-        bubblesAmount = 25
+
+        let defaultAmountOfBubbles = 30
+        bubblesAmount = defaultAmountOfBubbles
         bubblesAllowed.text = String(bubblesAmount)
         
         var urls = NSFileManager.defaultManager().URLsForDirectory(NSSearchPathDirectory.DocumentDirectory, inDomains: NSSearchPathDomainMask.UserDomainMask)

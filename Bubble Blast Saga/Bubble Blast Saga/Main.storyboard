@@ -174,16 +174,17 @@
                                 <gestureRecognizers/>
                             </view>
                             <view alpha="0.75" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dCZ-2B-s4G">
-                                <rect key="frame" x="575" y="775" width="172" height="80"/>
+                                <rect key="frame" x="504" y="775" width="243" height="80"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Bubbles Allowed" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OOw-Hu-IAF">
-                                        <rect key="frame" x="0.0" y="5" width="172" height="21"/>
-                                        <fontDescription key="fontDescription" name="Avenir-Black" family="Avenir" pointSize="15"/>
+                                        <rect key="frame" x="0.0" y="5" width="243" height="21"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Black" family="Avenir" pointSize="17"/>
                                         <color key="textColor" red="1" green="0.81236050289999995" blue="0.2197888345" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7xF-Qh-mhw">
-                                        <rect key="frame" x="1" y="0.0" width="31" height="80"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="63" height="80"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                         <state key="normal" title="-">
                                             <color key="titleColor" red="1" green="0.81236050289999995" blue="0.2197888345" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -193,7 +194,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="buf-QX-24K">
-                                        <rect key="frame" x="140" y="0.0" width="31" height="80"/>
+                                        <rect key="frame" x="180" y="0.0" width="63" height="80"/>
                                         <state key="normal" title="+">
                                             <color key="titleColor" red="1" green="0.81236050289999995" blue="0.2197888345" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -203,7 +204,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oJr-8O-KbT">
-                                        <rect key="frame" x="0.0" y="30" width="172" height="50"/>
+                                        <rect key="frame" x="0.0" y="30" width="243" height="50"/>
                                         <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="36"/>
                                         <color key="textColor" red="1" green="0.81236050289999995" blue="0.2197888345" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -258,7 +259,7 @@
                         <viewControllerLayoutGuide type="bottom" id="jGy-uz-x1i"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="FFd-8F-ig5">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1TX-dT-pBe" userLabel="Background">
@@ -390,7 +391,7 @@
                         <viewControllerLayoutGuide type="bottom" id="6Ff-l5-SWj"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="vDZ-4T-Fug">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="eraser-2.png" translatesAutoresizingMaskIntoConstraints="NO" id="3wg-wF-3PP">
@@ -535,8 +536,8 @@
         <image name="eraser-2.png" width="200" height="169"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="yAr-7v-bkC"/>
-        <segue reference="flB-EE-ObT"/>
+        <segue reference="rC6-C1-Il9"/>
         <segue reference="IUK-eq-bdT"/>
+        <segue reference="xje-Kw-VfQ"/>
     </inferredMetricsTieBreakers>
 </document>

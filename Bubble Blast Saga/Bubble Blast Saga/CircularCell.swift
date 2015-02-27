@@ -85,6 +85,9 @@ class CircularCell: UICollectionViewCell {
     // Cycles through the colors for this cell
     func toggleImage(color: String) {
         var bubbleImage = UIImage()
+        
+        // Regular bubbles
+        
         if color == "redBubble"{
             bubbleImage = UIImage(named: "bubble-orange.png")!
             self.currentColor = "orangeBubble"
@@ -97,6 +100,22 @@ class CircularCell: UICollectionViewCell {
         } else if color == "greenBubble"{
             bubbleImage = UIImage(named: "bubble-red.png")!
             self.currentColor = "redBubble"
+        }
+        
+        // Special bubbles
+        
+        if color == "indestructibleBubble"{
+            bubbleImage = UIImage(named: "bubble-star.png")!
+            self.currentColor = color
+        } else if color == "starBubble"{
+            bubbleImage = UIImage(named: "bubble-bomb.png")!
+            self.currentColor = color
+        } else if color == "bombBubble"{
+            bubbleImage = UIImage(named: "bubble-lightning.png")!
+            self.currentColor = color
+        } else if color == "lightningBubble"{
+            bubbleImage = UIImage(named: "bubble-indestructible.png")!
+            self.currentColor = color
         }
         
         let bubbleHeight = self.bounds.size.height

@@ -143,6 +143,7 @@ class GameViewController: UIViewController {
                 self.bubbleGridViewController.reset()
                 self.bubbleGridViewController.loadIntoGame(self.sectionArr)
                 self.bubbleGridViewController.bubblesToDrop()
+                self.previewBubbleView.alpha = 1
                 self.delay(0.1){
                     self.allowGesture = true
                 }
@@ -157,13 +158,11 @@ class GameViewController: UIViewController {
     private func loadRandomBubbleIntoPreview() {
         // Update bubbles left
         bubblesAmount -= 1
-        bubblesLeft.text = String(bubblesAmount)
-        if (bubblesAmount < 0){
-            self.endGame()
-        } else {
-            var nextBubble = gameBubble.getRandom()
-            previewBubbleView.setImage(nextBubble.getSelection())
+        if (bubblesAmount >= 0) {
+            bubblesLeft.text = String(bubblesAmount)
         }
+        var nextBubble = gameBubble.getRandom()
+        previewBubbleView.setImage(nextBubble.getSelection())
     }
     
     private func loadRandomBubbleToLaunch() {
@@ -215,21 +214,25 @@ class GameViewController: UIViewController {
             self.endGame()
             self.bubbleGridViewController.gameDidEnd = false
         }
-        scoreLabel.text = String(self.bubbleGridViewController.score)
     }
     
     private func movePreviewIntoLaunch() {
+        if bubblesAmount == 0 {
+            self.endGame()
+        }
+        
         launchBubbleView.alpha = 0
         // Preview bubble to move
         var bubbleToMove = GameCircularCell(frame: previewBubbleView.frame)
         bubbleToMove.setImage(previewBubbleView.getImage())
+        bubbleToMove.alpha = previewBubbleView.alpha
         
         // Layer it on top
         self.gameArea.insertSubview(bubbleToMove as UIView, aboveSubview: self.view)
         previewBubbleView.alpha = 0
         
+
         UIView.animateWithDuration(NSTimeInterval(1.0), animations: {
-            // Dropping animation
             bubbleToMove.frame = CGRectMake( self.launchPad.x , self.launchPad.y , bubbleToMove.frame.width, bubbleToMove.frame.height)
             }, completion: { finished in
                 bubbleToMove.removeFromSuperview()
@@ -238,31 +241,36 @@ class GameViewController: UIViewController {
                 // Update the contents as well
                 self.gameEngine.setGridContents(self.bubbleGridViewController.getGridContents())
                 self.allowGesture = true
+                if (self.bubblesAmount <= 0){
+                    self.previewBubbleView.alpha = 0
+                } else {
+                    self.previewBubbleView.alpha = 1
+                }
                 self.launchBubbleView.alpha = 1
-                self.previewBubbleView.alpha = 1
+                
         })
     }
     
-    private func delay(delay:Double, closure:()->()) {
-        dispatch_after(
-            dispatch_time(
-                DISPATCH_TIME_NOW,
-                Int64(delay * Double(NSEC_PER_SEC))
-            ),
-            dispatch_get_main_queue(), closure)
+    // Win game
+    private func checkWin() -> Bool {
+        return true
+    }
+    
+    private func winGame() {
+        
     }
     
     // End game
     private func endGame() {
         let loadPrompt = UIAlertController(title: "Game over!", message: "Your score is: " + String(self.bubbleGridViewController.score) + "\n" + "Try again?", preferredStyle: UIAlertControllerStyle.Alert)
         loadPrompt.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-            //SEGUE STUFF IF I WANNA APPLY IT LATER
+            //Segue for endgame if have time
             self.bubbleGridViewController.score = 0
             self.bubbleGridViewController.reset()
             self.bubbleGridViewController.loadIntoGame(self.sectionArr)
             self.bubbleGridViewController.bubblesToDrop()
             self.allowGesture = true
-            
+            self.previewBubbleView.alpha = 1
             self.bubblesAmount = self.storedBubblesAmount
             self.bubblesLeft.text = String(self.bubblesAmount)
         }))
@@ -273,6 +281,14 @@ class GameViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    private func delay(delay:Double, closure:()->()) {
+        dispatch_after(
+            dispatch_time(
+                DISPATCH_TIME_NOW,
+                Int64(delay * Double(NSEC_PER_SEC))
+            ),
+            dispatch_get_main_queue(), closure)
     }
     
 }
