@@ -13,6 +13,8 @@ class GameViewController: UIViewController {
     // Importing stuff from level designer to play
     var sectionArr = [[String]]()
     var bubbleGridIndexes = [[NSIndexPath]]()
+    var bubblesAmount = Int()
+    var storedBubblesAmount = Int()
     
     // Timer 
     private var timer: NSTimer!
@@ -27,7 +29,7 @@ class GameViewController: UIViewController {
     private var directoryPath = String()
     private var currentSavedPath = String()
     @IBOutlet weak var gameArea: UIView!
-
+    @IBOutlet weak var bubblesLeft: UILabel!
     
     // Loadout
 
@@ -49,11 +51,13 @@ class GameViewController: UIViewController {
         loadBubbleGrid()
         gameBubble = MovableGameBubble()
         currentSavedPath = "Level_XXX"
-        allowGesture = true
         
         loadRandomBubbleIntoPreview()
         loadRandomBubbleToLaunch()
         loadCannonBase()
+        
+        storedBubblesAmount = bubblesAmount
+        bubblesLeft.text = String(bubblesAmount)
 
         // Gesture recognizers
         /*
@@ -75,7 +79,11 @@ class GameViewController: UIViewController {
         // Requires mini buffer for NSIndexPaths in collection view to be updated appropriately.
         delay(1.0/60){
             self.bubbleGridViewController.loadIntoGame(self.sectionArr)
-            self.bubbleGridViewController.bubblesToDrop()
+            self.delay(0.1){
+                self.bubbleGridViewController.bubblesToDrop()
+                self.allowGesture = true
+            }
+            
         }
 
     }
@@ -135,7 +143,9 @@ class GameViewController: UIViewController {
                 self.bubbleGridViewController.reset()
                 self.bubbleGridViewController.loadIntoGame(self.sectionArr)
                 self.bubbleGridViewController.bubblesToDrop()
-                self.allowGesture = true
+                self.delay(0.1){
+                    self.allowGesture = true
+                }
             }))
             presentViewController(resetPrompt, animated: true, completion: nil)
         }
@@ -145,8 +155,15 @@ class GameViewController: UIViewController {
     /***************************** Pallette (PS4) **********************************/
     
     private func loadRandomBubbleIntoPreview() {
-        var nextBubble = gameBubble.getRandom()
-        previewBubbleView.setImage(nextBubble.getSelection())
+        // Update bubbles left
+        bubblesAmount -= 1
+        bubblesLeft.text = String(bubblesAmount)
+        if (bubblesAmount < 0){
+            self.endGame()
+        } else {
+            var nextBubble = gameBubble.getRandom()
+            previewBubbleView.setImage(nextBubble.getSelection())
+        }
     }
     
     private func loadRandomBubbleToLaunch() {
@@ -167,22 +184,23 @@ class GameViewController: UIViewController {
     */
     
     func launchBubbleTap(sender: UITapGestureRecognizer) {
-        var tapPoint = sender.locationInView(self.view)
-        var displacement = CGPoint(x: tapPoint.x - launchBubbleView.center.x, y: tapPoint.y - launchBubbleView.center.y)
-        var velocity = CGPoint()
-        
-        var angle = atan(CGFloat((displacement.y) / (displacement.x) ))
-        let constantVelocity = CGFloat(15.0)
-        velocity.x = constantVelocity * cos(angle) * (displacement.x / abs(displacement.x))
-        velocity.y = -1.0 *  abs(constantVelocity * sin(angle))
-        
-        // Threshold value to prevent very 'slow' progression upwards
-        if velocity.y > -1.5 {
-            velocity.y = -1.5
-        }
-        
         if (allowGesture == true){
+            var tapPoint = sender.locationInView(self.view)
+            var displacement = CGPoint(x: tapPoint.x - launchBubbleView.center.x, y: tapPoint.y - launchBubbleView.center.y)
+            var velocity = CGPoint()
+            
+            var angle = atan(CGFloat((displacement.y) / (displacement.x) ))
+            let constantVelocity = CGFloat(15.0)
+            velocity.x = constantVelocity * cos(angle) * (displacement.x / abs(displacement.x))
+            velocity.y = -1.0 *  abs(constantVelocity * sin(angle))
+            
+            // Threshold value to prevent very 'slow' progression upwards
+            if velocity.y > -1.5 {
+                velocity.y = -1.5
+            }
             gameEngine.launchBubble(launchBubbleView, direction: velocity)
+            
+            
             allowGesture = false
         }
     }
@@ -244,6 +262,9 @@ class GameViewController: UIViewController {
             self.bubbleGridViewController.loadIntoGame(self.sectionArr)
             self.bubbleGridViewController.bubblesToDrop()
             self.allowGesture = true
+            
+            self.bubblesAmount = self.storedBubblesAmount
+            self.bubblesLeft.text = String(self.bubblesAmount)
         }))
         presentViewController(loadPrompt, animated: true, completion: nil)
         

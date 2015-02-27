@@ -17,6 +17,7 @@ class ViewController: UIViewController {
     private var fileList = [String]()
     private var directoryPath = String()
     private var currentSavedPath = String()
+    private var bubblesAmount = Int()
     
     @IBOutlet weak var gameArea: UIView!
     
@@ -30,6 +31,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var starImage: UIButton!
     @IBOutlet weak var bombImage: UIButton!
     @IBOutlet weak var lightningImage: UIButton!
+    @IBOutlet weak var bubblesAllowed: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +41,9 @@ class ViewController: UIViewController {
         loadBubbleGrid()
         gameBubble = GameBubble()
         currentSavedPath = "Level_XXX"
+        // Placeholder value
+        bubblesAmount = 25
+        bubblesAllowed.text = String(bubblesAmount)
         
         var urls = NSFileManager.defaultManager().URLsForDirectory(NSSearchPathDirectory.DocumentDirectory, inDomains: NSSearchPathDomainMask.UserDomainMask)
         directoryPath = (urls[0] as NSURL).path! + "/"
@@ -164,7 +169,7 @@ class ViewController: UIViewController {
             // Pass current bubble grid information to game screen
             var gameController = segue.destinationViewController as GameViewController;
             gameController.sectionArr = self.bubbleGridViewController.getSectionArr()
-            
+            gameController.bubblesAmount = self.bubblesAmount
         }
     }
     
@@ -188,6 +193,7 @@ class ViewController: UIViewController {
             if dataToSave.writeToFile((self.directoryPath + saveFileName), atomically: true) == true {
                 if (!contains(self.fileList,saveFileName)) {
                     self.fileList.append(saveFileName)
+                    println(self.directoryPath + saveFileName)
                 }
                 
                 self.currentSavedPath = saveFileName
@@ -287,6 +293,20 @@ class ViewController: UIViewController {
         }
         button.setTitleColor(newColor, forState: UIControlState.Normal)
     }
+    
+    // For bubble amount
+    @IBAction func allowedAdd(sender: AnyObject) {
+        bubblesAmount += 1
+        bubblesAllowed.text = String(bubblesAmount)
+    }
+    
+    @IBAction func allowedMinus(sender: AnyObject) {
+        if (bubblesAmount > 1){
+            bubblesAmount -= 1
+            bubblesAllowed.text = String(bubblesAmount)
+        }
+    }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

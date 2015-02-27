@@ -78,15 +78,17 @@ class GameGridViewController: UICollectionViewController {
     func loadIntoGame(toLoad: [[String]]) {
         for eachCol in 0...8 {
             for eachRow in 0...(11-(eachCol%2)) {
-                var currentColor = toLoad[eachCol][eachRow]
-                if currentColor != "" {
-                    var indexPath = NSIndexPath(forRow: eachRow, inSection: eachCol)
-                    if let selectedCell = self.collectionView?.cellForItemAtIndexPath(indexPath) as GameCircularCell?{
-                        selectedCell.setImage(currentColor)
-                        gameGridBubbleContents.appendIntoGrid(selectedCell, x: eachRow, y: eachCol)
+                if let currentColor = toLoad[eachCol][eachRow] as String?{
+                    if currentColor != "" {
+                        var indexPath = NSIndexPath(forRow: eachRow, inSection: eachCol)
+                        if let selectedCell = self.collectionView?.cellForItemAtIndexPath(indexPath) as GameCircularCell?{
+                            selectedCell.setImage(currentColor)
+                            gameGridBubbleContents.appendIntoGrid(selectedCell, x: eachRow, y: eachCol)
+                        }
+                        
                     }
-                    
                 }
+                
             }
         }
     }
