@@ -500,7 +500,7 @@
                                     <color key="titleColor" red="1" green="0.79526424360000003" blue="0.18139015059999999" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <segue destination="xj8-G3-qqb" kind="show" id="yAr-7v-bkC"/>
+                                    <segue destination="xj8-G3-qqb" kind="show" identifier="preloadLevel2" id="yAr-7v-bkC"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="ekP-Dh-A6U">
@@ -535,7 +535,7 @@
         <image name="eraser-2.png" width="200" height="169"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="rrw-b7-3Co"/>
+        <segue reference="yAr-7v-bkC"/>
         <segue reference="flB-EE-ObT"/>
         <segue reference="IUK-eq-bdT"/>
     </inferredMetricsTieBreakers>
