@@ -46,9 +46,9 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sgk-Lg-ax8">
-                                        <rect key="frame" x="14" y="1" width="60" height="51"/>
+                                        <rect key="frame" x="14" y="1" width="91" height="51"/>
                                         <fontDescription key="fontDescription" name="Noteworthy-Light" family="Noteworthy" pointSize="21"/>
-                                        <state key="normal" title="Back">
+                                        <state key="normal" title="Main Menu">
                                             <color key="titleColor" red="1" green="0.79526424360000003" blue="0.18139015059999999" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -313,20 +313,6 @@
                                     <action selector="previewBubblePressed:" destination="xj8-G3-qqb" eventType="touchUpInside" id="fqc-zO-saO"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ksm-6s-CF9" userLabel="Cannon Base">
-                                <rect key="frame" x="334" y="920" width="66" height="33"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <accessibility key="accessibilityConfiguration">
-                                    <accessibilityTraits key="traits" none="YES" image="YES"/>
-                                </accessibility>
-                            </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6zo-Ts-dZ6" userLabel="Cannon">
-                                <rect key="frame" x="334" y="800" width="97" height="173"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <accessibility key="accessibilityConfiguration">
-                                    <accessibilityTraits key="traits" none="YES" image="YES"/>
-                                </accessibility>
-                            </view>
                             <view alpha="0.74999999999999978" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sJc-v4-R8O" userLabel="Score View">
                                 <rect key="frame" x="612" y="863" width="138" height="80"/>
                                 <subviews>
@@ -372,8 +358,6 @@
                     </view>
                     <connections>
                         <outlet property="bubblesLeft" destination="6rc-kR-Kki" id="IDi-iM-eCJ"/>
-                        <outlet property="cannonBase" destination="ksm-6s-CF9" id="2OK-7G-ZGX"/>
-                        <outlet property="cannonShaft" destination="6zo-Ts-dZ6" id="NfF-yY-ntN"/>
                         <outlet property="gameArea" destination="1TX-dT-pBe" id="2c0-Ht-xAI"/>
                         <outlet property="launchBubbleView" destination="30X-o4-jxe" id="Ana-BM-LZL"/>
                         <outlet property="previewBubbleView" destination="1xr-Yy-Mff" id="dWT-3W-hS9"/>

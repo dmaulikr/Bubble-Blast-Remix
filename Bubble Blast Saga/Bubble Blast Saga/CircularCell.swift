@@ -106,16 +106,16 @@ class CircularCell: UICollectionViewCell {
         
         if color == "indestructibleBubble"{
             bubbleImage = UIImage(named: "bubble-star.png")!
-            self.currentColor = color
+            self.currentColor = "starBubble"
         } else if color == "starBubble"{
             bubbleImage = UIImage(named: "bubble-bomb.png")!
-            self.currentColor = color
+            self.currentColor = "bombBubble"
         } else if color == "bombBubble"{
             bubbleImage = UIImage(named: "bubble-lightning.png")!
-            self.currentColor = color
+            self.currentColor = "lightningBubble"
         } else if color == "lightningBubble"{
             bubbleImage = UIImage(named: "bubble-indestructible.png")!
-            self.currentColor = color
+            self.currentColor = "indestructibleBubble"
         }
         
         let bubbleHeight = self.bounds.size.height

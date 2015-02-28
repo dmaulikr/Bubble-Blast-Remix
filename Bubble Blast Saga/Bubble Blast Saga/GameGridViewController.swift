@@ -247,12 +247,11 @@ class GameGridViewController: UICollectionViewController {
             
             // Check the cell color
             if (cell.getImage() == "lightningBubble"){
-                zapWholeSection(cell)
                 popThisBubble(cell)
+                zapWholeSection(cell)
             } else if (cell.getImage() == "bombBubble"){
                 // Get all neighbors of this cell and pop them
                 bombAdjacentCells(cell)
-                
             } else if (cell.getImage() == "starBubble"){
                 // Pop everything which is the same color.
                 starPlayer.play()

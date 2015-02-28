@@ -21,7 +21,6 @@ class GameViewController: UIViewController {
     var launchPlayer: AVAudioPlayer!
     var endGamePlayer: AVAudioPlayer!
     var winGamePlayer: AVAudioPlayer!
-
     
     // Timer 
     private var timer: NSTimer!
@@ -42,11 +41,9 @@ class GameViewController: UIViewController {
 
     @IBOutlet weak var launchBubbleView: GameCircularCell!
     @IBOutlet weak var previewBubbleView: GameCircularCell!
-    
     @IBOutlet weak var scoreLabel: UILabel!
+    private var cannonImages = [UIImage]()
     
-    @IBOutlet weak var cannonBase: UIView!
-    @IBOutlet weak var cannonShaft: UIView!
     // Default launch & preview position from view controller
     private let launchPad = CGPoint(x: 334.0, y: 951.0)
     private let previewPad = CGPoint(x: 50.0, y: 951.0)
@@ -121,21 +118,31 @@ class GameViewController: UIViewController {
     // Function to load Cannon
     private func loadCannonBase() {
         
-        let cannonShaftImage = UIImage(named: "cannon-single.png")
+
+        let scalingFactor = 0.18 as CGFloat
+        // As per image input of 2400 by 1600 and 6x2 images
+        let cannonImageHeight = (1600.0 / 2.0) as CGFloat
+        let cannonImageWidth = (2400.0 / 6.0) as CGFloat
+        var cannonImageToSplit = UIImage(named: "cannon")?.CGImage
+        var partOfImageAsCG = CGImageCreateWithImageInRect(cannonImageToSplit, CGRectMake(0.0, 0.0, cannonImageWidth, cannonImageHeight)) as CGImageRef
+        
+        cannonImages = [UIImage(CGImage: partOfImageAsCG)!] as [UIImage]
+        
+        let cannonShaftImage = cannonImages[0]
         let cannonShaftImageView = UIImageView(image: cannonShaftImage)
-        let cannonShaftViewHeight = cannonShaft.frame.size.height
-        let cannonShaftViewWidth = cannonShaft.frame.size.width
+
+        // As per image input of 400 by 200
+        let baseWidth = 400.0 as CGFloat
+        let baseHeight = 200.0 as CGFloat
         let cannonBaseImage = UIImage(named: "cannon-base.png")
         let cannonBaseImageView = UIImageView(image: cannonBaseImage)
-        let cannonViewHeight = cannonBase.frame.size.height
-        let cannonViewWidth = cannonBase.frame.size.width
-        
-        cannonShaftImageView.frame = CGRectMake(launchPad.x - 15.0, launchPad.y - 115.0 - cannonViewHeight, cannonShaftViewWidth, cannonShaftViewHeight)
+
+        cannonShaftImageView.frame = CGRectMake(launchBubbleView.center.x - (cannonImageWidth * scalingFactor) / 2.0 , launchBubbleView.center.y - (cannonImageHeight * scalingFactor) - ((baseHeight/2.0) * scalingFactor), cannonImageWidth * scalingFactor, cannonImageHeight * scalingFactor)
         cannonShaftImageView.alpha = 0.8
-        //self.view.addSubview(cannonShaftImageView)
+        self.view.addSubview(cannonShaftImageView)
         
         
-        cannonBaseImageView.frame = CGRectMake(launchPad.x, launchPad.y - 10.0, cannonViewWidth, cannonViewHeight)
+        cannonBaseImageView.frame = CGRectMake(launchBubbleView.center.x - (baseWidth * scalingFactor) / 2.0, launchBubbleView.center.y - (baseHeight * scalingFactor), baseWidth * scalingFactor, baseHeight * scalingFactor)
         cannonBaseImageView.alpha = 0.8
         self.view.addSubview(cannonBaseImageView)
 

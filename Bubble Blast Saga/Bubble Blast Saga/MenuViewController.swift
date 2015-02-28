@@ -24,7 +24,7 @@ class MenuViewController: UIViewController {
             BGMPlayer.prepareToPlay()
             // BGM loops infinitely
             BGMPlayer.numberOfLoops = -1
-            BGMPlayer.volume = 0.3
+            BGMPlayer.volume = 0.1
             BGMPlayer.play()
             isPlaying = true
         }
