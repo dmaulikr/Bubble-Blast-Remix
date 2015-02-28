@@ -46,8 +46,9 @@ class GameGridViewController: UICollectionViewController {
         self.collectionView?.frame = viewFrame
         
         let maxColumn = 18
+        let maxRow = 12
         for column in 0...maxColumn-1 {
-            gameGridBubbleContents.arrayOfBubbles.append(Array(count:12-(column%2), repeatedValue:GameCircularCell(frame: CGRect())))
+            gameGridBubbleContents.arrayOfBubbles.append(Array(count:maxRow-(column%2), repeatedValue:GameCircularCell(frame: CGRect())))
         }
     }
     
@@ -150,7 +151,6 @@ class GameGridViewController: UICollectionViewController {
     
     private func endGame() {
         gameDidEnd = true
-        self.reset()
     }
     
     // Check if newly snapped on bubble pops anything

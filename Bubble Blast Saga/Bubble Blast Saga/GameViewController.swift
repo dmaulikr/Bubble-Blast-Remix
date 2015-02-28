@@ -207,7 +207,10 @@ class GameViewController: UIViewController {
     func update() {
         if (gameEngine.gameState == true && self.bubbleGridViewController.isAnimating == false) {
             self.bubbleGridViewController.addBubble(gameEngine.updateBubbleAtCollectionView(), color: launchBubbleView.getImage())
-            movePreviewIntoLaunch()   
+            if (checkWin() == true) {
+                winGame()
+            }
+            movePreviewIntoLaunch()
         }
         gameEngine.update()
         if (self.bubbleGridViewController.gameDidEnd == true){
@@ -253,10 +256,37 @@ class GameViewController: UIViewController {
     
     // Win game
     private func checkWin() -> Bool {
+        let gridBubbles = self.bubbleGridViewController.getGridContents()
+        
+        // Check if it is empty
+        let maxColumn = 18
+        let maxRow = 12
+        for column in 0...maxColumn-1 {
+            for row in 0...(maxRow - (column%2)) {
+                if gridBubbles.arrayOfBubbles[row][column].getImage() != "" {
+                    return false
+                }
+            }
+        }
         return true
     }
     
     private func winGame() {
+        self.bubbleGridViewController.score += ( self.bubblesAmount * 200 )
+        let loadPrompt = UIAlertController(title: "You beat this level!", message: "Your score is: " + String(self.bubbleGridViewController.score) + "\n" + "Play this level again?", preferredStyle: UIAlertControllerStyle.Alert)
+        loadPrompt.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+            //Segue for endgame screen if have time
+            
+            self.bubbleGridViewController.score = 0
+            self.bubbleGridViewController.reset()
+            self.bubbleGridViewController.loadIntoGame(self.sectionArr)
+            self.bubbleGridViewController.bubblesToDrop()
+            self.allowGesture = true
+            self.previewBubbleView.alpha = 1
+            self.bubblesAmount = self.storedBubblesAmount
+            self.bubblesLeft.text = String(self.bubblesAmount)
+        }))
+        presentViewController(loadPrompt, animated: true, completion: nil)
         
     }
     
@@ -265,6 +295,7 @@ class GameViewController: UIViewController {
         let loadPrompt = UIAlertController(title: "Game over!", message: "Your score is: " + String(self.bubbleGridViewController.score) + "\n" + "Try again?", preferredStyle: UIAlertControllerStyle.Alert)
         loadPrompt.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
             //Segue for endgame if have time
+
             self.bubbleGridViewController.score = 0
             self.bubbleGridViewController.reset()
             self.bubbleGridViewController.loadIntoGame(self.sectionArr)
