@@ -21,6 +21,7 @@ class GameGridViewController: UICollectionViewController {
     var starPlayer: AVAudioPlayer!
     var lightningPlayer: AVAudioPlayer!
     var bombPlayer: AVAudioPlayer!
+    var popPlayer: AVAudioPlayer!
     
     /*
     Score is implemented: 
@@ -102,8 +103,14 @@ class GameGridViewController: UICollectionViewController {
         let bombPath = NSBundle.mainBundle().pathForResource("bombPowerup", ofType: "wav")!
         let bombURL = NSURL(fileURLWithPath: bombPath)
         bombPlayer = AVAudioPlayer(contentsOfURL: bombURL, error: nil)
+        bombPlayer.volume = 0.5
         bombPlayer.prepareToPlay()
         
+        // Sound effects for pop bubble
+        let popPath = NSBundle.mainBundle().pathForResource("bubblePop", ofType: "mp3")!
+        let popURL = NSURL(fileURLWithPath: popPath)
+        popPlayer = AVAudioPlayer(contentsOfURL: popURL, error: nil)
+        popPlayer.prepareToPlay()
     }
     
     // Load from design view
@@ -520,6 +527,7 @@ class GameGridViewController: UICollectionViewController {
     
     // Popping animation
     private func popThisBubble(toPop: GameCircularCell) {
+        popPlayer.play()
         if (toPop.getImage() != "indestructibleBubble"){
             var cellPoint = convertCellintoXY(toPop)
             var bubbleToMove = GameCircularCell(frame: toPop.frame)

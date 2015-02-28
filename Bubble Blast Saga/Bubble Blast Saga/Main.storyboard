@@ -390,33 +390,20 @@
                         <viewControllerLayoutGuide type="bottom" id="6Ff-l5-SWj"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="vDZ-4T-Fug">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="eraser-2.png" translatesAutoresizingMaskIntoConstraints="NO" id="3wg-wF-3PP">
-                                <rect key="frame" x="43" y="420" width="113" height="91"/>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="bubble-star.png" translatesAutoresizingMaskIntoConstraints="NO" id="kkb-O7-99M">
-                                <rect key="frame" x="59" y="627" width="80" height="80"/>
+                                <rect key="frame" x="43" y="682" width="113" height="91"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="uSN-Q9-66I">
-                                <rect key="frame" x="0.0" y="412" width="768" height="108"/>
+                                <rect key="frame" x="0.0" y="674" width="768" height="108"/>
                                 <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="50"/>
                                 <state key="normal" title="     Level Designer">
                                     <color key="titleColor" red="1" green="0.79526424360000003" blue="0.18139015059999999" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
                                     <segue destination="BYZ-38-t0r" kind="show" id="IUK-eq-bdT"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Z9v-4D-OcW">
-                                <rect key="frame" x="0.0" y="635" width="768" height="75"/>
-                                <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="50"/>
-                                <state key="normal" title="Campaign">
-                                    <color key="titleColor" red="1" green="0.79526424360000003" blue="0.18139015059999999" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <segue destination="lDZ-Nh-qTk" kind="presentation" id="Muu-kx-vdQ"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Bubble Blast" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A2l-wb-lMX">
@@ -431,13 +418,26 @@
                                 <color key="textColor" red="0.1333333333" green="0.64705882349999999" blue="0.82745098039999998" alpha="0.93999999999999995" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="bubble-star.png" translatesAutoresizingMaskIntoConstraints="NO" id="kkb-O7-99M">
+                                <rect key="frame" x="59" y="492" width="80" height="80"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Z9v-4D-OcW">
+                                <rect key="frame" x="0.0" y="500" width="768" height="75"/>
+                                <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="50"/>
+                                <state key="normal" title="Campaign">
+                                    <color key="titleColor" red="1" green="0.79526424360000003" blue="0.18139015059999999" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <segue destination="lDZ-Nh-qTk" kind="presentation" id="Muu-kx-vdQ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.011900919627545985" green="0.030865891078734043" blue="0.11365609217171713" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xZX-qx-OG2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="623" y="-733"/>
+            <point key="canvasLocation" x="587" y="-565"/>
         </scene>
         <!--Preload Selector View Controller-->
         <scene sceneID="9lE-xk-ACl">
@@ -535,8 +535,8 @@
         <image name="eraser-2.png" width="200" height="169"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="grb-sM-t92"/>
-        <segue reference="rC6-C1-Il9"/>
+        <segue reference="IUK-eq-bdT"/>
         <segue reference="Bh3-vv-AWk"/>
+        <segue reference="rC6-C1-Il9"/>
     </inferredMetricsTieBreakers>
 </document>
