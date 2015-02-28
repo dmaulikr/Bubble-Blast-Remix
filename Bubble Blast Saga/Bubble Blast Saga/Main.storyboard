@@ -398,7 +398,7 @@
                                 <rect key="frame" x="43" y="420" width="113" height="91"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="bubble-star.png" translatesAutoresizingMaskIntoConstraints="NO" id="kkb-O7-99M">
-                                <rect key="frame" x="59" y="582" width="80" height="80"/>
+                                <rect key="frame" x="59" y="627" width="80" height="80"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="uSN-Q9-66I">
                                 <rect key="frame" x="0.0" y="412" width="768" height="108"/>
@@ -411,7 +411,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Z9v-4D-OcW">
-                                <rect key="frame" x="0.0" y="590" width="768" height="75"/>
+                                <rect key="frame" x="0.0" y="635" width="768" height="75"/>
                                 <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="50"/>
                                 <state key="normal" title="Campaign">
                                     <color key="titleColor" red="1" green="0.79526424360000003" blue="0.18139015059999999" alpha="1" colorSpace="calibratedRGB"/>

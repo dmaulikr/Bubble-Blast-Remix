@@ -144,6 +144,8 @@ class GameViewController: UIViewController {
                 self.bubbleGridViewController.loadIntoGame(self.sectionArr)
                 self.bubbleGridViewController.bubblesToDrop()
                 self.previewBubbleView.alpha = 1
+                self.bubblesAmount = self.storedBubblesAmount
+                self.bubblesLeft.text = String(self.bubblesAmount)
                 self.delay(0.1){
                     self.allowGesture = true
                 }
