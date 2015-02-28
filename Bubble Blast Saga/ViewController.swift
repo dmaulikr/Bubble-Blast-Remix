@@ -171,6 +171,10 @@ class ViewController: UIViewController {
             var gameController = segue.destinationViewController as GameViewController;
             gameController.sectionArr = self.bubbleGridViewController.getSectionArr()
             gameController.bubblesAmount = self.bubblesAmount
+        } else if (segue.identifier == "designerToMenu") {
+            // Back to main menu
+            var menuController = segue.destinationViewController as MenuViewController;
+            menuController.isPlaying = true
         }
     }
     
@@ -282,17 +286,6 @@ class ViewController: UIViewController {
             cell.removeImage()
         }
         bubbleGridViewController.wipeColorIndexing()
-    }
-    
-    @IBAction func buttonPressed(sender: AnyObject) {
-        let button = sender as UIButton
-        var newColor : UIColor
-        if button.titleColorForState(UIControlState.Normal) == UIColor.blueColor() {
-            newColor = UIColor.lightGrayColor()
-        } else {
-            newColor = UIColor.blueColor()
-        }
-        button.setTitleColor(newColor, forState: UIControlState.Normal)
     }
     
     // For bubble amount

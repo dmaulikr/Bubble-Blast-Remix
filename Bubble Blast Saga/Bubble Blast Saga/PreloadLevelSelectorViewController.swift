@@ -19,7 +19,7 @@ class PreloadLevelSelectorViewController: UIViewController {
             let path = NSBundle.mainBundle().pathForResource(fileName, ofType: "plist")!
             if let toLoad = NSArray(contentsOfFile: path) as [[String]]?{
                 gameController.sectionArr = toLoad
-                gameController.bubblesAmount = 25
+                gameController.bubblesAmount = 35
             }
             
         } else if (segue.identifier == "preloadLevel2") {
@@ -29,7 +29,7 @@ class PreloadLevelSelectorViewController: UIViewController {
             let path = NSBundle.mainBundle().pathForResource(fileName, ofType: "plist")!
             if let toLoad = NSArray(contentsOfFile: path) as [[String]]?{
                 gameController.sectionArr = toLoad
-                gameController.bubblesAmount = 25
+                gameController.bubblesAmount = 35
             }
             
         } else if (segue.identifier == "preloadLevel3") {
@@ -39,7 +39,7 @@ class PreloadLevelSelectorViewController: UIViewController {
             let path = NSBundle.mainBundle().pathForResource(fileName, ofType: "plist")!
             if let toLoad = NSArray(contentsOfFile: path) as [[String]]?{
                 gameController.sectionArr = toLoad
-                gameController.bubblesAmount = 25
+                gameController.bubblesAmount = 35
             }
             
         } else if (segue.identifier == "preloadLevel4") {
@@ -49,10 +49,14 @@ class PreloadLevelSelectorViewController: UIViewController {
             let path = NSBundle.mainBundle().pathForResource(fileName, ofType: "plist")!
             if let toLoad = NSArray(contentsOfFile: path) as [[String]]?{
                 gameController.sectionArr = toLoad
-                gameController.bubblesAmount = 25
+                gameController.bubblesAmount = 35
             }
-            
+        } else if (segue.identifier == "levelSelectorToMenu") {
+            // Back to main menu
+            var menuController = segue.destinationViewController as MenuViewController;
+            menuController.isPlaying = true
         }
+        
 
 
 

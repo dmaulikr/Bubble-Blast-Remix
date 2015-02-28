@@ -21,62 +21,61 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EJD-3Z-sdw" userLabel="Menu Options">
-                                <rect key="frame" x="0.0" y="976" width="774" height="48"/>
+                                <rect key="frame" x="0.0" y="972" width="774" height="52"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fL9-Qh-hW1">
-                                        <rect key="frame" x="361" y="8" width="46" height="30"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                        <state key="normal" title="Start">
-                                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="top" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fL9-Qh-hW1">
+                                        <rect key="frame" x="303" y="-4" width="168" height="51"/>
+                                        <fontDescription key="fontDescription" name="Noteworthy-Bold" family="Noteworthy" pointSize="28"/>
+                                        <state key="normal" title="Let's play!">
+                                            <color key="titleColor" red="1" green="0.79526424360000003" blue="0.18139015059999999" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="buttonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="TRa-LG-rk0"/>
                                             <segue destination="xj8-G3-qqb" kind="show" identifier="designToGame" id="rC6-C1-Il9"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CTt-ih-Cfc">
-                                        <rect key="frame" x="716" y="8" width="46" height="30"/>
-                                        <state key="normal" title="Load">
-                                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="buttonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="2oy-ZY-6qU"/>
-                                            <action selector="loadButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vCS-62-zre"/>
-                                        </connections>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b6n-aT-OX1">
-                                        <rect key="frame" x="642" y="8" width="46" height="30"/>
+                                        <rect key="frame" x="612" y="1" width="76" height="51"/>
+                                        <fontDescription key="fontDescription" name="Noteworthy-Light" family="Noteworthy" pointSize="21"/>
                                         <state key="normal" title="Reset">
-                                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleColor" red="1" green="0.79526424360000003" blue="0.18139015059999999" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="buttonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HxQ-2N-qRd"/>
                                             <action selector="resetButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="yqg-Qu-aK5"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sgk-Lg-ax8">
-                                        <rect key="frame" x="8" y="8" width="46" height="30"/>
+                                        <rect key="frame" x="14" y="1" width="60" height="51"/>
+                                        <fontDescription key="fontDescription" name="Noteworthy-Light" family="Noteworthy" pointSize="21"/>
                                         <state key="normal" title="Back">
-                                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleColor" red="1" green="0.79526424360000003" blue="0.18139015059999999" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="buttonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rjo-gA-2bM"/>
-                                            <segue destination="3c1-i6-2Jk" kind="show" id="xje-Kw-VfQ"/>
+                                            <segue destination="3c1-i6-2Jk" kind="show" identifier="designerToMenu" id="xje-Kw-VfQ"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JXU-2O-mx9">
-                                        <rect key="frame" x="89" y="8" width="46" height="30"/>
+                                        <rect key="frame" x="536" y="1" width="68" height="50"/>
+                                        <fontDescription key="fontDescription" name="Noteworthy-Light" family="Noteworthy" pointSize="20"/>
                                         <state key="normal" title="Save">
-                                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleColor" red="1" green="0.79526424360000003" blue="0.18139015059999999" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="buttonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tsz-aE-B5F"/>
                                             <action selector="saveButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rNs-Us-OuN"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CTt-ih-Cfc">
+                                        <rect key="frame" x="696" y="0.0" width="70" height="51"/>
+                                        <fontDescription key="fontDescription" name="Noteworthy-Light" family="Noteworthy" pointSize="21"/>
+                                        <state key="normal" title="Load">
+                                            <color key="titleColor" red="1" green="0.79526424360000003" blue="0.18139015059999999" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="loadButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vCS-62-zre"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -84,7 +83,7 @@
                                 <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="I5J-4u-Kr8" userLabel="Palette">
-                                <rect key="frame" x="0.0" y="893" width="774" height="83"/>
+                                <rect key="frame" x="0.0" y="889" width="774" height="83"/>
                                 <subviews>
                                     <button opaque="NO" alpha="0.5" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gJ7-D5-xMi" userLabel="Green">
                                         <rect key="frame" x="95" y="10" width="63" height="63"/>
@@ -248,7 +247,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="685" y="1196"/>
+            <point key="canvasLocation" x="-27" y="1012"/>
         </scene>
         <!--Game View Controller-->
         <scene sceneID="qoA-zA-E5Q">
@@ -283,7 +282,7 @@
                                     <color key="titleColor" red="1" green="0.79526424360000003" blue="0.18139015059999999" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <segue destination="3c1-i6-2Jk" kind="show" id="Bh3-vv-AWk"/>
+                                    <segue destination="3c1-i6-2Jk" kind="show" identifier="gameToMenu" id="Bh3-vv-AWk"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="3uH-A4-gMQ">
@@ -380,18 +379,18 @@
                 </panGestureRecognizer>
                 <tapGestureRecognizer id="Cln-HZ-WaD"/>
             </objects>
-            <point key="canvasLocation" x="-907" y="1360"/>
+            <point key="canvasLocation" x="-1091" y="1040"/>
         </scene>
         <!--Main Menu View Controller-->
         <scene sceneID="E1w-Sr-e2g">
             <objects>
-                <viewController storyboardIdentifier="Menu View Controller" id="3c1-i6-2Jk" userLabel="Main Menu View Controller" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Menu View Controller" id="3c1-i6-2Jk" userLabel="Main Menu View Controller" customClass="MenuViewController" customModule="Bubble_Blast_Saga" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="GHu-Z4-nXu"/>
                         <viewControllerLayoutGuide type="bottom" id="6Ff-l5-SWj"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="vDZ-4T-Fug">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="eraser-2.png" translatesAutoresizingMaskIntoConstraints="NO" id="3wg-wF-3PP">
@@ -438,7 +437,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xZX-qx-OG2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="23" y="311"/>
+            <point key="canvasLocation" x="623" y="-733"/>
         </scene>
         <!--Preload Selector View Controller-->
         <scene sceneID="9lE-xk-ACl">
@@ -471,7 +470,7 @@
                                     <color key="titleColor" red="1" green="0.79526424360000003" blue="0.18139015059999999" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <segue destination="3c1-i6-2Jk" kind="show" id="flB-EE-ObT"/>
+                                    <segue destination="3c1-i6-2Jk" kind="show" identifier="levelSelectorToMenu" id="flB-EE-ObT"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="HJV-lt-HIe">
@@ -536,8 +535,8 @@
         <image name="eraser-2.png" width="200" height="169"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="grb-sM-t92"/>
         <segue reference="rC6-C1-Il9"/>
-        <segue reference="IUK-eq-bdT"/>
-        <segue reference="xje-Kw-VfQ"/>
+        <segue reference="Bh3-vv-AWk"/>
     </inferredMetricsTieBreakers>
 </document>

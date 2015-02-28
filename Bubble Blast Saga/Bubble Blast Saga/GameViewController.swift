@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class GameViewController: UIViewController {
     
@@ -15,6 +16,12 @@ class GameViewController: UIViewController {
     var bubbleGridIndexes = [[NSIndexPath]]()
     var bubblesAmount = Int()
     var storedBubblesAmount = Int()
+    
+    // Sound effects
+    var launchPlayer: AVAudioPlayer!
+    var endGamePlayer: AVAudioPlayer!
+    var winGamePlayer: AVAudioPlayer!
+
     
     // Timer 
     private var timer: NSTimer!
@@ -55,6 +62,7 @@ class GameViewController: UIViewController {
         loadRandomBubbleIntoPreview()
         loadRandomBubbleToLaunch()
         loadCannonBase()
+        loadSoundEffects()
         
         storedBubblesAmount = bubblesAmount
         bubblesLeft.text = String(bubblesAmount)
@@ -73,6 +81,8 @@ class GameViewController: UIViewController {
         // Timer
         timer = NSTimer.scheduledTimerWithTimeInterval(1.0/60 , target: self, selector: Selector("update"), userInfo: nil, repeats: true)
         
+
+        
         // Load design
         // Requires mini buffer for NSIndexPaths in collection view to be updated appropriately.
         delay(1.0/60){
@@ -85,6 +95,28 @@ class GameViewController: UIViewController {
         }
 
     }
+    
+    // Function to load sound effects
+    private func loadSoundEffects() {
+        // Sound effect for launch
+        let launchPath = NSBundle.mainBundle().pathForResource("launchBubble", ofType: "wav")!
+        let launchURL = NSURL(fileURLWithPath: launchPath)
+        launchPlayer = AVAudioPlayer(contentsOfURL: launchURL, error: nil)
+        launchPlayer.prepareToPlay()
+        
+        // Sound effect for winning the level
+        let winPath = NSBundle.mainBundle().pathForResource("winGame", ofType: "wav")!
+        let winURL = NSURL(fileURLWithPath: winPath)
+        winGamePlayer = AVAudioPlayer(contentsOfURL: winURL, error: nil)
+        winGamePlayer.prepareToPlay()
+        
+        // Sound effect for losing the level
+        let losePath = NSBundle.mainBundle().pathForResource("gameOver", ofType: "wav")!
+        let loseURL = NSURL(fileURLWithPath: losePath)
+        endGamePlayer = AVAudioPlayer(contentsOfURL: loseURL, error: nil)
+        endGamePlayer.prepareToPlay()
+    }
+    
     // Function to load Cannon
     private func loadCannonBase() {
         
@@ -138,12 +170,7 @@ class GameViewController: UIViewController {
             let resetPrompt = UIAlertController(title: "Reset level", message: "Are you sure?", preferredStyle: UIAlertControllerStyle.Alert)
             resetPrompt.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
             resetPrompt.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-                self.bubbleGridViewController.reset()
-                self.bubbleGridViewController.loadIntoGame(self.sectionArr)
-                self.bubbleGridViewController.bubblesToDrop()
-                self.previewBubbleView.alpha = 1
-                self.bubblesAmount = self.storedBubblesAmount
-                self.bubblesLeft.text = String(self.bubblesAmount)
+                self.resetAfterGameEnd()
                 self.delay(0.1){
                     self.allowGesture = true
                 }
@@ -170,7 +197,15 @@ class GameViewController: UIViewController {
         launchBubbleView.setImage(nextBubble.getSelection())
         gameEngine.setGridContents(bubbleGridViewController.getGridContents())
     }
-    /************************** Game Engine (PS4) *************************************/
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if (segue.identifier == "gameToMenu") {
+            // Back to main menu
+            var menuController = segue.destinationViewController as MenuViewController;
+            menuController.isPlaying = true
+        }
+    }
+    /***************************** Game Engine (PS4) *************************************/
     
     func launchBubblePan(sender: UIPanGestureRecognizer) {
         var panPoint = sender.locationInView(self.view)
@@ -187,6 +222,8 @@ class GameViewController: UIViewController {
             if velocity.y > -1.5 {
                 velocity.y = -1.5
             }
+            
+            launchPlayer.play()
             gameEngine.launchBubble(launchBubbleView, direction: velocity)
             
             
@@ -209,6 +246,8 @@ class GameViewController: UIViewController {
             if velocity.y > -1.5 {
                 velocity.y = -1.5
             }
+            
+            launchPlayer.play()
             gameEngine.launchBubble(launchBubbleView, direction: velocity)
             
             
@@ -267,6 +306,7 @@ class GameViewController: UIViewController {
         })
     }
     
+    /******************************* Game state conditions *************************************/
     // Win game
     private func checkWin() -> Bool {
         let gridBubbles = self.bubbleGridViewController.getGridContents()
@@ -285,19 +325,12 @@ class GameViewController: UIViewController {
     }
     
     private func winGame() {
+        winGamePlayer.play()
         self.bubbleGridViewController.score += ( self.bubblesAmount * 200 )
         let loadPrompt = UIAlertController(title: "You beat this level!", message: "Your score is: " + String(self.bubbleGridViewController.score) + "\n" + "Play this level again?", preferredStyle: UIAlertControllerStyle.Alert)
         loadPrompt.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
             //Segue for endgame screen if have time
-            
-            self.bubbleGridViewController.score = 0
-            self.bubbleGridViewController.reset()
-            self.bubbleGridViewController.loadIntoGame(self.sectionArr)
-            self.bubbleGridViewController.bubblesToDrop()
-            self.allowGesture = true
-            self.previewBubbleView.alpha = 1
-            self.bubblesAmount = self.storedBubblesAmount
-            self.bubblesLeft.text = String(self.bubblesAmount)
+            self.resetAfterGameEnd()
         }))
         presentViewController(loadPrompt, animated: true, completion: nil)
         
@@ -305,21 +338,27 @@ class GameViewController: UIViewController {
     
     // End game
     private func endGame() {
+        endGamePlayer.play()
         let loadPrompt = UIAlertController(title: "Game over!", message: "Your score is: " + String(self.bubbleGridViewController.score) + "\n" + "Try again?", preferredStyle: UIAlertControllerStyle.Alert)
         loadPrompt.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
             //Segue for endgame if have time
-
-            self.bubbleGridViewController.score = 0
-            self.bubbleGridViewController.reset()
-            self.bubbleGridViewController.loadIntoGame(self.sectionArr)
-            self.bubbleGridViewController.bubblesToDrop()
-            self.allowGesture = true
-            self.previewBubbleView.alpha = 1
-            self.bubblesAmount = self.storedBubblesAmount
-            self.bubblesLeft.text = String(self.bubblesAmount)
+            self.resetAfterGameEnd()
+            
         }))
         presentViewController(loadPrompt, animated: true, completion: nil)
         
+    }
+    
+    private func resetAfterGameEnd() {
+        self.bubbleGridViewController.score = 0
+        self.bubbleGridViewController.reset()
+        self.bubbleGridViewController.loadIntoGame(self.sectionArr)
+        self.bubbleGridViewController.bubblesToDrop()
+        self.allowGesture = true
+        self.previewBubbleView.alpha = 1
+        self.bubblesAmount = self.storedBubblesAmount
+        self.bubblesLeft.text = String(self.bubblesAmount)
+        self.scoreLabel.text = String(self.bubbleGridViewController.score)
     }
     
     override func didReceiveMemoryWarning() {

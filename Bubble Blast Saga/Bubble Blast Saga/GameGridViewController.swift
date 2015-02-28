@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class GameGridViewController: UICollectionViewController {
     // Cell data representation for save/load
@@ -15,6 +16,11 @@ class GameGridViewController: UICollectionViewController {
     var isAnimating = Bool()
     private var queue = Queue<CGPoint>()
     var gameDidEnd = Bool()
+    
+    // sound effects
+    var starPlayer: AVAudioPlayer!
+    var lightningPlayer: AVAudioPlayer!
+    var bombPlayer: AVAudioPlayer!
     
     /*
     Score is implemented: 
@@ -50,6 +56,9 @@ class GameGridViewController: UICollectionViewController {
         for column in 0...maxColumn-1 {
             gameGridBubbleContents.arrayOfBubbles.append(Array(count:maxRow-(column%2), repeatedValue:GameCircularCell(frame: CGRect())))
         }
+        
+        // Load special bubble sound effects
+        loadSoundEffects()
     }
     
     // Bug fixing code as xCode complains ( No idea what this does yet)
@@ -76,6 +85,27 @@ class GameGridViewController: UICollectionViewController {
     
     /*********************************** Gameplay (PS4) ************************************/
     
+    private func loadSoundEffects() {
+        // Sound effect for star bubble
+        let starPath = NSBundle.mainBundle().pathForResource("starPowerup", ofType: "wav")!
+        let starURL = NSURL(fileURLWithPath: starPath)
+        starPlayer = AVAudioPlayer(contentsOfURL: starURL, error: nil)
+        starPlayer.prepareToPlay()
+        
+        // Sound effect for lightning bubble
+        let lightningPath = NSBundle.mainBundle().pathForResource("lightningPowerup", ofType: "mp3")!
+        let lightningURL = NSURL(fileURLWithPath: lightningPath)
+        lightningPlayer = AVAudioPlayer(contentsOfURL: lightningURL, error: nil)
+        lightningPlayer.prepareToPlay()
+        
+        // Sound effects for bomb bubble
+        let bombPath = NSBundle.mainBundle().pathForResource("bombPowerup", ofType: "wav")!
+        let bombURL = NSURL(fileURLWithPath: bombPath)
+        bombPlayer = AVAudioPlayer(contentsOfURL: bombURL, error: nil)
+        bombPlayer.prepareToPlay()
+        
+    }
+    
     // Load from design view
     func loadIntoGame(toLoad: [[String]]) {
         let maxCol = 9
@@ -97,7 +127,6 @@ class GameGridViewController: UICollectionViewController {
             }
         }
     }
-    
     
     func getGridContents() -> GameGridBubbleContents {
         return self.gameGridBubbleContents
@@ -218,6 +247,7 @@ class GameGridViewController: UICollectionViewController {
                 
             } else if (cell.getImage() == "starBubble"){
                 // Pop everything which is the same color.
+                starPlayer.play()
                 for row in 0...gameGridBubbleContents.arrayOfBubbles.count-1 {
                     for col in 0...gameGridBubbleContents.arrayOfBubbles[row].count-1{
                         if gameGridBubbleContents.arrayOfBubbles[row][col].getImage() == currentColor{
@@ -240,6 +270,7 @@ class GameGridViewController: UICollectionViewController {
                 // Get all neighbors of this cell and pop them
                 bombAdjacentCells(currentCell)
             } else if (currentCell.getImage() == "starBubble"){
+                starPlayer.play()
                 for row in 0...gameGridBubbleContents.arrayOfBubbles.count-1 {
                     for col in 0...gameGridBubbleContents.arrayOfBubbles[row].count-1{
                         if gameGridBubbleContents.arrayOfBubbles[row][col].getImage() == currentColor{
@@ -275,6 +306,7 @@ class GameGridViewController: UICollectionViewController {
     
     // Function to handle lightning
     private func zapWholeSection(lightningCell: GameCircularCell) {
+        lightningPlayer.play()
         let lightningPoint = convertCellintoXY(lightningCell)
         let col = Int(lightningPoint.y)
         // Remove everything on this row
@@ -465,6 +497,7 @@ class GameGridViewController: UICollectionViewController {
     
     // Bombing
     private func bombThisBubble(toPop: GameCircularCell) {
+        bombPlayer.play()
         var cellPoint = convertCellintoXY(toPop)
         var bubbleToMove = GameCircularCell(frame: toPop.frame)
         bubbleToMove.setImage(toPop.getImage())
