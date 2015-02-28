@@ -157,7 +157,6 @@ class GameViewController: UIViewController {
         
         
         cannonBaseImageView.frame = CGRectMake(launchBubbleView.center.x - (baseWidth * scalingFactor) / 2.0, launchBubbleView.center.y - (baseHeight * scalingFactor), baseWidth * scalingFactor, baseHeight * scalingFactor)
-        cannonBaseImageView.alpha = 0.8
         self.view.addSubview(cannonBaseImageView)
 
     }
@@ -278,7 +277,6 @@ class GameViewController: UIViewController {
                 angleToChange *= -1.0
             }
             
-            println(angleToChange)
             cannonShaftImageView.transform = CGAffineTransformMakeRotation(angleToChange);
             cannonShaftImageView.transform = CGAffineTransformRotate(cannonShaftImageView.transform, angleToChange);
         }
@@ -301,17 +299,14 @@ class GameViewController: UIViewController {
             launchPlayer.play()
             gameEngine.launchBubble(launchBubbleView, direction: velocity)
             
-            /*
-            for i in 0...(cannonImages.count - 1) {
-                var nextImage = self.cannonImages[i]
-                var nextImageView = UIImageView(image: nextImage)
-                nextImageView.frame = self.cannonShaftImageView.frame
-                nextImageView.alpha = 0.8
-                self.view.addSubview(nextImageView)
-                self.cannonShaftImageView.removeFromSuperview()
-                self.cannonShaftImageView = nextImageView
+            
+            // Cannon launcher effect
+            cannonShaftImageView.animationImages = cannonImages
+            cannonShaftImageView.animationDuration = 0.5
+            cannonShaftImageView.startAnimating()
+            delay(0.5) {
+                self.cannonShaftImageView.stopAnimating()
             }
-            */
             
             allowGesture = false
         }
@@ -344,6 +339,13 @@ class GameViewController: UIViewController {
             cannonShaftImageView.transform = CGAffineTransformMakeRotation(angleToChange);
             cannonShaftImageView.transform = CGAffineTransformRotate(cannonShaftImageView.transform, angleToChange);
             
+            // Cannon launcher effect
+            cannonShaftImageView.animationImages = cannonImages
+            cannonShaftImageView.animationDuration = 0.5
+            cannonShaftImageView.startAnimating()
+            delay(0.5) {
+                self.cannonShaftImageView.stopAnimating()
+            }
             
             allowGesture = false
         }
