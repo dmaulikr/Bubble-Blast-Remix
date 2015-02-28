@@ -97,13 +97,14 @@ class GameGridViewController: UICollectionViewController {
         let lightningPath = NSBundle.mainBundle().pathForResource("lightningPowerup", ofType: "mp3")!
         let lightningURL = NSURL(fileURLWithPath: lightningPath)
         lightningPlayer = AVAudioPlayer(contentsOfURL: lightningURL, error: nil)
+        lightningPlayer.volume = 0.3
         lightningPlayer.prepareToPlay()
         
         // Sound effects for bomb bubble
         let bombPath = NSBundle.mainBundle().pathForResource("bombPowerup", ofType: "wav")!
         let bombURL = NSURL(fileURLWithPath: bombPath)
         bombPlayer = AVAudioPlayer(contentsOfURL: bombURL, error: nil)
-        bombPlayer.volume = 0.5
+        bombPlayer.volume = 0.3
         bombPlayer.prepareToPlay()
         
         // Sound effects for pop bubble

@@ -47,8 +47,9 @@ class GameViewController: UIViewController {
     
     @IBOutlet weak var cannonBase: UIView!
     @IBOutlet weak var cannonShaft: UIView!
-    // Default launch position from view controller
+    // Default launch & preview position from view controller
     private let launchPad = CGPoint(x: 334.0, y: 951.0)
+    private let previewPad = CGPoint(x: 50.0, y: 951.0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -180,6 +181,11 @@ class GameViewController: UIViewController {
         
     }
     
+    @IBAction func previewBubblePressed(sender: AnyObject) {
+        if bubblesAmount > 0 {
+            swapBubble()
+        }
+    }
     /***************************** Pallette (PS4) **********************************/
     
     private func loadRandomBubbleIntoPreview() {
@@ -204,6 +210,39 @@ class GameViewController: UIViewController {
             var menuController = segue.destinationViewController as MenuViewController;
             menuController.isPlaying = true
         }
+    }
+    
+    // Function to swap positions of preview and launch bubble
+    private func swapBubble() {
+        self.allowGesture = false
+        
+        var previewToLaunch = GameCircularCell(frame: previewBubbleView.frame)
+        previewToLaunch.setImage(previewBubbleView.getImage())
+        
+        var launchToPreview = GameCircularCell(frame: launchBubbleView.frame)
+        launchToPreview.setImage(launchBubbleView.getImage())
+        
+        // Layer it on top
+        self.gameArea.insertSubview(previewToLaunch as UIView, aboveSubview: self.view)
+        self.gameArea.insertSubview(launchToPreview as UIView, aboveSubview: self.view)
+        previewBubbleView.alpha = 0
+        launchBubbleView.alpha = 0
+        
+        UIView.animateWithDuration(NSTimeInterval(0.3), animations: {
+            previewToLaunch.frame = CGRectMake( self.launchPad.x , self.launchPad.y , previewToLaunch.frame.width, previewToLaunch.frame.height)
+            launchToPreview.frame = CGRectMake( self.previewPad.x , self.previewPad.y , launchToPreview.frame.width, launchToPreview.frame.height)
+            }, completion: { finished in
+                self.launchBubbleView.setImage(previewToLaunch.getImage())
+                self.previewBubbleView.setImage(launchToPreview.getImage())
+                self.previewBubbleView.alpha = 1
+                self.launchBubbleView.alpha = 1
+                
+                previewToLaunch.removeFromSuperview()
+                launchToPreview.removeFromSuperview()
+                self.allowGesture = true
+        })
+
+        
     }
     /***************************** Game Engine (PS4) *************************************/
     
