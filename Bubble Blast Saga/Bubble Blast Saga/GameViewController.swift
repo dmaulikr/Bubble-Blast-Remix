@@ -60,13 +60,11 @@ class GameViewController: UIViewController {
         bubblesLeft.text = String(bubblesAmount)
 
         // Gesture recognizers
-        /*
         let panGesture = UIPanGestureRecognizer()
         panGesture.addTarget(self, action: "launchBubblePan:")
         panGesture.minimumNumberOfTouches = 1
         panGesture.maximumNumberOfTouches = 1
         self.view.addGestureRecognizer(panGesture)
-        */
         
         let tapGesture = UITapGestureRecognizer()
         tapGesture.addTarget(self, action: "launchBubbleTap:")
@@ -174,15 +172,27 @@ class GameViewController: UIViewController {
     }
     /************************** Game Engine (PS4) *************************************/
     
-    // Panning disabled temporarily
-    /*
     func launchBubblePan(sender: UIPanGestureRecognizer) {
-        var velocity = CGPoint()
-        velocity = sender.translationInView(self.view)
-        
-        //gameEngine.launchBubble(launchBubbleView, direction: velocity)
+        var panPoint = sender.locationInView(self.view)
+        if (allowGesture == true && (sender.state == UIGestureRecognizerState.Ended)){
+            var displacement = CGPoint(x: panPoint.x - launchBubbleView.center.x, y: panPoint.y - launchBubbleView.center.y)
+            var velocity = CGPoint()
+            
+            var angle = atan(CGFloat((displacement.y) / (displacement.x) ))
+            let constantVelocity = CGFloat(15.0)
+            velocity.x = constantVelocity * cos(angle) * (displacement.x / abs(displacement.x))
+            velocity.y = -1.0 *  abs(constantVelocity * sin(angle))
+            
+            // Threshold value to prevent very 'slow' progression upwards
+            if velocity.y > -1.5 {
+                velocity.y = -1.5
+            }
+            gameEngine.launchBubble(launchBubbleView, direction: velocity)
+            
+            
+            allowGesture = false
+        }
     }
-    */
     
     func launchBubbleTap(sender: UITapGestureRecognizer) {
         if (allowGesture == true){
@@ -213,6 +223,7 @@ class GameViewController: UIViewController {
                 winGame()
             }
             movePreviewIntoLaunch()
+            self.scoreLabel.text = String(self.bubbleGridViewController.score)
         }
         gameEngine.update()
         if (self.bubbleGridViewController.gameDidEnd == true){
