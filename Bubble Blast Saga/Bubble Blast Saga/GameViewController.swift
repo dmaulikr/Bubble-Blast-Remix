@@ -43,6 +43,8 @@ class GameViewController: UIViewController {
     @IBOutlet weak var previewBubbleView: GameCircularCell!
     @IBOutlet weak var scoreLabel: UILabel!
     private var cannonImages = [UIImage]()
+    private var cannonShaftImageView = UIImageView()
+    private var cannonBaseImageView = UIImageView()
     
     // Default launch & preview position from view controller
     private let launchPad = CGPoint(x: 334.0, y: 951.0)
@@ -59,7 +61,7 @@ class GameViewController: UIViewController {
         
         loadRandomBubbleIntoPreview()
         loadRandomBubbleToLaunch()
-        loadCannonBase()
+        loadCannon()
         loadSoundEffects()
         
         storedBubblesAmount = bubblesAmount
@@ -116,30 +118,42 @@ class GameViewController: UIViewController {
     }
     
     // Function to load Cannon
-    private func loadCannonBase() {
+    private func loadCannon() {
         
 
         let scalingFactor = 0.18 as CGFloat
+        let horizontalCount = 6
+        let verticalCount = 2
         // As per image input of 2400 by 1600 and 6x2 images
-        let cannonImageHeight = (1600.0 / 2.0) as CGFloat
-        let cannonImageWidth = (2400.0 / 6.0) as CGFloat
+        let cannonImageHeight = (1600.0 / CGFloat(verticalCount)) as CGFloat
+        let cannonImageWidth = (2400.0 / CGFloat(horizontalCount)) as CGFloat
         var cannonImageToSplit = UIImage(named: "cannon")?.CGImage
-        var partOfImageAsCG = CGImageCreateWithImageInRect(cannonImageToSplit, CGRectMake(0.0, 0.0, cannonImageWidth, cannonImageHeight)) as CGImageRef
         
-        cannonImages = [UIImage(CGImage: partOfImageAsCG)!] as [UIImage]
+        // Loading all sprites of cannons into array
+        for i in 0...verticalCount - 1 {
+            for j in 0...horizontalCount - 1 {
+                var yValue = CGFloat(i) * cannonImageHeight
+                var xValue = CGFloat(j) * cannonImageWidth
+                var partOfImageAsCG = CGImageCreateWithImageInRect(cannonImageToSplit, CGRectMake(xValue, yValue, cannonImageWidth, cannonImageHeight)) as CGImageRef
+                cannonImages.append(UIImage(CGImage: partOfImageAsCG)!)
+            }
+        }
         
-        let cannonShaftImage = cannonImages[0]
-        let cannonShaftImageView = UIImageView(image: cannonShaftImage)
+        var cannonShaftImage = cannonImages[0]
+        cannonShaftImageView = UIImageView(image: cannonShaftImage)
 
         // As per image input of 400 by 200
         let baseWidth = 400.0 as CGFloat
         let baseHeight = 200.0 as CGFloat
         let cannonBaseImage = UIImage(named: "cannon-base.png")
-        let cannonBaseImageView = UIImageView(image: cannonBaseImage)
-
+        cannonBaseImageView = UIImageView(image: cannonBaseImage)
+        cannonShaftImageView.layer.anchorPoint = CGPoint(x: 0.5, y: 0.9)
+        
         cannonShaftImageView.frame = CGRectMake(launchBubbleView.center.x - (cannonImageWidth * scalingFactor) / 2.0 , launchBubbleView.center.y - (cannonImageHeight * scalingFactor) - ((baseHeight/2.0) * scalingFactor), cannonImageWidth * scalingFactor, cannonImageHeight * scalingFactor)
         cannonShaftImageView.alpha = 0.8
+
         self.view.addSubview(cannonShaftImageView)
+        
         
         
         cannonBaseImageView.frame = CGRectMake(launchBubbleView.center.x - (baseWidth * scalingFactor) / 2.0, launchBubbleView.center.y - (baseHeight * scalingFactor), baseWidth * scalingFactor, baseHeight * scalingFactor)
@@ -255,6 +269,20 @@ class GameViewController: UIViewController {
     
     func launchBubblePan(sender: UIPanGestureRecognizer) {
         var panPoint = sender.locationInView(self.view)
+        
+        
+        if (allowGesture == true && (sender.state == UIGestureRecognizerState.Changed || sender.state == UIGestureRecognizerState.Began)) {
+            var displacement = CGPoint(x: panPoint.x - launchBubbleView.center.x, y: panPoint.y - launchBubbleView.center.y)
+            var angleToChange = atan(CGFloat((abs(displacement.x)) / (abs(displacement.y)) )) / 2.0
+            if ( displacement.x < 0) {
+                angleToChange *= -1.0
+            }
+            
+            println(angleToChange)
+            cannonShaftImageView.transform = CGAffineTransformMakeRotation(angleToChange);
+            cannonShaftImageView.transform = CGAffineTransformRotate(cannonShaftImageView.transform, angleToChange);
+        }
+    
         if (allowGesture == true && (sender.state == UIGestureRecognizerState.Ended)){
             var displacement = CGPoint(x: panPoint.x - launchBubbleView.center.x, y: panPoint.y - launchBubbleView.center.y)
             var velocity = CGPoint()
@@ -269,9 +297,21 @@ class GameViewController: UIViewController {
                 velocity.y = -1.5
             }
             
+            // Animation and sound effects
             launchPlayer.play()
             gameEngine.launchBubble(launchBubbleView, direction: velocity)
             
+            /*
+            for i in 0...(cannonImages.count - 1) {
+                var nextImage = self.cannonImages[i]
+                var nextImageView = UIImageView(image: nextImage)
+                nextImageView.frame = self.cannonShaftImageView.frame
+                nextImageView.alpha = 0.8
+                self.view.addSubview(nextImageView)
+                self.cannonShaftImageView.removeFromSuperview()
+                self.cannonShaftImageView = nextImageView
+            }
+            */
             
             allowGesture = false
         }
@@ -283,7 +323,7 @@ class GameViewController: UIViewController {
             var displacement = CGPoint(x: tapPoint.x - launchBubbleView.center.x, y: tapPoint.y - launchBubbleView.center.y)
             var velocity = CGPoint()
             
-            var angle = atan(CGFloat((displacement.y) / (displacement.x) ))
+            var angle = atan(CGFloat((abs(displacement.y)) / (abs(displacement.x)) ))
             let constantVelocity = CGFloat(15.0)
             velocity.x = constantVelocity * cos(angle) * (displacement.x / abs(displacement.x))
             velocity.y = -1.0 *  abs(constantVelocity * sin(angle))
@@ -295,6 +335,14 @@ class GameViewController: UIViewController {
             
             launchPlayer.play()
             gameEngine.launchBubble(launchBubbleView, direction: velocity)
+            
+            var angleToChange = atan(CGFloat((abs(displacement.x)) / (abs(displacement.y)) )) / 2.0
+            if ( displacement.x < 0) {
+                angleToChange *= -1.0
+            }
+            
+            cannonShaftImageView.transform = CGAffineTransformMakeRotation(angleToChange);
+            cannonShaftImageView.transform = CGAffineTransformRotate(cannonShaftImageView.transform, angleToChange);
             
             
             allowGesture = false
