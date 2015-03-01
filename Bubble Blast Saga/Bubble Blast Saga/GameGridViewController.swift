@@ -18,6 +18,7 @@ class GameGridViewController: UICollectionViewController {
     var gameDidEnd = Bool()
     private var bubbleBurstImages = [UIImage]()
     private var bubbleBombImages = [UIImage]()
+    private var lightningImages = [UIImage]()
     
     // sound effects
     var starPlayer: AVAudioPlayer!
@@ -145,13 +146,30 @@ class GameGridViewController: UICollectionViewController {
         let bombImageHeight = (320.0 / CGFloat(bombVerticalCount)) as CGFloat
         let bombImageWidth = (320.0 / CGFloat(bombHorizontalCount)) as CGFloat
         var bombImageToSplit = UIImage(named: "bubbleExplode.png")?.CGImage
-        // Loading all sprites of cannons into array
-        for i in 0...verticalCount - 1 {
-            for j in 0...horizontalCount - 1 {
+        // Loading all sprites
+        for i in 0...bombVerticalCount - 1 {
+            for j in 0...bombHorizontalCount - 1 {
                 var yValue = CGFloat(i) * bombImageHeight
                 var xValue = CGFloat(j) * bombImageWidth
                 var partOfImageAsCG = CGImageCreateWithImageInRect(bombImageToSplit, CGRectMake(xValue, yValue, bombImageWidth, bombImageHeight)) as CGImageRef
                 bubbleBombImages.append(UIImage(CGImage: partOfImageAsCG)!)
+            }
+        }
+        
+        // Bubble explode animation
+        // 8 image in 1024 * 512
+        let lightningHorizontalCount = 8
+        let lightningVerticalCount = 1
+        let lightningImageHeight = (512.0 / CGFloat(lightningVerticalCount)) as CGFloat
+        let lightningImageWidth = (1024.0 / CGFloat(lightningHorizontalCount)) as CGFloat
+        var lightningImageToSplit = UIImage(named: "lightningSprite.png")?.CGImage
+        // Loading all sprites
+        for i in 0...lightningVerticalCount - 1 {
+            for j in 0...lightningHorizontalCount - 1 {
+                var yValue = CGFloat(i) * lightningImageHeight
+                var xValue = CGFloat(j) * lightningImageWidth
+                var partOfImageAsCG = CGImageCreateWithImageInRect(lightningImageToSplit, CGRectMake(xValue, yValue, lightningImageWidth, lightningImageHeight)) as CGImageRef
+                lightningImages.append(UIImage(CGImage: partOfImageAsCG)!)
             }
         }
     }
@@ -289,8 +307,8 @@ class GameGridViewController: UICollectionViewController {
             
             // Check the cell color
             if (cell.getImage() == "lightningBubble"){
-                popThisBubble(cell)
                 zapWholeSection(cell)
+                bombThisBubble(cell)
             } else if (cell.getImage() == "bombBubble"){
                 // Get all neighbors of this cell and pop them
                 bombAdjacentCells(cell)
@@ -355,6 +373,7 @@ class GameGridViewController: UICollectionViewController {
     
     // Function to handle lightning
     private func zapWholeSection(lightningCell: GameCircularCell) {
+        zapPoint(lightningCell.center)
         lightningPlayer.play()
         let lightningPoint = convertCellintoXY(lightningCell)
         let col = Int(lightningPoint.y)
@@ -543,10 +562,32 @@ class GameGridViewController: UICollectionViewController {
     }
     
     /*************************************** Animations **************************************/
+    // Lightning
+    private func zapPoint(targetPoint: CGPoint) {
+        let cellDiameter = 64.0 as CGFloat
+        var lightningImageView = UIImageView()
+        
+        // ratio of height to width is 4:1
+        let scaleFactor = 2.5 as CGFloat
+        lightningImageView.frame = CGRect(x: targetPoint.x - cellDiameter, y: (targetPoint.y - cellDiameter), width: (cellDiameter * scaleFactor), height: cellDiameter * (scaleFactor * 4.0))
+        
+        
+        lightningImageView.animationImages = lightningImages
+        lightningImageView.animationDuration = 0.5
+        self.collectionView?.insertSubview(lightningImageView as UIImageView, aboveSubview: self.collectionView!)
+        lightningImageView.startAnimating()
+        delay(0.5) {
+            lightningImageView.stopAnimating()
+            lightningImageView.removeFromSuperview()
+        }
+        
+    }
     
     // Bombing
     private func bombThisBubble(toPop: GameCircularCell) {
-        bombPlayer.play()
+        if (toPop.getImage() != "lightningBubble"){
+            bombPlayer.play()
+        }
         var cellPoint = convertCellintoXY(toPop)
         var bubbleToMove = GameCircularCell(frame: toPop.frame)
         bubbleToMove.setImage(toPop.getImage())

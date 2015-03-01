@@ -47,6 +47,7 @@
 		4191D35E1AA1DCAB003D944A /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4191D35D1AA1DCAB003D944A /* MenuViewController.swift */; };
 		4191D3601AA20065003D944A /* bubblePop.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4191D35F1AA20065003D944A /* bubblePop.mp3 */; };
 		41B90CCF1AA2D3B3003C3530 /* bubbleExplode.png in Resources */ = {isa = PBXBuildFile; fileRef = 41B90CCE1AA2D3B3003C3530 /* bubbleExplode.png */; };
+		41B90CD31AA2E91A003C3530 /* lightningSprite.png in Resources */ = {isa = PBXBuildFile; fileRef = 41B90CD21AA2E91A003C3530 /* lightningSprite.png */; };
 		41F068F71A9DA103007BCD23 /* bubble-bomb.png in Resources */ = {isa = PBXBuildFile; fileRef = 41F068EF1A9DA103007BCD23 /* bubble-bomb.png */; };
 		41F068F81A9DA103007BCD23 /* bubble-burst.png in Resources */ = {isa = PBXBuildFile; fileRef = 41F068F01A9DA103007BCD23 /* bubble-burst.png */; };
 		41F068F91A9DA103007BCD23 /* bubble-indestructible.png in Resources */ = {isa = PBXBuildFile; fileRef = 41F068F11A9DA103007BCD23 /* bubble-indestructible.png */; };
@@ -112,6 +113,7 @@
 		4191D35D1AA1DCAB003D944A /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		4191D35F1AA20065003D944A /* bubblePop.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bubblePop.mp3; sourceTree = "<group>"; };
 		41B90CCE1AA2D3B3003C3530 /* bubbleExplode.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubbleExplode.png; sourceTree = "<group>"; };
+		41B90CD21AA2E91A003C3530 /* lightningSprite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lightningSprite.png; sourceTree = "<group>"; };
 		41F068EF1A9DA103007BCD23 /* bubble-bomb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bubble-bomb.png"; sourceTree = "<group>"; };
 		41F068F01A9DA103007BCD23 /* bubble-burst.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bubble-burst.png"; sourceTree = "<group>"; };
 		41F068F11A9DA103007BCD23 /* bubble-indestructible.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bubble-indestructible.png"; sourceTree = "<group>"; };
@@ -253,6 +255,7 @@
 				41B90CCE1AA2D3B3003C3530 /* bubbleExplode.png */,
 				41F068F01A9DA103007BCD23 /* bubble-burst.png */,
 				41F068F11A9DA103007BCD23 /* bubble-indestructible.png */,
+				41B90CD21AA2E91A003C3530 /* lightningSprite.png */,
 				41F068F21A9DA103007BCD23 /* bubble-lightning.png */,
 				41F068F31A9DA103007BCD23 /* bubble-star.png */,
 				41F068F41A9DA103007BCD23 /* cannon-base.png */,
@@ -343,6 +346,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				41243E811A8A4FBC005D1D88 /* bubble-red.png in Resources */,
+				41B90CD31AA2E91A003C3530 /* lightningSprite.png in Resources */,
 				41F068F91A9DA103007BCD23 /* bubble-indestructible.png in Resources */,
 				4191D3511AA1D341003D944A /* gameOver.wav in Resources */,
 				415521641AA048D000FA8F31 /* Preload-1.plist in Resources */,
