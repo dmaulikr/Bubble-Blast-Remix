@@ -11,7 +11,6 @@ import AVFoundation
 
 class GameGridViewController: UICollectionViewController {
     // Cell data representation for save/load
-    private var indexingBubbles = [NSIndexPath : String]()
     private var gameGridBubbleContents: GameGridBubbleContents!
     var isAnimating = Bool()
     private var queue = Queue<CGPoint>()
@@ -37,7 +36,6 @@ class GameGridViewController: UICollectionViewController {
     // Custom init
     init(viewFrame: CGRect, collectionViewLayout: UICollectionViewLayout){
         super.init(collectionViewLayout: UICollectionViewLayout())
-        indexingBubbles = [NSIndexPath : String] ()
         gameGridBubbleContents = GameGridBubbleContents()
         score = 0;
         gameDidEnd = false

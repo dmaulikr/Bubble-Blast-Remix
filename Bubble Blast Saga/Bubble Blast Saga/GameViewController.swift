@@ -13,7 +13,6 @@ class GameViewController: UIViewController {
     
     // Importing stuff from level designer to play
     var sectionArr = [[String]]()
-    var bubbleGridIndexes = [[NSIndexPath]]()
     var bubblesAmount = Int()
     var storedBubblesAmount = Int()
     
@@ -31,9 +30,6 @@ class GameViewController: UIViewController {
     private var gameEngine: GameEngine!
     
     private var allowGesture: Bool!
-    private var fileList = [String]()
-    private var directoryPath = String()
-    private var currentSavedPath = String()
     @IBOutlet weak var gameArea: UIView!
     @IBOutlet weak var bubblesLeft: UILabel!
     
@@ -60,7 +56,6 @@ class GameViewController: UIViewController {
         loadBackground()
         loadBubbleGrid()
         gameBubble = MovableGameBubble()
-        currentSavedPath = "Level_XXX"
         
         loadRandomBubbleIntoPreview()
         loadRandomBubbleToLaunch()
