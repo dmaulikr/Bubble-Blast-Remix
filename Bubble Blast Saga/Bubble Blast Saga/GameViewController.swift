@@ -154,9 +154,8 @@ class GameViewController: UIViewController {
 
         self.view.addSubview(cannonShaftImageView)
         
-        
-        
-        cannonBaseImageView.frame = CGRectMake(launchBubbleView.center.x - (baseWidth * scalingFactor) / 2.0, launchBubbleView.center.y - (baseHeight * scalingFactor), baseWidth * scalingFactor, baseHeight * scalingFactor)
+        var cannonBaseScalingFactor = scalingFactor * 1.8
+        cannonBaseImageView.frame = CGRectMake(launchBubbleView.center.x - (baseWidth * cannonBaseScalingFactor ) / 2.0, launchBubbleView.center.y - (baseHeight * cannonBaseScalingFactor), baseWidth * cannonBaseScalingFactor, baseHeight * cannonBaseScalingFactor)
         self.view.addSubview(cannonBaseImageView)
 
     }

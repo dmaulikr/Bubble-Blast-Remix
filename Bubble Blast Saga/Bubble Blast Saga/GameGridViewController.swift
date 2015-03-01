@@ -16,6 +16,7 @@ class GameGridViewController: UICollectionViewController {
     var isAnimating = Bool()
     private var queue = Queue<CGPoint>()
     var gameDidEnd = Bool()
+    private var bubbleBurstImages = [UIImage]()
     
     // sound effects
     var starPlayer: AVAudioPlayer!
@@ -60,6 +61,9 @@ class GameGridViewController: UICollectionViewController {
         
         // Load special bubble sound effects
         loadSoundEffects()
+        
+        // Prepare visual animations
+        loadAnimations()
     }
     
     // Bug fixing code as xCode complains ( No idea what this does yet)
@@ -112,6 +116,26 @@ class GameGridViewController: UICollectionViewController {
         let popURL = NSURL(fileURLWithPath: popPath)
         popPlayer = AVAudioPlayer(contentsOfURL: popURL, error: nil)
         popPlayer.prepareToPlay()
+    }
+    
+    private func loadAnimations() {
+        
+        // Bubble burst animation
+        // 4 images in 640 x 160
+        let horizontalCount = 4
+        let verticalCount = 1
+        let bubbleBurstImageHeight = (160.0 / CGFloat(verticalCount)) as CGFloat
+        let bubbleBurstImageWidth = (640.0 / CGFloat(horizontalCount)) as CGFloat
+        var bubbleBurstImageToSplit = UIImage(named: "bubble-burst.png")?.CGImage
+        // Loading all sprites of cannons into array
+        for i in 0...verticalCount - 1 {
+            for j in 0...horizontalCount - 1 {
+                var yValue = CGFloat(i) * bubbleBurstImageHeight
+                var xValue = CGFloat(j) * bubbleBurstImageWidth
+                var partOfImageAsCG = CGImageCreateWithImageInRect(bubbleBurstImageToSplit, CGRectMake(xValue, yValue, bubbleBurstImageWidth, bubbleBurstImageHeight)) as CGImageRef
+                bubbleBurstImages.append(UIImage(CGImage: partOfImageAsCG)!)
+            }
+        }
     }
     
     // Load from design view
@@ -532,9 +556,22 @@ class GameGridViewController: UICollectionViewController {
             var cellPoint = convertCellintoXY(toPop)
             var bubbleToMove = GameCircularCell(frame: toPop.frame)
             bubbleToMove.setImage(toPop.getImage())
+            
             // Layer animation view on top
+            // Bubble burst effect
+            var bubbleBurstImageView = UIImageView()
+            bubbleBurstImageView.frame = bubbleToMove.frame
+            bubbleBurstImageView.animationImages = bubbleBurstImages
+            bubbleBurstImageView.animationDuration = 0.5
+            self.collectionView?.insertSubview(bubbleBurstImageView as UIImageView, aboveSubview: self.collectionView!)
+            bubbleBurstImageView.startAnimating()
+            delay(0.5) {
+                bubbleBurstImageView.stopAnimating()
+                bubbleBurstImageView.removeFromSuperview()
+            }
+
             self.collectionView?.insertSubview(bubbleToMove as UIView, aboveSubview: self.collectionView!)
-            UIView.animateWithDuration(NSTimeInterval(1.0), animations: {
+            UIView.animateWithDuration(NSTimeInterval(0.5), animations: {
                 // Fade
                 bubbleToMove.alpha = 0.15
                 }, completion: { finished in
