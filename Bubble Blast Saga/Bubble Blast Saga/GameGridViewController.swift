@@ -17,6 +17,7 @@ class GameGridViewController: UICollectionViewController {
     private var queue = Queue<CGPoint>()
     var gameDidEnd = Bool()
     private var bubbleBurstImages = [UIImage]()
+    private var bubbleBombImages = [UIImage]()
     
     // sound effects
     var starPlayer: AVAudioPlayer!
@@ -134,6 +135,23 @@ class GameGridViewController: UICollectionViewController {
                 var xValue = CGFloat(j) * bubbleBurstImageWidth
                 var partOfImageAsCG = CGImageCreateWithImageInRect(bubbleBurstImageToSplit, CGRectMake(xValue, yValue, bubbleBurstImageWidth, bubbleBurstImageHeight)) as CGImageRef
                 bubbleBurstImages.append(UIImage(CGImage: partOfImageAsCG)!)
+            }
+        }
+        
+        // Bubble explode animation
+        // 5*5 image in 320 by 320
+        let bombHorizontalCount = 5
+        let bombVerticalCount = 5
+        let bombImageHeight = (320.0 / CGFloat(bombVerticalCount)) as CGFloat
+        let bombImageWidth = (320.0 / CGFloat(bombHorizontalCount)) as CGFloat
+        var bombImageToSplit = UIImage(named: "bubbleExplode.png")?.CGImage
+        // Loading all sprites of cannons into array
+        for i in 0...verticalCount - 1 {
+            for j in 0...horizontalCount - 1 {
+                var yValue = CGFloat(i) * bombImageHeight
+                var xValue = CGFloat(j) * bombImageWidth
+                var partOfImageAsCG = CGImageCreateWithImageInRect(bombImageToSplit, CGRectMake(xValue, yValue, bombImageWidth, bombImageHeight)) as CGImageRef
+                bubbleBombImages.append(UIImage(CGImage: partOfImageAsCG)!)
             }
         }
     }
@@ -532,19 +550,24 @@ class GameGridViewController: UICollectionViewController {
         var cellPoint = convertCellintoXY(toPop)
         var bubbleToMove = GameCircularCell(frame: toPop.frame)
         bubbleToMove.setImage(toPop.getImage())
-        // Layer animation view on top
-        self.collectionView?.insertSubview(bubbleToMove as UIView, aboveSubview: self.collectionView!)
-        UIView.animateWithDuration(NSTimeInterval(1.0), animations: {
-            // Pseudo-Zoom for dramatic effect
-            bubbleToMove.frame = CGRect(x: toPop.center.x - 64*1.5, y: toPop.center.y - 64*1.5, width: 64.0*3, height: 64.0*3)
-            // Fade
-            bubbleToMove.alpha = 0.15
-            }, completion: { finished in
-                bubbleToMove.removeFromSuperview()
-        })
         
-        toPop.removeImage()
-        toPop.backgroundView!.alpha = 0
+        let cellDiameter = 64.0 as CGFloat
+        // Bomb effect
+        var bombImageView = UIImageView()
+        // Scale the frame larger
+        bombImageView.frame = CGRect(x: toPop.center.x - (cellDiameter * 2.0), y: toPop.center.y - (cellDiameter * 2.0), width: cellDiameter * 4.0, height: cellDiameter * 4.0)
+        bombImageView.animationImages = bubbleBombImages
+        bombImageView.animationDuration = 0.5
+        // Layer animation view on top
+        self.collectionView?.insertSubview(bombImageView as UIImageView, aboveSubview: self.collectionView!)
+        bombImageView.startAnimating()
+        delay(0.5) {
+            bombImageView.stopAnimating()
+            bombImageView.removeFromSuperview()
+            toPop.removeImage()
+            toPop.backgroundView!.alpha = 0
+        }
+        
         gameGridBubbleContents.arrayOfBubbles[Int(cellPoint.x)][Int(cellPoint.y)] = GameCircularCell(frame: CGRect())
         score += 50
     }
