@@ -22,7 +22,7 @@ class GameViewController: UIViewController {
     var endGamePlayer: AVAudioPlayer!
     var winGamePlayer: AVAudioPlayer!
     
-    // Timer 
+    // Timer
     private var timer: NSTimer!
     
     // Game Bubble Model
@@ -38,7 +38,7 @@ class GameViewController: UIViewController {
     @IBOutlet weak var bubblesLeft: UILabel!
     
     // Loadout
-
+    
     @IBOutlet weak var launchBubbleView: GameCircularCell!
     @IBOutlet weak var previewBubbleView: GameCircularCell!
     @IBOutlet weak var scoreLabel: UILabel!
@@ -47,12 +47,15 @@ class GameViewController: UIViewController {
     private var cannonBaseImageView = UIImageView()
     
     // Default launch & preview position from view controller
-    private let launchPad = CGPoint(x: 334.0, y: 951.0)
-    private let previewPad = CGPoint(x: 50.0, y: 951.0)
+    private var launchPad = CGPoint()
+    private var previewPad = CGPoint()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        launchPad = launchBubbleView.frame.origin
+        previewPad = previewBubbleView.frame.origin
+        
         gameEngine = GameEngine()
         loadBackground()
         loadBubbleGrid()
@@ -66,7 +69,7 @@ class GameViewController: UIViewController {
         
         storedBubblesAmount = bubblesAmount
         bubblesLeft.text = String(bubblesAmount)
-
+        
         // Gesture recognizers
         let panGesture = UIPanGestureRecognizer()
         panGesture.addTarget(self, action: "launchBubblePan:")
@@ -81,8 +84,6 @@ class GameViewController: UIViewController {
         // Timer
         timer = NSTimer.scheduledTimerWithTimeInterval(1.0/60 , target: self, selector: Selector("update"), userInfo: nil, repeats: true)
         
-
-        
         // Load design
         // Requires mini buffer for NSIndexPaths in collection view to be updated appropriately.
         delay(1.0/60){
@@ -93,7 +94,7 @@ class GameViewController: UIViewController {
             }
             
         }
-
+        
     }
     
     // Function to load sound effects
@@ -120,7 +121,7 @@ class GameViewController: UIViewController {
     // Function to load Cannon
     private func loadCannon() {
         
-
+        // Scale by default size
         let scalingFactor = 0.18 as CGFloat
         let horizontalCount = 6
         let verticalCount = 2
@@ -141,7 +142,7 @@ class GameViewController: UIViewController {
         
         var cannonShaftImage = cannonImages[0]
         cannonShaftImageView = UIImageView(image: cannonShaftImage)
-
+        
         // As per image input of 400 by 200
         let baseWidth = 400.0 as CGFloat
         let baseHeight = 200.0 as CGFloat
@@ -151,13 +152,13 @@ class GameViewController: UIViewController {
         
         cannonShaftImageView.frame = CGRectMake(launchBubbleView.center.x - (cannonImageWidth * scalingFactor) / 2.0 , launchBubbleView.center.y - (cannonImageHeight * scalingFactor) - ((baseHeight/2.0) * scalingFactor), cannonImageWidth * scalingFactor, cannonImageHeight * scalingFactor)
         cannonShaftImageView.alpha = 0.8
-
+        
         self.view.addSubview(cannonShaftImageView)
         
         var cannonBaseScalingFactor = scalingFactor * 1.8
         cannonBaseImageView.frame = CGRectMake(launchBubbleView.center.x - (baseWidth * cannonBaseScalingFactor ) / 2.0, launchBubbleView.center.y - (baseHeight * cannonBaseScalingFactor), baseWidth * cannonBaseScalingFactor, baseHeight * cannonBaseScalingFactor)
         self.view.addSubview(cannonBaseImageView)
-
+        
     }
     
     // Function to load background view
@@ -260,7 +261,7 @@ class GameViewController: UIViewController {
                 launchToPreview.removeFromSuperview()
                 self.allowGesture = true
         })
-
+        
         
     }
     /***************************** Game Engine (PS4) *************************************/
@@ -279,7 +280,7 @@ class GameViewController: UIViewController {
             cannonShaftImageView.transform = CGAffineTransformMakeRotation(angleToChange);
             cannonShaftImageView.transform = CGAffineTransformRotate(cannonShaftImageView.transform, angleToChange);
         }
-    
+        
         if (allowGesture == true && (sender.state == UIGestureRecognizerState.Ended)){
             var displacement = CGPoint(x: panPoint.x - launchBubbleView.center.x, y: panPoint.y - launchBubbleView.center.y)
             var velocity = CGPoint()
@@ -381,7 +382,7 @@ class GameViewController: UIViewController {
         self.gameArea.insertSubview(bubbleToMove as UIView, aboveSubview: self.view)
         previewBubbleView.alpha = 0
         
-
+        
         UIView.animateWithDuration(NSTimeInterval(1.0), animations: {
             bubbleToMove.frame = CGRectMake( self.launchPad.x , self.launchPad.y , bubbleToMove.frame.width, bubbleToMove.frame.height)
             }, completion: { finished in

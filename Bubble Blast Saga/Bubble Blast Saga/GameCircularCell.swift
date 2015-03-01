@@ -19,8 +19,8 @@ class GameCircularCell: UICollectionViewCell {
         super.init(frame: frame)
         self.layer.cornerRadius = self.bounds.size.width/2
         currentColor = ""
-
-
+        
+        
     }
     
     // Setter function to set image for this cell

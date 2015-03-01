@@ -41,7 +41,7 @@ class ViewController: UIViewController {
         loadBubbleGrid()
         gameBubble = GameBubble()
         currentSavedPath = "Level_XXX"
-
+        
         let defaultAmountOfBubbles = 30
         bubblesAmount = defaultAmountOfBubbles
         bubblesAllowed.text = String(bubblesAmount)
@@ -66,8 +66,7 @@ class ViewController: UIViewController {
     // Function to load grid layout using collection view
     private func loadBubbleGrid() {
         let gridWidth = gameArea.frame.size.width
-        // To compact the 9 columns
-        let gridHeight = CGFloat(595)
+        let gridHeight = gameArea.frame.size.height
         let frame = CGRect(origin: CGPoint(x:0, y:0), size: CGSize(width: gridWidth, height: gridHeight))
         bubbleGridViewController = BubbleGridViewController(viewFrame: frame, collectionViewLayout: UICollectionViewFlowLayout())
         self.addChildViewController(bubbleGridViewController)
@@ -89,7 +88,6 @@ class ViewController: UIViewController {
         
         setAllToFade()
         blueImage.alpha = 1
-        
         gameBubble.setSelection("blueBubble")
         bubbleGridViewController.setGameBubble(gameBubble)
     }
@@ -119,33 +117,33 @@ class ViewController: UIViewController {
     }
     
     @IBAction func indestructibleBubblePressed(sender: AnyObject) {
+        
         setAllToFade()
         indestructibleImage.alpha = 1.0
-        
         gameBubble.setSelection("indestructibleBubble")
         bubbleGridViewController.setGameBubble(gameBubble)
     }
     
     @IBAction func starBubblePressed(sender: AnyObject) {
+        
         setAllToFade()
         starImage.alpha = 1.0
-        
         gameBubble.setSelection(("starBubble"))
         bubbleGridViewController.setGameBubble(gameBubble)
     }
     
     @IBAction func bombBubblePressed(sender: AnyObject) {
+        
         setAllToFade()
         bombImage.alpha = 1.0
-        
         gameBubble.setSelection(("bombBubble"))
         bubbleGridViewController.setGameBubble(gameBubble)
     }
     
     @IBAction func lightningBubblePressed(sender: AnyObject) {
+        
         setAllToFade()
         lightningImage.alpha = 1.0
-        
         gameBubble.setSelection(("lightningBubble"))
         bubbleGridViewController.setGameBubble(gameBubble)
     }
@@ -162,7 +160,7 @@ class ViewController: UIViewController {
         bombImage.alpha = 0.5
         lightningImage.alpha = 0.5
     }
-
+    
     /*********************** Menu button pressing *****************************/
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

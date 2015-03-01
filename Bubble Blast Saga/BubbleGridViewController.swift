@@ -20,8 +20,8 @@ class BubbleGridViewController: UICollectionViewController {
         gameBubble = GameBubble()
         indexingBubbles = [NSIndexPath : String] ()
         
-        // Max 12 items per section. Offset additionally for borders
-        let cellSize = viewFrame.width/CGFloat(12.34)
+        let maxBubblesPerRow = 12
+        let cellSize = viewFrame.width/CGFloat(maxBubblesPerRow)
         
         // Initialise the collection view
         let layout = BubbleGridViewLayout()
@@ -59,12 +59,14 @@ class BubbleGridViewController: UICollectionViewController {
     
     override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         // 9 sections
-        return 9
+        let totalSectionsForScreen = 9
+        return totalSectionsForScreen
     }
     
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // Alternates between 12 and 11 columns
-        return (section % 2 == 0) ? 12:11
+        // Alternates between columns
+        let maxBubblesPerRow = 12
+        return (section % 2 == 0) ? maxBubblesPerRow : (maxBubblesPerRow - 1)
     }
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
@@ -101,8 +103,10 @@ class BubbleGridViewController: UICollectionViewController {
         // Method indexes section,row -> index path
         var sectionDict = [[String]]()
         // Iterate through the sections and rows
-        for column in 0...8 {
-            sectionDict.append(Array(count:12-(column%2), repeatedValue:String()))
+        let maxSection = 9
+        let maxCellPerSection = 12
+        for column in 0...(maxSection - 1) {
+            sectionDict.append(Array(count: maxCellPerSection - (column%2), repeatedValue:String()))
         }
         
         for key in indexingBubbles.keys {

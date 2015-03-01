@@ -27,5 +27,5 @@ class GameGridBubbleContents {
     func appendIntoGrid(newBubble: GameCircularCell, x : Int, y: Int) {
         arrayOfBubbles[x][y] = newBubble
     }
-
+    
 }

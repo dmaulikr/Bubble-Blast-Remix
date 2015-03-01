@@ -56,7 +56,7 @@ class GameEngine: NSObject {
                 var toDisplaceX = movableGameBubble.velocity.x
                 var toDisplaceY = movableGameBubble.velocity.y
                 var newX = currentX + toDisplaceX
-                var newY = currentY + toDisplaceY 
+                var newY = currentY + toDisplaceY
                 if (!toDisplaceX.isNaN && !toDisplaceY.isNaN){
                     currentMovingCell.center = CGPoint(x: newX, y: newY)
                 }

@@ -27,7 +27,7 @@ class GameGridViewController: UICollectionViewController {
     var popPlayer: AVAudioPlayer!
     
     /*
-    Score is implemented: 
+    Score is implemented:
     Drop: 5 + 10 + 15... up to 25 each
     Bomb: No points
     Pop: 10 per bubble
@@ -43,7 +43,8 @@ class GameGridViewController: UICollectionViewController {
         gameDidEnd = false
         
         // Max 12 items per section.
-        let cellSize = viewFrame.width/CGFloat(12)
+        let maxBubblesPerRow = 12
+        let cellSize = viewFrame.width/CGFloat(maxBubblesPerRow)
         
         // Initialise the collection view
         let layout = GameGridViewLayout()
@@ -82,7 +83,8 @@ class GameGridViewController: UICollectionViewController {
     
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // Alternates between 12 and 11 columns
-        return (section % 2 == 0) ? 12:11
+        let maxBubblesPerRow = 12
+        return (section % 2 == 0) ? maxBubblesPerRow : (maxBubblesPerRow - 1)
     }
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> GameCircularCell {
@@ -244,7 +246,7 @@ class GameGridViewController: UICollectionViewController {
         delay(0.1){
             self.bubblesToDrop()
         }
-
+        
         isAnimating = false
         
     }
@@ -393,7 +395,7 @@ class GameGridViewController: UICollectionViewController {
             }
         }
     }
-
+    
     // Check if there's any bubbles which needs to be dropped as it's no longer connected
     func bubblesToDrop() {
         var bubblesToDrop = [GameCircularCell]()
@@ -405,8 +407,8 @@ class GameGridViewController: UICollectionViewController {
         
         var pointToAdd = 5
         
-        // 12 grids at the top
-        for i in 0...11 {
+        let totalBubblesAtTop = 12
+        for i in 0...(totalBubblesAtTop - 1) {
             startNode.x = CGFloat(i)
             startNode.y = CGFloat(0) // Always from top
             var startCell = convertXYintoCell(i, y: 0)
@@ -585,9 +587,6 @@ class GameGridViewController: UICollectionViewController {
             lightningImageView.stopAnimating()
             lightningImageView.removeFromSuperview()
         }
-        
-        
-        
     }
     
     // Bombing
@@ -640,7 +639,7 @@ class GameGridViewController: UICollectionViewController {
                 bubbleBurstImageView.stopAnimating()
                 bubbleBurstImageView.removeFromSuperview()
             }
-
+            
             self.collectionView?.insertSubview(bubbleToMove as UIView, aboveSubview: self.collectionView!)
             UIView.animateWithDuration(NSTimeInterval(0.5), animations: {
                 // Fade
