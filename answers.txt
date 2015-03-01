@@ -2,39 +2,59 @@
 # CS3217 Problem Set 5 #
 ########################
 
-# Name: 
-# Matric No:
-# Tutor:
+# Name: Lim Jing Rong
+# Matric No: A0114395
+# Tutor: Minh Tu
 
 ######################
 # Rules of Your Game #
 ######################
 
-Your Answer here
+Play game from Campaign (Preloaded levels) , or design one from scratch.
+
+Can play straight from level designer as well by pressing 'lets play'
+
+Launch bubble by panning or tapping.
 
 ###############################
 # Problem 1: Cannon Direction #
 ###############################
 
-Your Answer here
+On pan: The cannon's direction corresponds to the user's current pan location. On release, the bubble fires towards that direction where the user lift off his hand.
+
+On tap: The cannon's direction corresponds to the direction of user's tap.
 
 ###############################
 # Problem 2: Upcoming Bubbles #
 ###############################
 
-Your Answer here
+Randoms a bubble from the 4 given colors.
+User can set how many bubbles are allowed for the level they designed, and can see the bubbles left during gameplay
 
 ##########################
 # Problem 3: Integration #
 ##########################
 
-Your Answer here
+On pressing 'start' (Let's play button in this case), the level designer view controller saves the grid model into a 2D Array of Strings containing the bubble colors, and the amount of bubbles allowed for the users to launch. This information gets passed the the gameviewcontroller on button press, through prepareforsegue method.
+Game ends when there is no more bubble left.
+This is good as it's simple to implement and would work.
+
+Alternative approaches which may be better would be to save a cached copy of this level temporarily. Else, if it's not compatible with p-list, the user can choose to encoding and decoding or object archives. Saving thumbnails may be useful for users to select a level based on the picture, and might be more intuitive. But this would make the code more complicated. 
+
 
 ###############
 # Problem 4.3 #
 ###############
 
-Your Answer here
+Chaining special bubbles is handled by a queue.
+
+Indestructible Bubble - Cannot be removed even by special bubbles. Only can be dropped. Intrinsically cannot be popped as we can't launch special bubbles. For special bubbles behavior, ignore it if it is an indestructible bubble
+
+Lightning Bubble - Get the section number of the lightning bubble, then pop every cell with the same section number. Update the model accordingly. If there are special bubbles along this row (star/bomb, as lightning behaviour would be the same), enqueue them into a queue to be handled afterwards
+
+Bomb bubble - Get neighobring cells of this bomb bubble, then pop them. If there are special bubbles among these, enqueue them into a queue to be handled afterwards.
+
+Star bubble - Iterate through all the cells, and remove all the cells with the same color as the launched bubble.
 
 ############################
 # Problem 6: Class Diagram #
@@ -46,19 +66,188 @@ Please save your diagram as `class-diagram.png` in the root directory of the rep
 # Problem 7: Testing #
 ######################
 
-Your Answer here
+Main menu testing
+----------------------------------------------
+Should play BGM, and display menu options of playing preloaded levels or designing own level.
+New screen to show different preloaded levels to choose from.
 
+Level design testing
+----------------------------------------------
+Black-box testing
+	Test file operations:
+		a. Save - Ensure file can be saved and data is correct 
+		b. Reset - Grid gets cleared properly
+		c. Load - Ensure that grid is restored to saved file's state
+
+	2.Test level building:
+		- Panning works as expected, grids only get filled upon panning.
+		- Tapping works as expected. Empty grids do not get updated upon taps. Filled grids would cycle through bubble colors based on the order in the pallete.
+		- Long press works as expected. Grids get emptied after user presses down on a grid for >1sec.
+		- Gestures are not reocgnized if it is outside of the grid
+
+Glass-box testing
+	1. ViewController
+		- background and bubble grid should load
+		- update user's current selection based on user's interaction with bubbles/eraser at bottom. Shows current selection based on what is 'darkened'.
+		- Save & load button works for instances of file-saving. Shown by editing the grid after saving and then pressing load would restore it's original state.
+		- Reset button works, grid is clear everytime upon pressing, and underlying related data structure is resetted.
+		- Bubbles amount left should record properly, and update when + or - button is pressed
+
+	2. BubbleGridViewController
+		- Creates grid appropriately staggered
+		- handles Panning
+			- Works when grid is empty
+			- Works when grid is filled with other colors
+		- handles longPress
+			- deletes filled cell
+		- handles tapping
+			- Empty grids do not change when tapped
+			- Filled grids would cycle through bubble colors based on order in pallete, based on CircularCell class
+			- Special bubbles gets toggled among special bubbles, while normal bubbles gets toggled to other normal bubbles
+		- Capable of storing current state based on index paths
+			- Tested by doing loads and saves.
+
+	3. GameBubble
+		- setting selection based on user selection of bubbles/eraser of palettes work
+		- returns selection appropriately, or empty string if it is empty
+
+	4. CircularCell class:
+		- setting image base on GameBubble's current selection works
+			- Even for the case if nothing is currently selected
+		- returns current color correctly, or if it's empty
+		- removeImage works for both filled and empty cells.
+		- toggleImage works, as mentioned under BubbleGridViewController.
+
+
+
+Gameplay testing
+----------------------------------------------
+For bubble launching, movement, bouncing off walls and collision with the top wall and existing bubbles uses NStimer to trigger automation, it is difficult to write unit tests. Hence, lots of testing has been done on UI, manually.
+
+New methods are added in the existing model to support service requirements by the game engine efficiently. To append to the grid, removal by popping or dropping. 
+
+	- Animation for popping / dropping
+	- Ensure bubble snaps into cell correctly, even when fired into the middle of 2 top-row cells
+	- Ensure pop and drops work correctly, and animation does not lag
+		- Popping large amounts of bubble
+		- Dropping large amounts of bubble
+	- The new launch bubble should be the same as the preview bubble previously.
+	- Preview bubble should be random
+	- The next launch bubble must be the same as the preview bubble previously
+
+
+1.Black-box testing 
+	Test background: Make sure covers whole iPad
+
+	Test bubble launching:
+		a. Bubble to snap onto an empty grid which its center lies in
+		b. Bubble to be not able to snap onto a full grid / out of bound area
+		c. Bubble to rebound off walls
+		d. Try to launch more than 1 - Should not be able to
+		e. Launch a screen corner/ edge
+		f. Try to launch at at all extreme angles - including horizontally left/right, downwards.
+		g. Special bubbles cannot be launched
+
+
+	Test game logic:
+		a. Bubble to stop at top wall
+		b. Bubble to stop when collided with other bubbles
+			i. Can be tested by repeatedly launching bubbles at the same angle.
+		c. Bubble to pop when >3 together
+		d. Bubbles to drop when not connected to top
+		e. Lightning bubbles should clear all in same section except for indestructibles
+		f. Star bubbles should clear all same bubble as launched bubble
+		g. Bomb bubbles should destroy all adjacent bubbbles
+		h. Chained special bubbles should be executed sequentially
+
+2.Glass-box testing
+	GameViewController:
+		a. Background and grid should load
+		b. Can intake gestures of tapping and panning
+		c. Update the launch bubble from preview bubble
+		d. Allow for swapping between launch/preview
+		e. Sound effects for each individual action should occur as expected
+		f. Cannon direction should be the same as direction of panned / tapped
+		g. Cannon should have animation through sprites upon launch
+
+
+	GameGridViewController:
+		a. Grids should load out nicely, as per ps3 layout, but longer
+		b. Can snap an incoming bubble into an empty/ non-empty grid
+		c. Incoming bubble should stop when collided with top wall or another bubble
+		d. Pop bubbles when a new bubble is added to the grid and is connected to >= 3 other bubbles of the same color
+		e. Bubbles not connected to the top wall should drop
+		f. Snapping to corners/ in between cells 
+		g. Allow to be updated from level designer's collection view
+		h. Game should end when bubbles reach the cannon's y-axis, or when bubble is finished
+		i. Special bubbles should behave as specified above
+		j. Animations for each special bubble should behave as specified too
+
+	GameGridViewLayout:
+		a. Same as ps3, assist in layout for the GameGridViewController
+		b. Should layer the cells as per app requirements
+
+	GameCircularCell:
+		a. Should be able to store the cell's current image and return when queried
+		b. Can remove this cell's current image too
+		c. Can remove image to make it blank as well
+
+	MovableGameBubble:
+		a. Can store current color of the bubble
+		b. Can return a random bubble for user to load into preview - When launch is empty and non-empty
+		c. Stores velocity : When moving and stationary.
+
+	BubbleGridBubbleContents:
+		a. When empty
+		b. When completely full
+
+	GameEngine:
+		a. Move bubble when needed
+		b. Not able to move when another bubble is moving
+		c. Bounces off the sides
+		d. Check if hit the top wall or other bubbles when grid is empty/ non-empty
+		e. Should not allow more than 1 bubble to move at a time
 
 ###################################
 # Problem 8: The Bells & Whistles #
 ###################################
 
-Your Answer here
+1. Bubbles amount, bubbles left
+	- Allow user to choose amount of bubbles for that level.
+	- Game ends when bubbles are used up
+2. Sound effects
+	- Background music which plays throughout the app, and loops continuously.
+	- Individual sound files for launching bubble, popping bubble/ hitting lightning bubble/ bomb bubble/ star bubble
+	- Sound effects for winning the game and losing the game
+3. Score 
+	- Score is recorded based on bubble pops and drops. Multiplier bonuses as amount gets larger
+	- Score would be shown at the bottom right, and on end-game screen
+4. End/Win game condition
+	- User wins game if they clear the grid
+		- Win game screen will show, together with sound effects and score attained
+		- Bonus score added for each bubble left
+	- User loses game if they run out of bubbles, or if they run out of space ( bubble reaches cannon's x-axis)
+		- Lose game screen will show, with sound effects and score
+5. Swapping bubbles
+	- Allow for user to switch between the preview bubble, and the current bubble to launch
+6. Additional sprites/animations
+	- Bubble burst animation
+	- Bomb animation with appropriate radius of affected AOE
+	- Lightning animation, from cannon to position of lightning bubble
 
 
 ###############################
 # Problem 9: Final Reflection #
 ###############################
 
-Your Answer here
+Definitely able to improve.
+My viewcontroller is too bloated due to my inexperience during PS3, which carried over the PS4. 
+
+The game engine could've done a lot more than just doing the launching of bubbles as well, could've added dynamic backgrounds using that. Some parts of the models might know about the view as well, which does not conform entirely to MVC's architecture. 
+
+Most animations are done with a delay() block as well as animatewithduration, and these might have been handled by the game engine.
+
+Given more time, I would have redo my PS3 from scratch, to lay a better foundation for me to build my PS4/5 on top of it. Due to the fundamental from PS3, it causes some parts of my PS4/5 to be imperfect.
+
+
 

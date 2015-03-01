@@ -234,34 +234,35 @@ class GameViewController: UIViewController {
     
     // Function to swap positions of preview and launch bubble
     private func swapBubble() {
-        self.allowGesture = false
-        
-        var previewToLaunch = GameCircularCell(frame: previewBubbleView.frame)
-        previewToLaunch.setImage(previewBubbleView.getImage())
-        
-        var launchToPreview = GameCircularCell(frame: launchBubbleView.frame)
-        launchToPreview.setImage(launchBubbleView.getImage())
-        
-        // Layer it on top
-        self.gameArea.insertSubview(previewToLaunch as UIView, aboveSubview: self.view)
-        self.gameArea.insertSubview(launchToPreview as UIView, aboveSubview: self.view)
-        previewBubbleView.alpha = 0
-        launchBubbleView.alpha = 0
-        
-        UIView.animateWithDuration(NSTimeInterval(0.3), animations: {
-            previewToLaunch.frame = CGRectMake( self.launchPad.x , self.launchPad.y , previewToLaunch.frame.width, previewToLaunch.frame.height)
-            launchToPreview.frame = CGRectMake( self.previewPad.x , self.previewPad.y , launchToPreview.frame.width, launchToPreview.frame.height)
-            }, completion: { finished in
-                self.launchBubbleView.setImage(previewToLaunch.getImage())
-                self.previewBubbleView.setImage(launchToPreview.getImage())
-                self.previewBubbleView.alpha = 1
-                self.launchBubbleView.alpha = 1
-                
-                previewToLaunch.removeFromSuperview()
-                launchToPreview.removeFromSuperview()
-                self.allowGesture = true
-        })
-        
+        if (self.allowGesture == true) {
+            self.allowGesture = false
+            
+            var previewToLaunch = GameCircularCell(frame: previewBubbleView.frame)
+            previewToLaunch.setImage(previewBubbleView.getImage())
+            
+            var launchToPreview = GameCircularCell(frame: launchBubbleView.frame)
+            launchToPreview.setImage(launchBubbleView.getImage())
+            
+            // Layer it on top
+            self.gameArea.insertSubview(previewToLaunch as UIView, aboveSubview: self.view)
+            self.gameArea.insertSubview(launchToPreview as UIView, aboveSubview: self.view)
+            previewBubbleView.alpha = 0
+            launchBubbleView.alpha = 0
+            
+            UIView.animateWithDuration(NSTimeInterval(0.3), animations: {
+                previewToLaunch.frame = CGRectMake( self.launchPad.x , self.launchPad.y , previewToLaunch.frame.width, previewToLaunch.frame.height)
+                launchToPreview.frame = CGRectMake( self.previewPad.x , self.previewPad.y , launchToPreview.frame.width, launchToPreview.frame.height)
+                }, completion: { finished in
+                    self.launchBubbleView.setImage(previewToLaunch.getImage())
+                    self.previewBubbleView.setImage(launchToPreview.getImage())
+                    self.previewBubbleView.alpha = 1
+                    self.launchBubbleView.alpha = 1
+                    
+                    previewToLaunch.removeFromSuperview()
+                    launchToPreview.removeFromSuperview()
+                    self.allowGesture = true
+            })
+        }
         
     }
     /***************************** Game Engine (PS4) *************************************/

@@ -312,6 +312,7 @@ class GameGridViewController: UICollectionViewController {
             
             // Check the cell color
             if (cell.getImage() == "lightningBubble"){
+                popThisBubble(convertXYintoCell(currentX, y: currentY))
                 zapWholeSection(cell)
                 bombThisBubble(cell)
             } else if (cell.getImage() == "bombBubble"){
@@ -337,7 +338,6 @@ class GameGridViewController: UICollectionViewController {
             var currentCell = convertXYintoCell(Int(currentPoint!.x), y: Int(currentPoint!.y))
             if (currentCell.getImage() == "lightningBubble"){
                 zapWholeSection(currentCell)
-                popThisBubble(currentCell)
             } else if (currentCell.getImage() == "bombBubble"){
                 // Get all neighbors of this cell and pop them
                 self.bombAdjacentCells(currentCell)
