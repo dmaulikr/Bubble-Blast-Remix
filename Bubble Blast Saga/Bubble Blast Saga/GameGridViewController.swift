@@ -241,7 +241,10 @@ class GameGridViewController: UICollectionViewController {
         }
         
         // Check for bubbles not connected to top row after poppings
-        self.bubblesToDrop()
+        delay(0.1){
+            self.bubblesToDrop()
+        }
+
         isAnimating = false
         
     }
@@ -326,7 +329,7 @@ class GameGridViewController: UICollectionViewController {
             }
         }
         
-        // Only contains chained special bubbles
+        // Contains chained
         while (!queue.isEmpty){
             var currentPoint = queue.dequeue()
             var currentCell = convertXYintoCell(Int(currentPoint!.x), y: Int(currentPoint!.y))
@@ -335,7 +338,7 @@ class GameGridViewController: UICollectionViewController {
                 popThisBubble(currentCell)
             } else if (currentCell.getImage() == "bombBubble"){
                 // Get all neighbors of this cell and pop them
-                bombAdjacentCells(currentCell)
+                self.bombAdjacentCells(currentCell)
             } else if (currentCell.getImage() == "starBubble"){
                 starPlayer.play()
                 for row in 0...gameGridBubbleContents.arrayOfBubbles.count-1 {
@@ -345,6 +348,8 @@ class GameGridViewController: UICollectionViewController {
                         }
                     }
                 }
+                popThisBubble(currentCell)
+            } else {
                 popThisBubble(currentCell)
             }
         }
@@ -581,6 +586,8 @@ class GameGridViewController: UICollectionViewController {
             lightningImageView.removeFromSuperview()
         }
         
+        
+        
     }
     
     // Bombing
@@ -605,9 +612,9 @@ class GameGridViewController: UICollectionViewController {
         delay(0.5) {
             bombImageView.stopAnimating()
             bombImageView.removeFromSuperview()
-            toPop.removeImage()
-            toPop.backgroundView!.alpha = 0
         }
+        toPop.removeImage()
+        toPop.backgroundView!.alpha = 0
         
         gameGridBubbleContents.arrayOfBubbles[Int(cellPoint.x)][Int(cellPoint.y)] = GameCircularCell(frame: CGRect())
         score += 50
