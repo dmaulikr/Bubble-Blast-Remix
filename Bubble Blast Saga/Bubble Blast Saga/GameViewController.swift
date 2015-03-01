@@ -378,7 +378,6 @@ class GameViewController: UIViewController {
         self.gameArea.insertSubview(bubbleToMove as UIView, aboveSubview: self.view)
         previewBubbleView.alpha = 0
         
-        
         UIView.animateWithDuration(NSTimeInterval(1.0), animations: {
             bubbleToMove.frame = CGRectMake( self.launchPad.x , self.launchPad.y , bubbleToMove.frame.width, bubbleToMove.frame.height)
             }, completion: { finished in
@@ -394,7 +393,9 @@ class GameViewController: UIViewController {
                     self.previewBubbleView.alpha = 1
                 }
                 self.launchBubbleView.alpha = 1
-                
+                if (self.checkWin() == true) {
+                    self.winGame()
+                }  
         })
     }
     
